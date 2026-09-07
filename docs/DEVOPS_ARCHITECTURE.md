@@ -3,7 +3,7 @@
 **System Name:** EduSphere ERP  
 **Document Version:** 1.0.0  
 **Phase:** Phase 0 — Architecture & Engineering Blueprint  
-**Infrastructure Target:** Containerized (Docker, Kubernetes-Ready, AWS/GCP Compatible)  
+**Infrastructure Target:** Containerized (Docker, Kubernetes-Ready, AWS/GCP Compatible)
 
 ---
 
@@ -14,20 +14,21 @@ To ensure parity between developer workstations and production clusters, the ent
 ```mermaid
 graph TD
     Developer([Software Engineer]) -->|Port 80| NginxLocal[Nginx Edge Reverse Proxy]
-    
+
     NginxLocal -->|Path /api/*| BackendAPI[Node.js Express API :5000]
     NginxLocal -->|Path /*| FrontendVite[React 19 Vite Dev Server :5173]
-    
+
     BackendAPI --> MongoLocal[(MongoDB 7.0 Replica Set :27017)]
     BackendAPI --> RedisLocal[(Redis 7.4 In-Memory Store :6379)]
     BackendAPI --> MailLocal[(MailHog SMTP Sandbox :1025)]
     BackendAPI --> MinioLocal[(MinIO S3 Compatible Object Store :9000)]
-    
+
     WorkerLocal[BullMQ Worker Fleet :5001] --> RedisLocal
     WorkerLocal --> MongoLocal
 ```
 
 ### 1.1 Local `docker-compose.yml` Service Matrix
+
 1. `api`: Node.js Express server with live reload via `tsx watch`.
 2. `web`: React Vite development server with Hot Module Replacement (HMR).
 3. `worker`: BullMQ background job processor consuming asynchronous tasks.
@@ -43,6 +44,7 @@ graph TD
 Production containers follow strict security practices: Alpine-based minimal footprints, multi-stage compilation, and execution under an unprivileged user (`node`).
 
 ### 2.1 Production API `Dockerfile` Standard
+
 ```dockerfile
 # ==========================================
 # Stage 1: Build Dependencies & Source Code
@@ -120,12 +122,12 @@ flowchart TD
     TypeCheck --> UnitTests[5. Vitest Unit Tests with 85% Code Coverage]
     UnitTests --> IntegrationTests[6. Supertest API Integration Tests against Testcontainers]
     IntegrationTests --> SecurityAudit[7. Trivy Container & Snyk Vulnerability Scan]
-    
+
     SecurityAudit --> BuildDocker[8. Build Multi-Arch Docker Container]
-    
+
     BuildDocker -->|Target: develop| DeployStaging[9. Automatic Deployment to Staging Cluster]
     DeployStaging --> E2ETests[10. Playwright End-to-End Smoke Tests on Staging]
-    
+
     BuildDocker -->|Target: main| ManualGate{11. Architectural Release Gate}
     ManualGate -->|Approved| DeployProd[12. Zero-Downtime Rolling Update to Production]
 ```
@@ -137,6 +139,7 @@ flowchart TD
 Configuration is strictly validated at application startup using **Zod**. If an engineer or pipeline fails to supply a mandatory environment variable, the application crashes immediately with a descriptive error before opening listening ports.
 
 ### 4.1 Environment Configuration Blueprint (`.env.example`)
+
 ```bash
 # ==========================================
 # SYSTEM CORE
@@ -206,21 +209,21 @@ SENTRY_DSN=
 ## 5. Git Branching Strategy & Code Review Standards
 
 1. **Branch Model (Modified GitHub Flow):**
-   * `main`: Represents production-ready code. Directly protected. Deployments trigger automatically upon tagging a release (`v1.0.0`).
-   * `develop`: Integration branch for tested feature work.
-   * `feat/<module>-<description>`: Isolated feature branches (e.g. `feat/attendance-rfid-sync`).
-   * `fix/<module>-<issue>`: Bugfix branches (e.g. `fix/fees-gst-rounding`).
-   * `hotfix/<version>`: Emergency production hotfix branched directly from `main`.
+   - `main`: Represents production-ready code. Directly protected. Deployments trigger automatically upon tagging a release (`v1.0.0`).
+   - `develop`: Integration branch for tested feature work.
+   - `feat/<module>-<description>`: Isolated feature branches (e.g. `feat/attendance-rfid-sync`).
+   - `fix/<module>-<issue>`: Bugfix branches (e.g. `fix/fees-gst-rounding`).
+   - `hotfix/<version>`: Emergency production hotfix branched directly from `main`.
 2. **Commit Standard (Conventional Commits):**
-   * Structure: `<type>(<scope>): <subject>`
-   * Examples:
-     * `feat(admissions): add document upload and verification stage`
-     * `fix(payroll): correct employee provident fund rounding formula`
-     * `perf(attendance): add compound index on section and date`
+   - Structure: `<type>(<scope>): <subject>`
+   - Examples:
+     - `feat(admissions): add document upload and verification stage`
+     - `fix(payroll): correct employee provident fund rounding formula`
+     - `perf(attendance): add compound index on section and date`
 3. **Pull Request Quality Gates:**
-   * Minimum 1 Senior/Staff Engineer approval required.
-   * Zero unresolved discussions.
-   * 100% CI pipeline green (Linter, Typecheck, Unit Tests, Integration Tests).
+   - Minimum 1 Senior/Staff Engineer approval required.
+   - Zero unresolved discussions.
+   - 100% CI pipeline green (Linter, Typecheck, Unit Tests, Integration Tests).
 
 ---
 
@@ -242,6 +245,6 @@ sequenceDiagram
     Note over Worker,S3Sec: RPO < 15 Minutes | RTO < 2 Hours
 ```
 
-* **Recovery Point Objective (RPO):** < 15 minutes via continuous MongoDB oplog streaming.
-* **Recovery Time Objective (RTO):** < 2 hours via automated Terraform container spin-up and point-in-time restore scripts.
-* **Cold Storage Retention:** Daily snapshots retained for 30 days; monthly institutional snapshots retained in AWS Glacier Vault for 7 years to meet statutory tax and educational compliance mandates.
+- **Recovery Point Objective (RPO):** < 15 minutes via continuous MongoDB oplog streaming.
+- **Recovery Time Objective (RTO):** < 2 hours via automated Terraform container spin-up and point-in-time restore scripts.
+- **Cold Storage Retention:** Daily snapshots retained for 30 days; monthly institutional snapshots retained in AWS Glacier Vault for 7 years to meet statutory tax and educational compliance mandates.

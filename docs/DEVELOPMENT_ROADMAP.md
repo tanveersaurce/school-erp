@@ -4,7 +4,7 @@
 **Document Version:** 1.0.0  
 **Phase:** Phase 0 — Architecture & Engineering Blueprint  
 **Total Phases:** 29 Distinct Milestones  
-**Governance:** Strict Phase-Gate Acceptance Criteria  
+**Governance:** Strict Phase-Gate Acceptance Criteria
 
 ---
 
@@ -104,104 +104,106 @@ school-erp/
 
 Every phase is an isolated, testable engineering deliverable:
 
-* **PHASE 1: Monorepo & Technical Foundation**  
-  * Initialize Turborepo, pnpm workspaces, root configurations (`tsconfig`, ESLint, Prettier).  
-  * Scaffold Express API shell, Vite React SPA shell, and BullMQ worker workspace.  
-* **PHASE 2: Database & Core Data Layer**  
-  * Implement MongoDB replica set connection manager with connection pooling and retry logic.  
-  * Implement BaseEntity schema with soft-delete (`isDeleted`) and optimistic locking.  
-  * Implement universal Mongoose Tenant Plugin for automatic tenant scoping.  
-* **PHASE 3: Authentication & Session Management**  
-  * User schema with Argon2id password hashing and lockout counters.  
-  * JWT access token + refresh token rotation workflow with secure HttpOnly cookies.  
-  * Login, logout, token refresh, and password reset endpoints with Redis session tracking.  
-* **PHASE 4: Role-Based Access Control (RBAC)**  
-  * Role, Permission, UserRole, and RolePermission schemas with database seeds for standard roles.  
-  * Route-level permission middleware (`requirePermission`) and ABAC resource ownership guards.  
-* **PHASE 5: Multi-Tenancy Engine**  
-  * Tenant, School, Campus, and AcademicYear models.  
-  * Subdomain/domain extraction middleware and AsyncLocalStorage TenantContext propagation.  
-* **PHASE 6: Staff, Teachers & Human Resources**  
-  * Staff and Teacher profile models, qualifications, and employment contracts.  
-  * Teacher class/section assignment management and faculty directory.  
-* **PHASE 7: Students & Parent Portal Core**  
-  * Student master identity, demographic records, and health records.  
-  * Parent/Guardian identity models and Student-Parent relationship linking.  
-* **PHASE 8: Academic Structure (Classes, Sections, Curriculums)**  
-  * Class definitions, section division rules, capacity limits, and curriculum mapping.  
-  * Year-scoped StudentEnrollment workflow and class promotion rules.  
-* **PHASE 9: Timetable & Scheduling Engine**  
-  * Period structures, room/lab allocation, and teacher timetable scheduling.  
-  * Conflict detection engine preventing double-booking of teachers, rooms, or sections.  
-* **PHASE 10: Attendance Tracking & Alerts**  
-  * Section-aggregated daily attendance schema with teacher submission workflow.  
-  * Biometric/RFID log ingestion adapter and automated student absence event triggers.  
-* **PHASE 11: Homework & Assignments**  
-  * Homework creation with presigned file upload attachments.  
-  * Student submission portal, evaluation, and grading workflow.  
-* **PHASE 12: Examinations, Marks & Report Cards**  
-  * Exam cycle definition, subject timetables, and hall ticket generation.  
-  * Subject-wise marks entry grid with principal verification workflow and automated PDF report card compilation.  
-* **PHASE 13: Fees, Billing & Invoicing**  
-  * Fee heads, fee structures, and installment schedules.  
-  * Automated batch invoice generation and fee concession/scholarship management.  
-* **PHASE 14: Payment Gateway & Financial Ledger**  
-  * Payment gateway abstraction (Razorpay, Stripe) with idempotent webhook processing.  
-  * Real-time automated fee receipts and double-entry general ledger updates.  
-* **PHASE 15: Staff Payroll & Leave Management**  
-  * Staff leave request and approval workflows.  
-  * Monthly payroll calculation integrating biometric attendance deductions and payslip generation.  
-* **PHASE 16: Library Management System**  
-  * ISBN book cataloging, barcode tracking, and physical copy management.  
-  * Issue/return circulation workflows and automated overdue fine calculation.  
-* **PHASE 17: Transport & Fleet Management**  
-  * Vehicle fleet records, maintenance logs, and driver licenses.  
-  * Bus routes, geographic pickup stops, and student passenger allocations.  
-* **PHASE 18: Hostel & Accommodation**  
-  * Hostel buildings, room types, and bed inventory.  
-  * Student bed allocations, meal plan preferences, and visitor gate pass tracking.  
-* **PHASE 19: Inventory & Asset Management**  
-  * School asset catalog, inventory item tracking, and low-stock alerts.  
-  * Vendor directories and purchase order approval workflows.  
-* **PHASE 20: Communication & Bulletin Board**  
-  * Institutional circulars, announcements, and targeted audience dispatch.  
-  * Internal staff messaging threads and direct parent-teacher communications.  
-* **PHASE 21: Multichannel Notification Engine**  
-  * BullMQ worker integration for asynchronous email (SES/SendGrid), SMS (Twilio), and WhatsApp.  
-  * User notification preferences and delivery receipt tracking.  
-* **PHASE 22: Analytics, Business Intelligence & Reporting**  
-  * Executive dashboards: student retention cohort analysis, fee collection aging, academic grade distributions.  
-  * Background worker for asynchronous heavy CSV/Excel/PDF report exports.  
-* **PHASE 23: Audit Trail & Global Search**  
-  * Tamper-evident, immutable audit log capture on all sensitive state mutations.  
-  * High-speed, tenant-scoped text search across students, staff, and invoices.  
-* **PHASE 24: Security Hardening & Penetration Testing**  
-  * Rate limiting enforcement, Helmet CSP headers, DOMPurify HTML sanitization.  
-  * Automated security test suites validating zero cross-tenant leakage and IDOR resilience.  
-* **PHASE 25: Comprehensive Testing Suite**  
-  * Vitest unit tests reaching >85% coverage on core services.  
-  * Supertest integration test coverage and Playwright E2E smoke test suites.  
-* **PHASE 26: Performance Optimization & Caching**  
-  * Database compound index tuning and explain plan analysis.  
-  * Redis query caching for academic structures and frontend React virtualization optimization.  
-* **PHASE 27: Production Dockerization**  
-  * Multi-stage, minimal Alpine Dockerfiles for API, Web, and Worker.  
-  * Production Docker Compose and local test orchestration verification.  
-* **PHASE 28: CI/CD Pipeline & Staging Deployment**  
-  * GitHub Actions automated workflows for linting, testing, security scanning, and container publishing.  
-  * Automated staging environment provisioning and zero-downtime rolling update configuration.  
-* **PHASE 29: Final QA, Documentation & Production Sign-Off**  
-  * End-to-end system verification across all 14 user roles.  
-  * User manuals, API documentation (Swagger/OpenAPI), and formal Phase 0 handoff.  
+- **PHASE 1: Monorepo & Technical Foundation**
+  - Initialize Turborepo, pnpm workspaces, root configurations (`tsconfig`, ESLint, Prettier).
+  - Scaffold Express API shell, Vite React SPA shell, and BullMQ worker workspace.
+- **PHASE 2: Database & Core Data Layer**
+  - Implement MongoDB replica set connection manager with connection pooling and retry logic.
+  - Implement BaseEntity schema with soft-delete (`isDeleted`) and optimistic locking.
+  - Implement universal Mongoose Tenant Plugin for automatic tenant scoping.
+- **PHASE 3: Authentication & Session Management**
+  - User schema with Argon2id password hashing and lockout counters.
+  - JWT access token + refresh token rotation workflow with secure HttpOnly cookies.
+  - Login, logout, token refresh, and password reset endpoints with Redis session tracking.
+- **PHASE 4: Role-Based Access Control (RBAC)**
+  - Role, Permission, UserRole, and RolePermission schemas with database seeds for standard roles.
+  - Route-level permission middleware (`requirePermission`) and ABAC resource ownership guards.
+- **PHASE 5: Multi-Tenancy Engine**
+  - Tenant, School, Campus, and AcademicYear models.
+  - Subdomain/domain extraction middleware and AsyncLocalStorage TenantContext propagation.
+- **PHASE 6: Staff, Teachers & Human Resources**
+  - Staff and Teacher profile models, qualifications, and employment contracts.
+  - Teacher class/section assignment management and faculty directory.
+- **PHASE 7: Students & Parent Portal Core**
+  - Student master identity, demographic records, and health records.
+  - Parent/Guardian identity models and Student-Parent relationship linking.
+- **PHASE 8: Academic Structure (Classes, Sections, Curriculums)**
+  - Class definitions, section division rules, capacity limits, and curriculum mapping.
+  - Year-scoped StudentEnrollment workflow and class promotion rules.
+- **PHASE 9: Timetable & Scheduling Engine**
+  - Period structures, room/lab allocation, and teacher timetable scheduling.
+  - Conflict detection engine preventing double-booking of teachers, rooms, or sections.
+- **PHASE 10: Attendance Tracking & Alerts**
+  - Section-aggregated daily attendance schema with teacher submission workflow.
+  - Biometric/RFID log ingestion adapter and automated student absence event triggers.
+- **PHASE 11: Homework & Assignments**
+  - Homework creation with presigned file upload attachments.
+  - Student submission portal, evaluation, and grading workflow.
+- **PHASE 12: Examinations, Marks & Report Cards**
+  - Exam cycle definition, subject timetables, and hall ticket generation.
+  - Subject-wise marks entry grid with principal verification workflow and automated PDF report card compilation.
+- **PHASE 13: Fees, Billing & Invoicing**
+  - Fee heads, fee structures, and installment schedules.
+  - Automated batch invoice generation and fee concession/scholarship management.
+- **PHASE 14: Payment Gateway & Financial Ledger**
+  - Payment gateway abstraction (Razorpay, Stripe) with idempotent webhook processing.
+  - Real-time automated fee receipts and double-entry general ledger updates.
+- **PHASE 15: Staff Payroll & Leave Management**
+  - Staff leave request and approval workflows.
+  - Monthly payroll calculation integrating biometric attendance deductions and payslip generation.
+- **PHASE 16: Library Management System**
+  - ISBN book cataloging, barcode tracking, and physical copy management.
+  - Issue/return circulation workflows and automated overdue fine calculation.
+- **PHASE 17: Transport & Fleet Management**
+  - Vehicle fleet records, maintenance logs, and driver licenses.
+  - Bus routes, geographic pickup stops, and student passenger allocations.
+- **PHASE 18: Hostel & Accommodation**
+  - Hostel buildings, room types, and bed inventory.
+  - Student bed allocations, meal plan preferences, and visitor gate pass tracking.
+- **PHASE 19: Inventory & Asset Management**
+  - School asset catalog, inventory item tracking, and low-stock alerts.
+  - Vendor directories and purchase order approval workflows.
+- **PHASE 20: Communication & Bulletin Board**
+  - Institutional circulars, announcements, and targeted audience dispatch.
+  - Internal staff messaging threads and direct parent-teacher communications.
+- **PHASE 21: Multichannel Notification Engine**
+  - BullMQ worker integration for asynchronous email (SES/SendGrid), SMS (Twilio), and WhatsApp.
+  - User notification preferences and delivery receipt tracking.
+- **PHASE 22: Analytics, Business Intelligence & Reporting**
+  - Executive dashboards: student retention cohort analysis, fee collection aging, academic grade distributions.
+  - Background worker for asynchronous heavy CSV/Excel/PDF report exports.
+- **PHASE 23: Audit Trail & Global Search**
+  - Tamper-evident, immutable audit log capture on all sensitive state mutations.
+  - High-speed, tenant-scoped text search across students, staff, and invoices.
+- **PHASE 24: Security Hardening & Penetration Testing**
+  - Rate limiting enforcement, Helmet CSP headers, DOMPurify HTML sanitization.
+  - Automated security test suites validating zero cross-tenant leakage and IDOR resilience.
+- **PHASE 25: Comprehensive Testing Suite**
+  - Vitest unit tests reaching >85% coverage on core services.
+  - Supertest integration test coverage and Playwright E2E smoke test suites.
+- **PHASE 26: Performance Optimization & Caching**
+  - Database compound index tuning and explain plan analysis.
+  - Redis query caching for academic structures and frontend React virtualization optimization.
+- **PHASE 27: Production Dockerization**
+  - Multi-stage, minimal Alpine Dockerfiles for API, Web, and Worker.
+  - Production Docker Compose and local test orchestration verification.
+- **PHASE 28: CI/CD Pipeline & Staging Deployment**
+  - GitHub Actions automated workflows for linting, testing, security scanning, and container publishing.
+  - Automated staging environment provisioning and zero-downtime rolling update configuration.
+- **PHASE 29: Final QA, Documentation & Production Sign-Off**
+  - End-to-end system verification across all 14 user roles.
+  - User manuals, API documentation (Swagger/OpenAPI), and formal Phase 0 handoff.
 
 ---
 
 ## 3. Phase Acceptance Gates & Verification Standard
 
 No future phase may be marked complete or merged into the codebase without satisfying the **Explicit Acceptance Gate**. At the conclusion of every single phase, the engineering team must generate:
+
 ```
 PHASE_X_VERIFICATION.md
 ```
+
 containing the following strict verification sections:
 
 1. **Implemented Features:** Exhaustive list of business capabilities delivered.

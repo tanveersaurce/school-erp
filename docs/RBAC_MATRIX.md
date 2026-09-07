@@ -3,16 +3,18 @@
 **System Name:** EduSphere ERP  
 **Document Version:** 1.0.0  
 **Phase:** Phase 0 — Architecture & Engineering Blueprint  
-**Access Model:** Hybrid RBAC + ABAC (Resource Ownership Constraints)  
+**Access Model:** Hybrid RBAC + ABAC (Resource Ownership Constraints)
 
 ---
 
 ## 1. Access Control Philosophy & Decoupled Model
 
 ### 1.1 The Anti-Pattern: Hardcoded Role Verification
+
 Hardcoded checks such as `if (req.user.role === 'ADMIN')` are strictly prohibited. Hardcoded checks cause catastrophic rigidity:
-* Institutional clients cannot customize staff capabilities (e.g., granting a Vice Principal billing read access or allowing a Senior Teacher to approve attendance).
-* Multi-role personnel (e.g., an employee who is both a Teacher and a Parent of an enrolled student) break the system.
+
+- Institutional clients cannot customize staff capabilities (e.g., granting a Vice Principal billing read access or allowing a Senior Teacher to approve attendance).
+- Multi-role personnel (e.g., an employee who is both a Teacher and a Parent of an enrolled student) break the system.
 
 ### 1.2 The Decoupled Identity & Permission Metamodel
 
@@ -58,10 +60,10 @@ classDiagram
     Permission "1" --> "0..*" RolePermission : mapped_to
 ```
 
-* **Permission:** Atomic operational capability formatted as `resource:action` (e.g., `student:create`, `fee_invoice:void`).
-* **Role:** A named bundle of permissions. System roles are pre-seeded templates (e.g., `TEACHER`), while School Admins can create Custom Roles (e.g., `EXAM_COORDINATOR`, `ACADEMIC_HEAD`).
-* **UserRole:** Connects a `User` to a `Role`, optionally scoped to a specific `schoolId` or `campusId`.
-* **Conditions (ABAC Layer):** Fine-grained predicate rules (e.g., `{ "ownClassOnly": true }` ensures a teacher can only modify attendance for their assigned section).
+- **Permission:** Atomic operational capability formatted as `resource:action` (e.g., `student:create`, `fee_invoice:void`).
+- **Role:** A named bundle of permissions. System roles are pre-seeded templates (e.g., `TEACHER`), while School Admins can create Custom Roles (e.g., `EXAM_COORDINATOR`, `ACADEMIC_HEAD`).
+- **UserRole:** Connects a `User` to a `Role`, optionally scoped to a specific `schoolId` or `campusId`.
+- **Conditions (ABAC Layer):** Fine-grained predicate rules (e.g., `{ "ownClassOnly": true }` ensures a teacher can only modify attendance for their assigned section).
 
 ---
 
@@ -70,31 +72,37 @@ classDiagram
 The platform defines **75 fine-grained permissions** categorized by functional domain:
 
 ### Academic & Student Operations
-* `student:create`, `student:read`, `student:update`, `student:delete`, `student:promote`, `student:transfer`
-* `admission:create`, `admission:read`, `admission:review`, `admission:approve`, `admission:reject`
-* `class:manage`, `section:manage`, `subject:manage`, `curriculum:manage`
-* `timetable:create`, `timetable:read`, `timetable:update`, `timetable:publish`
+
+- `student:create`, `student:read`, `student:update`, `student:delete`, `student:promote`, `student:transfer`
+- `admission:create`, `admission:read`, `admission:review`, `admission:approve`, `admission:reject`
+- `class:manage`, `section:manage`, `subject:manage`, `curriculum:manage`
+- `timetable:create`, `timetable:read`, `timetable:update`, `timetable:publish`
 
 ### Daily Tracking & Classroom
-* `attendance:mark`, `attendance:read`, `attendance:update`, `attendance:lock`, `attendance:export`
-* `homework:create`, `homework:read`, `homework:update`, `homework:grade`, `homework:submit`
+
+- `attendance:mark`, `attendance:read`, `attendance:update`, `attendance:lock`, `attendance:export`
+- `homework:create`, `homework:read`, `homework:update`, `homework:grade`, `homework:submit`
 
 ### Examination & Grading
-* `exam:create`, `exam:read`, `exam:schedule`, `exam:publish`, `exam:lock`
-* `marks:entry`, `marks:verify`, `marks:override`, `report_card:generate`, `report_card:publish`
+
+- `exam:create`, `exam:read`, `exam:schedule`, `exam:publish`, `exam:lock`
+- `marks:entry`, `marks:verify`, `marks:override`, `report_card:generate`, `report_card:publish`
 
 ### Financial & Billing
-* `fee_structure:create`, `fee_structure:read`, `fee_structure:update`, `fee_structure:delete`
-* `fee_invoice:create`, `fee_invoice:read`, `fee_invoice:update`, `fee_invoice:void`
-* `payment:collect`, `payment:read`, `payment:refund`, `finance_ledger:read`, `finance_ledger:manage`
+
+- `fee_structure:create`, `fee_structure:read`, `fee_structure:update`, `fee_structure:delete`
+- `fee_invoice:create`, `fee_invoice:read`, `fee_invoice:update`, `fee_invoice:void`
+- `payment:collect`, `payment:read`, `payment:refund`, `finance_ledger:read`, `finance_ledger:manage`
 
 ### Human Resources & Payroll
-* `teacher:manage`, `staff:manage`, `leave:apply`, `leave:approve`, `payroll:calculate`, `payroll:disburse`
+
+- `teacher:manage`, `staff:manage`, `leave:apply`, `leave:approve`, `payroll:calculate`, `payroll:disburse`
 
 ### Auxiliary & Operations
-* `library:manage_catalog`, `library:issue_book`, `library:return_book`, `library:collect_fine`
-* `transport:manage_fleet`, `transport:assign_route`, `hostel:manage_rooms`, `hostel:allocate_bed`
-* `inventory:manage_items`, `inventory:create_po`, `announcement:publish`, `audit:read`
+
+- `library:manage_catalog`, `library:issue_book`, `library:return_book`, `library:collect_fine`
+- `transport:manage_fleet`, `transport:assign_route`, `hostel:manage_rooms`, `hostel:allocate_bed`
+- `inventory:manage_items`, `inventory:create_po`, `announcement:publish`, `audit:read`
 
 ---
 
@@ -102,43 +110,44 @@ The platform defines **75 fine-grained permissions** categorized by functional d
 
 Below is the definitive baseline matrix for the **14 standard system roles**:
 
-| Permission Area / Code | SUPER ADMIN | SCHOOL ADMIN | PRINCIPAL | VICE PRINCIPAL | TEACHER | ACCOUNTANT | HR MGR | LIBRARIAN | TRANSPORT MGR | HOSTEL MGR | RECEPTIONIST | STAFF | STUDENT | PARENT |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Tenant Provisioning (`tenant:*`)** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **School Config (`school:*`)** | ✅ | ✅ | 👁️ | 👁️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **RBAC Management (`rbac:*`)** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Student Profiles (`student:create/del`)**| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Student Profiles (`student:read`)** | ✅ | ✅ | ✅ | ✅ | 👁️* | 👁️ | 👁️ | 👁️ | 👁️ | 👁️ | 👁️ | ❌ | 👁️* | 👁️* |
-| **Student Profiles (`student:update`)** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Admissions (`admission:approve`)** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Attendance (`attendance:mark`)** | ✅ | ✅ | ✅ | ✅ | ✅* | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Attendance (`attendance:read`)** | ✅ | ✅ | ✅ | ✅ | ✅ | 👁️ | 👁️ | ❌ | 👁️ | 👁️ | 👁️ | ❌ | 👁️* | 👁️* |
-| **Attendance (`attendance:lock`)** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Homework (`homework:create/grade`)** | ✅ | ✅ | 👁️ | 👁️ | ✅* | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Homework (`homework:submit`)** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅* | ❌ |
-| **Exams (`exam:create/schedule`)** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Marks (`marks:entry`)** | ✅ | ✅ | ✅ | ✅ | ✅* | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Marks (`marks:verify/publish`)** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Report Cards (`report_card:publish`)**| ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Fee Structures (`fee_structure:*`)** | ✅ | ✅ | 👁️ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Fee Invoices (`fee_invoice:create`)** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Fee Invoices (`fee_invoice:read`)** | ✅ | ✅ | 👁️ | 👁️ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 👁️* | 👁️* |
-| **Payments (`payment:collect`)** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Payments (`payment:refund/void`)** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅* | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Staff & Payroll (`payroll:*`)** | ✅ | ✅ | 👁️ | ❌ | ❌ | 👁️ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Leave Approval (`leave:approve`)** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Library Management (`library:*`)** | ✅ | ✅ | 👁️ | 👁️ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | 👁️* | 👁️* |
-| **Transport Fleet (`transport:*`)** | ✅ | ✅ | 👁️ | 👁️ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | 👁️* | 👁️* |
-| **Hostel Management (`hostel:*`)** | ✅ | ✅ | 👁️ | 👁️ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | 👁️* | 👁️* |
-| **Announcements (`announcement:pub`)**| ✅ | ✅ | ✅ | ✅ | ✅* | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Audit Logs (`audit:read`)** | ✅ | ✅ | 👁️ | ❌ | ❌ | 👁️* | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Permission Area / Code                      | SUPER ADMIN | SCHOOL ADMIN | PRINCIPAL | VICE PRINCIPAL | TEACHER | ACCOUNTANT | HR MGR | LIBRARIAN | TRANSPORT MGR | HOSTEL MGR | RECEPTIONIST | STAFF | STUDENT | PARENT |
+| :------------------------------------------ | :---------: | :----------: | :-------: | :------------: | :-----: | :--------: | :----: | :-------: | :-----------: | :--------: | :----------: | :---: | :-----: | :----: |
+| **Tenant Provisioning (`tenant:*`)**        |     ✅      |      ❌      |    ❌     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **School Config (`school:*`)**              |     ✅      |      ✅      |    👁️     |       👁️       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **RBAC Management (`rbac:*`)**              |     ✅      |      ✅      |    ❌     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Student Profiles (`student:create/del`)** |     ✅      |      ✅      |    ✅     |       ✅       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Student Profiles (`student:read`)**       |     ✅      |      ✅      |    ✅     |       ✅       |   👁️*   |     👁️     |   👁️   |    👁️     |      👁️       |     👁️     |      👁️      |  ❌   |   👁️*   |  👁️*   |
+| **Student Profiles (`student:update`)**     |     ✅      |      ✅      |    ✅     |       ✅       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Admissions (`admission:approve`)**        |     ✅      |      ✅      |    ✅     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Attendance (`attendance:mark`)**          |     ✅      |      ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Attendance (`attendance:read`)**          |     ✅      |      ✅      |    ✅     |       ✅       |   ✅    |     👁️     |   👁️   |    ❌     |      👁️       |     👁️     |      👁️      |  ❌   |   👁️*   |  👁️*   |
+| **Attendance (`attendance:lock`)**          |     ✅      |      ✅      |    ✅     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Homework (`homework:create/grade`)**      |     ✅      |      ✅      |    👁️     |       👁️       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Homework (`homework:submit`)**            |     ❌      |      ❌      |    ❌     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ✅*   |   ❌   |
+| **Exams (`exam:create/schedule`)**          |     ✅      |      ✅      |    ✅     |       ✅       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Marks (`marks:entry`)**                   |     ✅      |      ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Marks (`marks:verify/publish`)**          |     ✅      |      ✅      |    ✅     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Report Cards (`report_card:publish`)**    |     ✅      |      ✅      |    ✅     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Fee Structures (`fee_structure:*`)**      |     ✅      |      ✅      |    👁️     |       ❌       |   ❌    |     ✅     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Fee Invoices (`fee_invoice:create`)**     |     ✅      |      ✅      |    ❌     |       ❌       |   ❌    |     ✅     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Fee Invoices (`fee_invoice:read`)**       |     ✅      |      ✅      |    👁️     |       👁️       |   ❌    |     ✅     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   👁️*   |  👁️*   |
+| **Payments (`payment:collect`)**            |     ✅      |      ✅      |    ❌     |       ❌       |   ❌    |     ✅     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Payments (`payment:refund/void`)**        |     ✅      |      ✅      |    ❌     |       ❌       |   ❌    |    ✅*     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Staff & Payroll (`payroll:*`)**           |     ✅      |      ✅      |    👁️     |       ❌       |   ❌    |     👁️     |   ✅   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Leave Approval (`leave:approve`)**        |     ✅      |      ✅      |    ✅     |       ✅       |   ❌    |     ❌     |   ✅   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Library Management (`library:*`)**        |     ✅      |      ✅      |    👁️     |       👁️       |   ❌    |     ❌     |   ❌   |    ✅     |      ❌       |     ❌     |      ❌      |  ❌   |   👁️*   |  👁️*   |
+| **Transport Fleet (`transport:*`)**         |     ✅      |      ✅      |    👁️     |       👁️       |   ❌    |     ❌     |   ❌   |    ❌     |      ✅       |     ❌     |      ❌      |  ❌   |   👁️*   |  👁️*   |
+| **Hostel Management (`hostel:*`)**          |     ✅      |      ✅      |    👁️     |       👁️       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ✅     |      ❌      |  ❌   |   👁️*   |  👁️*   |
+| **Announcements (`announcement:pub`)**      |     ✅      |      ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Audit Logs (`audit:read`)**               |     ✅      |      ✅      |    👁️     |       ❌       |   ❌    |    👁️*     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
 
 **Legend:**
-* ✅ : Full Create / Read / Update / Delete permissions
-* 👁️ : Read-Only access across all institutional records
-* 👁️* : Read-Only restricted strictly to **Self / Assigned Records** (ABAC rule)
-* ✅* : Action allowed strictly within assigned scope (e.g., teacher for assigned section only; accountant refund requires secondary approval)
-* ❌ : Access Denied (HTTP 403 Forbidden)
+
+- ✅ : Full Create / Read / Update / Delete permissions
+- 👁️ : Read-Only access across all institutional records
+- 👁️* : Read-Only restricted strictly to **Self / Assigned Records** (ABAC rule)
+- ✅* : Action allowed strictly within assigned scope (e.g., teacher for assigned section only; accountant refund requires secondary approval)
+- ❌ : Access Denied (HTTP 403 Forbidden)
 
 ---
 
@@ -158,6 +167,7 @@ flowchart TD
 ```
 
 ### 4.1 Code Implementation Architecture
+
 1. **Route-Level Permission Guard (`requirePermission`):**
    ```typescript
    router.post(
@@ -169,6 +179,6 @@ flowchart TD
    );
    ```
 2. **Resource-Level Attribute Guard (`validateClassSectionAssignment`):**
-   * If user is a `TEACHER`, the middleware checks whether `req.user.teacherProfile.assignedSections` contains `req.params.sectionId`. If not, it halts with `403 Forbidden: Teacher is not assigned to this class section`.
+   - If user is a `TEACHER`, the middleware checks whether `req.user.teacherProfile.assignedSections` contains `req.params.sectionId`. If not, it halts with `403 Forbidden: Teacher is not assigned to this class section`.
 3. **Tenant Guard (`verifyTenantAccess`):**
-   * Verifies that `req.user.tenantId.toString() === req.tenantContext.tenantId.toString()`. Cross-tenant queries are blocked before reaching any controller or service.
+   - Verifies that `req.user.tenantId.toString() === req.tenantContext.tenantId.toString()`. Cross-tenant queries are blocked before reaching any controller or service.

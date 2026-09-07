@@ -19,9 +19,15 @@ const envSchema = z.object({
   REDIS_URL: z.string().default('redis://localhost:6379'),
   REDIS_KEY_PREFIX: z.string().default('edusphere:'),
 
-  JWT_ACCESS_SECRET: z.string().min(32).default('local_dev_jwt_access_secret_key_32_characters_minimum_len'),
+  JWT_ACCESS_SECRET: z
+    .string()
+    .min(32)
+    .default('local_dev_jwt_access_secret_key_32_characters_minimum_len'),
   JWT_ACCESS_EXPIRY: z.string().default('15m'),
-  JWT_REFRESH_SECRET: z.string().min(32).default('local_dev_jwt_refresh_secret_key_32_characters_minimum_len'),
+  JWT_REFRESH_SECRET: z
+    .string()
+    .min(32)
+    .default('local_dev_jwt_refresh_secret_key_32_characters_minimum_len'),
   JWT_REFRESH_EXPIRY: z.string().default('7d'),
   COOKIE_DOMAIN: z.string().default('localhost'),
   COOKIE_SECURE: z.coerce.boolean().default(false),

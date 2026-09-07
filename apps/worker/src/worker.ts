@@ -5,7 +5,9 @@ dotenv.config({ path: path.resolve(process.cwd(), '../../.env') });
 dotenv.config();
 
 console.log('⚡ EduSphere Asynchronous Background Worker Daemon initialized.');
-console.log('⚡ Worker stands ready to process queues: [notifications, reports, billing, reconciliation].');
+console.log(
+  '⚡ Worker stands ready to process queues: [notifications, reports, billing, reconciliation].'
+);
 
 // Keep worker alive
 const heartbeat = setInterval(() => {
