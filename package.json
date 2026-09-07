@@ -1,0 +1,26 @@
+{
+  "name": "edusphere-erp-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Enterprise Multi-Tenant School ERP SaaS Platform",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev:api": "npm run dev --workspace=@edusphere/api",
+    "dev:web": "npm run dev --workspace=@edusphere/web",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "rimraf": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

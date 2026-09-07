@@ -1,0 +1,25 @@
+{
+  "name": "@edusphere/worker",
+  "version": "1.0.0",
+  "description": "BullMQ Asynchronous Job Processing Daemon for EduSphere ERP",
+  "main": "./dist/worker.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/worker.ts",
+    "start": "node dist/worker.js",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@edusphere/common": "^1.0.0",
+    "@edusphere/types": "^1.0.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
