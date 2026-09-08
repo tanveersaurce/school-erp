@@ -37,11 +37,11 @@ describe('Frontend Application Foundation Suite', () => {
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
   });
 
-  it('2. Router navigates to /login page shell', () => {
+  it('2. Router navigates to /login page', () => {
     renderWithProviders('/login');
 
-    expect(screen.getByText(/Authentication Foundation Shell/i)).toBeInTheDocument();
-    expect(screen.getByText(/Zero Mock Authentication Policy/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sign In to Your Account/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Email Address/i)).toBeInTheDocument();
   });
 
   it('3. Router displays 404 page for unmatched routes', () => {

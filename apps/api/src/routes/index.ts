@@ -1,1 +1,2 @@
-// Foundation export for routes module boundary
+export * from './health.routes.js';
+export { authRouter } from '../modules/auth/auth.routes.js';

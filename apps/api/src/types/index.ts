@@ -1,1 +1,2 @@
-// Foundation export for types module boundary
+import './express.js';
+export * from '@edusphere/types';
