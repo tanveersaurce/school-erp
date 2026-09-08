@@ -4,13 +4,14 @@
 **Phase:** Phase 1 — MERN Foundation & Production Project Setup  
 **Date:** 2026-09-07  
 **Governance:** Strict Phase-Gate Quality Standard  
-**Acceptance Status:** **PASS**  
+**Acceptance Status:** **PASS**
 
 ---
 
 ## 1. Summary of Implemented Capabilities
 
 During Phase 1, the core technical and engineering foundation was constructed without implementing premature business domain logic (students, teachers, fees, attendance) or fake authentication. The deliverables span:
+
 1. **Monorepo Architecture:** Clean workspace with npm workspaces managing `@edusphere/common`, `@edusphere/types`, `@edusphere/api`, `@edusphere/web`, and `@edusphere/worker`.
 2. **Backend API Foundation:** Express 4.21 with Node.js 22 LTS, strict TypeScript, Zod environment parsing (fail-fast), Pino structured JSON logging, Helmet security headers, CORS, compression, UUIDv4 request correlation, global sliding-window rate limiting, and RFC 7807 error envelopes.
 3. **Database & Cache Infrastructure:** Mongoose connection manager with automated retry backoff and lifecycle event tracking. ioredis client manager with non-blocking resilience (Redis is not a single point of failure).
@@ -24,88 +25,88 @@ During Phase 1, the core technical and engineering foundation was constructed wi
 
 ## 2. Important Files Created
 
-* **Monorepo & Config:** `package.json`, `tsconfig.base.json`, `.editorconfig`, `.gitignore`, `.prettierrc`, `.prettierignore`, `.env.example`, `.env`, `docker-compose.yml`, `README.md`.
-* **Shared Packages:**
-  * `packages/common/src/constants/enums.ts`
-  * `packages/common/src/errors/application-error.ts`
-  * `packages/common/src/responses/api-response.ts`
-  * `packages/types/src/auth.ts`
-  * `packages/types/src/tenant.ts`
-  * `packages/types/src/user.ts`
-* **Backend Application:**
-  * `apps/api/src/config/env.ts`
-  * `apps/api/src/config/database.ts`
-  * `apps/api/src/config/redis.ts`
-  * `apps/api/src/config/app.ts`
-  * `apps/api/src/core/logger/logger.ts`
-  * `apps/api/src/middlewares/requestId.ts`
-  * `apps/api/src/middlewares/securityHeaders.ts`
-  * `apps/api/src/middlewares/cors.ts`
-  * `apps/api/src/middlewares/rateLimiter.ts`
-  * `apps/api/src/middlewares/errorHandler.ts`
-  * `apps/api/src/routes/health.routes.ts`
-  * `apps/api/src/app.ts`
-  * `apps/api/src/server.ts`
-  * `apps/api/Dockerfile`
-* **Frontend Application:**
-  * `apps/web/src/store/index.ts`
-  * `apps/web/src/store/slices/uiSlice.ts`
-  * `apps/web/src/services/api.ts`
-  * `apps/web/src/context/ThemeContext.tsx`
-  * `apps/web/src/components/ui/Button.tsx`
-  * `apps/web/src/components/ui/Input.tsx`
-  * `apps/web/src/components/ui/Card.tsx`
-  * `apps/web/src/components/ui/Dialog.tsx`
-  * `apps/web/src/components/ui/Dropdown.tsx`
-  * `apps/web/src/components/ui/Spinner.tsx`
-  * `apps/web/src/components/ui/Skeleton.tsx`
-  * `apps/web/src/components/common/Toast.tsx`
-  * `apps/web/src/components/common/EmptyState.tsx`
-  * `apps/web/src/components/common/ErrorBoundary.tsx`
-  * `apps/web/src/pages/HomePage.tsx`
-  * `apps/web/src/pages/LoginPage.tsx`
-  * `apps/web/src/pages/ForbiddenPage.tsx`
-  * `apps/web/src/pages/NotFoundPage.tsx`
-  * `apps/web/src/routes/index.tsx`
-  * `apps/web/src/App.tsx`
-  * `apps/web/Dockerfile`
-* **Infrastructure & Documentation:**
-  * `infrastructure/nginx/nginx.conf`
-  * `docs/DEVELOPMENT.md`
-  * `docs/PROJECT_STRUCTURE.md`
-  * `docs/PHASE_1_VERIFICATION.md`
+- **Monorepo & Config:** `package.json`, `tsconfig.base.json`, `.editorconfig`, `.gitignore`, `.prettierrc`, `.prettierignore`, `.env.example`, `.env`, `docker-compose.yml`, `README.md`.
+- **Shared Packages:**
+  - `packages/common/src/constants/enums.ts`
+  - `packages/common/src/errors/application-error.ts`
+  - `packages/common/src/responses/api-response.ts`
+  - `packages/types/src/auth.ts`
+  - `packages/types/src/tenant.ts`
+  - `packages/types/src/user.ts`
+- **Backend Application:**
+  - `apps/api/src/config/env.ts`
+  - `apps/api/src/config/database.ts`
+  - `apps/api/src/config/redis.ts`
+  - `apps/api/src/config/app.ts`
+  - `apps/api/src/core/logger/logger.ts`
+  - `apps/api/src/middlewares/requestId.ts`
+  - `apps/api/src/middlewares/securityHeaders.ts`
+  - `apps/api/src/middlewares/cors.ts`
+  - `apps/api/src/middlewares/rateLimiter.ts`
+  - `apps/api/src/middlewares/errorHandler.ts`
+  - `apps/api/src/routes/health.routes.ts`
+  - `apps/api/src/app.ts`
+  - `apps/api/src/server.ts`
+  - `apps/api/Dockerfile`
+- **Frontend Application:**
+  - `apps/web/src/store/index.ts`
+  - `apps/web/src/store/slices/uiSlice.ts`
+  - `apps/web/src/services/api.ts`
+  - `apps/web/src/context/ThemeContext.tsx`
+  - `apps/web/src/components/ui/Button.tsx`
+  - `apps/web/src/components/ui/Input.tsx`
+  - `apps/web/src/components/ui/Card.tsx`
+  - `apps/web/src/components/ui/Dialog.tsx`
+  - `apps/web/src/components/ui/Dropdown.tsx`
+  - `apps/web/src/components/ui/Spinner.tsx`
+  - `apps/web/src/components/ui/Skeleton.tsx`
+  - `apps/web/src/components/common/Toast.tsx`
+  - `apps/web/src/components/common/EmptyState.tsx`
+  - `apps/web/src/components/common/ErrorBoundary.tsx`
+  - `apps/web/src/pages/HomePage.tsx`
+  - `apps/web/src/pages/LoginPage.tsx`
+  - `apps/web/src/pages/ForbiddenPage.tsx`
+  - `apps/web/src/pages/NotFoundPage.tsx`
+  - `apps/web/src/routes/index.tsx`
+  - `apps/web/src/App.tsx`
+  - `apps/web/Dockerfile`
+- **Infrastructure & Documentation:**
+  - `infrastructure/nginx/nginx.conf`
+  - `docs/DEVELOPMENT.md`
+  - `docs/PROJECT_STRUCTURE.md`
+  - `docs/PHASE_1_VERIFICATION.md`
 
 ---
 
 ## 3. Important Files Modified
 
-* `apps/api/package.json`: Added `mongoose`, `ioredis`, `compression`, `express-rate-limit`.
-* `apps/web/package.json`: Added `react-router-dom`, `@reduxjs/toolkit`, `react-redux`, `@testing-library/react`.
-* `package.json`: Configured workspace scripts for `format`, `typecheck`, `dev:api`, `dev:web`.
+- `apps/api/package.json`: Added `mongoose`, `ioredis`, `compression`, `express-rate-limit`.
+- `apps/web/package.json`: Added `react-router-dom`, `@reduxjs/toolkit`, `react-redux`, `@testing-library/react`.
+- `package.json`: Configured workspace scripts for `format`, `typecheck`, `dev:api`, `dev:web`.
 
 ---
 
 ## 4. Dependencies Installed & Justification
 
-| Package | Workspace | Rationale |
-| :--- | :--- | :--- |
-| `mongoose` (^8.8.1) | `@edusphere/api` | MongoDB ODM with connection pooling, transaction sessions, and schema validation. |
-| `ioredis` (^5.4.1) | `@edusphere/api` | High-performance Redis client with non-blocking fallback and retry strategies. |
-| `compression` (^1.7.5)| `@edusphere/api` | Gzip/deflate response compression for high network throughput. |
-| `express-rate-limit` (^7.4.1)| `@edusphere/api` | Protects API from volumetric brute force and credential stuffing. |
-| `@reduxjs/toolkit` (^2.3.0)| `@edusphere/web` | Enterprise state management with RTK Query for server state caching. |
-| `react-router-dom` (^6.28.0)| `@edusphere/web` | Client-side declarative routing with route guard support. |
-| `@testing-library/react` (^16.0.1)| `@edusphere/web` | Accessible DOM component verification. |
-| `prettier` (^3.3.3) | Root | Unified code style across Markdown, JSON, TypeScript, and CSS. |
+| Package                            | Workspace        | Rationale                                                                         |
+| :--------------------------------- | :--------------- | :-------------------------------------------------------------------------------- |
+| `mongoose` (^8.8.1)                | `@edusphere/api` | MongoDB ODM with connection pooling, transaction sessions, and schema validation. |
+| `ioredis` (^5.4.1)                 | `@edusphere/api` | High-performance Redis client with non-blocking fallback and retry strategies.    |
+| `compression` (^1.7.5)             | `@edusphere/api` | Gzip/deflate response compression for high network throughput.                    |
+| `express-rate-limit` (^7.4.1)      | `@edusphere/api` | Protects API from volumetric brute force and credential stuffing.                 |
+| `@reduxjs/toolkit` (^2.3.0)        | `@edusphere/web` | Enterprise state management with RTK Query for server state caching.              |
+| `react-router-dom` (^6.28.0)       | `@edusphere/web` | Client-side declarative routing with route guard support.                         |
+| `@testing-library/react` (^16.0.1) | `@edusphere/web` | Accessible DOM component verification.                                            |
+| `prettier` (^3.3.3)                | Root             | Unified code style across Markdown, JSON, TypeScript, and CSS.                    |
 
 ---
 
 ## 5. Infrastructure Verification
 
-* **MongoDB 7.0:** Defined in `docker-compose.yml` with health check probe `mongosh --eval 'db.adminCommand("ping")'`. Connection manager in `apps/api/src/config/database.ts` handles exponential retries.
-* **Redis 7.4:** Defined in `docker-compose.yml` with volume persistence. In local testing, live Redis was automatically discovered and connected on port 6379 (`"redis": "CONNECTED"`).
-* **Docker & Compose:** `docker-compose.yml` configures 4 services (`mongodb`, `redis`, `backend`, `frontend`) connected via `edusphere_network` with persistent named volumes.
-* **Nginx:** `infrastructure/nginx/nginx.conf` sets up reverse proxying for `/api/`, `/health`, `/ready`, and SPA fallback routing for `/`.
+- **MongoDB 7.0:** Defined in `docker-compose.yml` with health check probe `mongosh --eval 'db.adminCommand("ping")'`. Connection manager in `apps/api/src/config/database.ts` handles exponential retries.
+- **Redis 7.4:** Defined in `docker-compose.yml` with volume persistence. In local testing, live Redis was automatically discovered and connected on port 6379 (`"redis": "CONNECTED"`).
+- **Docker & Compose:** `docker-compose.yml` configures 4 services (`mongodb`, `redis`, `backend`, `frontend`) connected via `edusphere_network` with persistent named volumes.
+- **Nginx:** `infrastructure/nginx/nginx.conf` sets up reverse proxying for `/api/`, `/health`, `/ready`, and SPA fallback routing for `/`.
 
 ---
 
@@ -134,6 +135,7 @@ Invoke-RestMethod -Uri "http://localhost:5000/ready"
 ## 7. Test Results
 
 ### TypeScript Strict Compilation
+
 ```
 > edusphere-erp-monorepo@1.0.0 typecheck
 > @edusphere/common@1.0.0: tsc --noEmit (0 errors)
@@ -144,6 +146,7 @@ Invoke-RestMethod -Uri "http://localhost:5000/ready"
 ```
 
 ### Backend Integration Tests (`apps/api`)
+
 ```
  RUN  v2.1.9 apps/api
 
@@ -156,6 +159,7 @@ Invoke-RestMethod -Uri "http://localhost:5000/ready"
 ```
 
 ### Frontend Component & Routing Tests (`apps/web`)
+
 ```
  RUN  v2.1.9 apps/web
 
@@ -167,6 +171,7 @@ Invoke-RestMethod -Uri "http://localhost:5000/ready"
 ```
 
 ### Production Build Results
+
 ```
 > @edusphere/common: tsc passed
 > @edusphere/types:  tsc passed
@@ -185,6 +190,7 @@ Invoke-RestMethod -Uri "http://localhost:5000/ready"
 ## 8. Runtime Verification Evidence
 
 Live HTTP Server verification on port 5000:
+
 ```json
 // GET http://localhost:5000/health
 {
@@ -221,10 +227,10 @@ Live HTTP Server verification on port 5000:
 
 ## 9. Security Verification
 
-* **Helmet Security Headers:** Verified on all responses (`X-Content-Type-Options: nosniff`, `X-DNS-Prefetch-Control: off`, `X-Frame-Options: DENY`).
-* **Environment Validation:** Verified that missing `JWT_ACCESS_SECRET` or invalid port numbers halt the process with structured Zod errors.
-* **Request ID Tracking:** Every request has an `X-Request-ID` attached to response headers and included in error envelopes.
-* **Dependency Audit:** Checked with `npm audit`. Noted moderate transitive warnings in dev server tooling (`esbuild` in vite dev server) and `qs` in `body-parser`. Body parsing is strictly capped to 1MB in application configuration.
+- **Helmet Security Headers:** Verified on all responses (`X-Content-Type-Options: nosniff`, `X-DNS-Prefetch-Control: off`, `X-Frame-Options: DENY`).
+- **Environment Validation:** Verified that missing `JWT_ACCESS_SECRET` or invalid port numbers halt the process with structured Zod errors.
+- **Request ID Tracking:** Every request has an `X-Request-ID` attached to response headers and included in error envelopes.
+- **Dependency Audit:** Checked with `npm audit`. Noted moderate transitive warnings in dev server tooling (`esbuild` in vite dev server) and `qs` in `body-parser`. Body parsing is strictly capped to 1MB in application configuration.
 
 ---
 
@@ -236,9 +242,9 @@ No known critical issues.
 
 ## 11. Technical Debt & Intentionally Deferred Work
 
-* **Business Schemas & Models:** Intentionally deferred to **Phase 2 (Database & Core Data Layer)**.
-* **Authentication Engine:** Fake logins and mock JWTs were strictly avoided; real Argon2id and dual-token rotation arrive in **Phase 3 (Authentication)**.
-* **RBAC Engine:** Hardcoded role checks were strictly avoided; dynamic permissions arrive in **Phase 4 (RBAC)**.
+- **Business Schemas & Models:** Intentionally deferred to **Phase 2 (Database & Core Data Layer)**.
+- **Authentication Engine:** Fake logins and mock JWTs were strictly avoided; real Argon2id and dual-token rotation arrive in **Phase 3 (Authentication)**.
+- **RBAC Engine:** Hardcoded role checks were strictly avoided; dynamic permissions arrive in **Phase 4 (RBAC)**.
 
 ---
 
