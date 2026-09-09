@@ -14,6 +14,7 @@ import { passwordService } from './password.service.js';
 import { tokenService } from './token.service.js';
 import { sessionService, ClientMetadata } from './session.service.js';
 import { emailService } from './email.service.js';
+import { rbacService } from '../rbac/rbac.service.js';
 
 export interface LoginCredentials {
   email: string;
@@ -107,6 +108,12 @@ export class AuthService {
       ipAddress: metadata.ipAddress,
     });
 
+    const effective = await rbacService.getEffectivePermissions(
+      user.tenantId.toString(),
+      user._id.toString(),
+      user.userType
+    );
+
     const accessToken = tokenService.generateAccessToken({
       sub: user._id.toString(),
       userId: user._id.toString(),
@@ -114,6 +121,8 @@ export class AuthService {
       schoolId: user.schoolId?.toString(),
       userType: user.userType,
       sessionId: session._id.toString(),
+      roles: effective.roles,
+      permissions: effective.permissions,
     });
 
     const userProfile: AuthUserProfile = {
@@ -126,6 +135,8 @@ export class AuthService {
       phone: user.phone,
       mfaEnabled: user.mfaEnabled,
       lastLoginAt: user.lastLoginAt?.toISOString(),
+      roles: effective.roles,
+      permissions: effective.permissions,
     };
 
     const sessionSummary: SessionSummary = {
@@ -209,6 +220,12 @@ export class AuthService {
       throw new AuthenticationError('Session expired or revoked.');
     }
 
+    const effective = await rbacService.getEffectivePermissions(
+      user.tenantId.toString(),
+      user._id.toString(),
+      user.userType
+    );
+
     return {
       user: {
         id: user._id.toString(),
@@ -220,6 +237,8 @@ export class AuthService {
         phone: user.phone,
         mfaEnabled: user.mfaEnabled,
         lastLoginAt: user.lastLoginAt?.toISOString(),
+        roles: effective.roles,
+        permissions: effective.permissions,
       },
       session: {
         id: session._id.toString(),

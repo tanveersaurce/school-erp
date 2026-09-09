@@ -61,6 +61,8 @@ export interface AuthUserProfile {
   phone?: string;
   mfaEnabled?: boolean;
   lastLoginAt?: string;
+  roles?: string[];
+  permissions?: string[];
 }
 
 export interface SessionSummary {

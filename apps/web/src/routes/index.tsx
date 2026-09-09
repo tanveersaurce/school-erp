@@ -7,7 +7,9 @@ import { VerifyEmailPage } from '../pages/VerifyEmailPage.js';
 import { SessionsPage } from '../pages/SessionsPage.js';
 import { ForbiddenPage } from '../pages/ForbiddenPage.js';
 import { NotFoundPage } from '../pages/NotFoundPage.js';
+import { RolesPage } from '../pages/rbac/RolesPage.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
+import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
 export const routes: RouteObject[] = [
   {
@@ -36,6 +38,14 @@ export const routes: RouteObject[] = [
       <ProtectedRoute>
         <SessionsPage />
       </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/roles',
+    element: (
+      <PermissionRoute anyOf={['rbac:manage', 'role:read']}>
+        <RolesPage />
+      </PermissionRoute>
     ),
   },
   {

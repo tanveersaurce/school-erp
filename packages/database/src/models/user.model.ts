@@ -136,7 +136,7 @@ const PermissionSchema = new Schema<IPermissionDoc>(
       type: String,
       required: true,
       unique: true,
-      uppercase: true,
+      lowercase: true,
       trim: true,
       index: true,
     },

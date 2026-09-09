@@ -4,3 +4,6 @@ export * from './auth/session.service.js';
 export * from './auth/token.service.js';
 export * from './auth/password.service.js';
 export * from './auth/email.service.js';
+export * from './rbac/rbac.routes.js';
+export * from './rbac/rbac.service.js';
+export * from './rbac/policies/resource.policy.js';

@@ -84,7 +84,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Health', 'Auth', 'User', 'Tenant', 'Session'],
+  tagTypes: ['Health', 'Auth', 'User', 'Tenant', 'Session', 'Role', 'Permission'],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({
       query: () => '/health/readiness',

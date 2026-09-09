@@ -9,6 +9,7 @@ import { notFoundHandler } from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { healthRouter } from './routes/health.routes.js';
 import { authRouter } from './modules/auth/auth.routes.js';
+import { rbacRouter } from './modules/rbac/rbac.routes.js';
 import { appConfig } from './config/app.js';
 import { getDatabaseStatus } from './config/database.js';
 import { getRedisStatus } from './config/redis.js';
@@ -78,6 +79,7 @@ export function createApp(): Application {
   // 9. Versioned API Routes (/api/v1)
   app.use(`${appConfig.apiPrefix}/health`, healthRouter);
   app.use(`${appConfig.apiPrefix}/auth`, authRouter);
+  app.use(appConfig.apiPrefix, rbacRouter);
 
   // 10. Centralized Error & 404 Handlers
   app.use(notFoundHandler);
