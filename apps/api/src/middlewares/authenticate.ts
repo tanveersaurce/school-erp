@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { AuthenticationError, UserStatus } from '@edusphere/common';
-import { Session, User } from '@edusphere/database';
+import { AuthenticationError, TenantMismatchError, UserStatus, UserType } from '@edusphere/common';
+import { Session, User, runWithTenantContext } from '@edusphere/database';
 import { tokenService } from '../modules/auth/token.service.js';
 
 export async function authenticate(
@@ -23,13 +23,15 @@ export async function authenticate(
     const payload = tokenService.verifyAccessToken(token);
 
     // Verify session existence, revocation state, and TTL in database
-    const session = await Session.findById(payload.sessionId);
+    const session = await Session.findById(payload.sessionId).setOptions({
+      skipTenantFilter: true,
+    });
     if (!session || session.isRevoked || session.expiresAt <= new Date()) {
       throw new AuthenticationError('Session has expired or been revoked. Please sign in again.');
     }
 
     // Verify user existence and active account status
-    const user = await User.findById(payload.userId);
+    const user = await User.findById(payload.userId).setOptions({ skipTenantFilter: true });
     if (!user || user.isDeleted) {
       throw new AuthenticationError('User account not found or deactivated.');
     }
@@ -48,7 +50,49 @@ export async function authenticate(
       email: user.email,
     };
 
-    next();
+    // Cross-tenant verification and TenantContext reconciliation
+    const isSuperAdmin = user.userType === UserType.SUPER_ADMIN;
+
+    if (req.tenantContext) {
+      if (isSuperAdmin) {
+        // Super admin platform bypass / impersonation
+        const impersonated = (req.headers['x-impersonate-tenant-id'] as string)?.trim();
+        if (impersonated) {
+          req.tenantContext.tenantId = impersonated;
+        }
+        req.tenantContext.isPlatformAdmin = !impersonated;
+        req.tenantContext.userId = user._id.toString();
+      } else {
+        // Non-super-admin: Token tenant MUST match request tenant context
+        if (req.tenantContext.tenantId !== user.tenantId.toString()) {
+          throw new TenantMismatchError(
+            'Cross-tenant access prohibited: Token tenant does not match request tenant context.'
+          );
+        }
+        req.tenantContext.userId = user._id.toString();
+      }
+      return next();
+    }
+
+    // Tenant context was not resolved at ingress; initialize from authenticated user
+    const tenantCtx = {
+      tenantId:
+        isSuperAdmin && req.headers['x-impersonate-tenant-id']
+          ? (req.headers['x-impersonate-tenant-id'] as string).trim()
+          : user.tenantId.toString(),
+      schoolId:
+        user.schoolId?.toString() || (req.headers['x-school-id'] as string)?.trim() || undefined,
+      campusId: (req.headers['x-campus-id'] as string)?.trim() || undefined,
+      academicYearId: (req.headers['x-academic-year-id'] as string)?.trim() || undefined,
+      userId: user._id.toString(),
+      isPlatformAdmin: isSuperAdmin && !req.headers['x-impersonate-tenant-id'],
+    };
+
+    req.tenantContext = tenantCtx;
+
+    runWithTenantContext(tenantCtx, () => {
+      next();
+    });
   } catch (err) {
     next(err);
   }

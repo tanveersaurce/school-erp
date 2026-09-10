@@ -5,9 +5,10 @@
 EduSphere ERP implements a multi-tenant, enterprise-grade Role-Based Access Control (RBAC) engine paired with an Attribute-Based Access Control (ABAC) resource policy layer.
 
 ### Core Principles:
+
 1. **Strict Separation of Concerns**:
-   - **Authentication** answers: *"Who is this user?"* (Phase 3)
-   - **Authorization** answers: *"What operations and data boundaries is this identity permitted to access?"* (Phase 4)
+   - **Authentication** answers: _"Who is this user?"_ (Phase 3)
+   - **Authorization** answers: _"What operations and data boundaries is this identity permitted to access?"_ (Phase 4)
 2. **Fail-Safe Default to DENY**:
    - Every route, API endpoint, and resource policy defaults to `DENY`. Access is granted only upon explicit matching of permissions or role policies.
 3. **Zero Client-Provided Tenant Trust (Anti-IDOR)**:
@@ -20,13 +21,14 @@ EduSphere ERP implements a multi-tenant, enterprise-grade Role-Based Access Cont
 Permissions follow the standard `resource:action` convention (lowercase, colon-separated).
 
 ### Permission Convention Examples:
-| Resource | Action | Permission String | Description |
-| :--- | :--- | :--- | :--- |
-| `STUDENT` | `READ` | `student:read` | View student records & profiles |
-| `STUDENT` | `CREATE` | `student:create` | Register new student admissions |
-| `STUDENT` | `DELETE` | `student:delete` | Deactivate/remove student records |
-| `ATTENDANCE` | `MARK` | `attendance:mark` | Record daily student attendance |
-| `ROLE` | `MANAGE` | `rbac:manage` | Manage tenant roles & permission matrices |
+
+| Resource     | Action   | Permission String | Description                               |
+| :----------- | :------- | :---------------- | :---------------------------------------- |
+| `STUDENT`    | `READ`   | `student:read`    | View student records & profiles           |
+| `STUDENT`    | `CREATE` | `student:create`  | Register new student admissions           |
+| `STUDENT`    | `DELETE` | `student:delete`  | Deactivate/remove student records         |
+| `ATTENDANCE` | `MARK`   | `attendance:mark` | Record daily student attendance           |
+| `ROLE`       | `MANAGE` | `rbac:manage`     | Manage tenant roles & permission matrices |
 
 EduSphere pre-seeds **75 system permissions** covering all academic, administrative, financial, operational, and system resources.
 
@@ -62,6 +64,7 @@ EduSphere pre-seeds **75 system permissions** covering all academic, administrat
 ```
 
 ### Safety & Integrity Invariants:
+
 1. **System Roles Immutability**:
    - The 14 default system roles (`SUPER_ADMIN`, `SCHOOL_ADMIN`, `PRINCIPAL`, `VICE_PRINCIPAL`, `TEACHER`, `ACCOUNTANT`, `HR_MANAGER`, `LIBRARIAN`, `TRANSPORT_MANAGER`, `HOSTEL_MANAGER`, `RECEPTIONIST`, `STAFF`, `STUDENT`, `PARENT`) have `isSystemRole: true`.
    - Renaming a system role throws HTTP 403 `FORBIDDEN_ACCESS`.
@@ -76,17 +79,21 @@ EduSphere pre-seeds **75 system permissions** covering all academic, administrat
 ## 4. Effective Permission Resolution & Redis Caching
 
 Permissions are resolved by aggregating:
+
 1. All roles assigned to the user in `UserRole`.
 2. All permissions mapped to those roles in `RolePermission`.
 3. System catalog entries from `Permission`.
 
 ### High-Performance Redis Caching:
+
 - **Cache Key**: `authz:{tenantId}:{userId}`
 - **TTL**: 15 minutes (900 seconds)
 - **Fallback**: In-memory cache with TTL if Redis is disconnected or in degraded test environments.
 
 ### Cache Invalidation Triggers:
+
 Immediate cache eviction occurs on:
+
 1. **User Role Mutation** (`POST /api/v1/users/:userId/roles`, `DELETE /api/v1/users/:userId/roles/:roleId`).
 2. **Role Permission Mutation** (`PUT /api/v1/roles/:roleId/permissions`, `PUT /api/v1/roles/:roleId`).
 3. **Role Deletion** (`DELETE /api/v1/roles/:roleId`).
@@ -95,14 +102,14 @@ Immediate cache eviction occurs on:
 
 ## 5. Authorization Middlewares
 
-| Middleware | Signature | Behavior |
-| :--- | :--- | :--- |
-| `requirePermission` | `(permission: string)` | Requires exact permission match or wildcard `*`. |
-| `requireAnyPermission` | `(permissions: string[])` | Grants if user has at least one of the listed permissions. |
-| `requireAllPermissions` | `(permissions: string[])` | Requires user to possess every listed permission. |
-| `requireRole` | `(roles: string \| string[])` | Grants if user has at least one of the specified named roles. |
+| Middleware              | Signature                     | Behavior                                                      |
+| :---------------------- | :---------------------------- | :------------------------------------------------------------ |
+| `requirePermission`     | `(permission: string)`        | Requires exact permission match or wildcard `*`.              |
+| `requireAnyPermission`  | `(permissions: string[])`     | Grants if user has at least one of the listed permissions.    |
+| `requireAllPermissions` | `(permissions: string[])`     | Requires user to possess every listed permission.             |
+| `requireRole`           | `(roles: string \| string[])` | Grants if user has at least one of the specified named roles. |
 
-*Super Admin Bypass: Users with `userType: 'SUPER_ADMIN'` or role `'SUPER_ADMIN'` bypass all middleware gates.*
+_Super Admin Bypass: Users with `userType: 'SUPER_ADMIN'` or role `'SUPER_ADMIN'` bypass all middleware gates._
 
 ---
 
@@ -111,6 +118,7 @@ Immediate cache eviction occurs on:
 Located in `apps/api/src/modules/rbac/policies/resource.policy.ts`:
 
 ### 1. `canAccessStudent(auth, targetStudentId)`
+
 - **Administrators**: Allowed for any student within the current tenant.
 - **Students**: Allowed only if `student.userId === auth.userId`.
 - **Parents**: Allowed only if an active `StudentParentRelation` connects parent to student.
@@ -118,11 +126,13 @@ Located in `apps/api/src/modules/rbac/policies/resource.policy.ts`:
 - **Cross-Tenant**: Denied immediately (returns `false`).
 
 ### 2. `canAccessAttendance(auth, classId, sectionId)`
+
 - **Administrators**: Allowed for any class/section in the tenant.
 - **Teachers**: Allowed only if assigned to teach in that section or designated as class teacher.
 - **Other Users**: Denied (`false`).
 
 ### 3. `canAccessFee(auth, invoiceId)`
+
 - **Administrators & Accountants**: Allowed for any invoice in the tenant.
 - **Parents / Students**: Delegates to `canAccessStudent` for the invoice's `studentId`.
 

@@ -78,6 +78,12 @@ export function HomePage(): React.JSX.Element {
             </button>
           </div>
 
+          <Link to="/organization" className="text-xs text-slate-300 hover:text-white mr-1">
+            Organization
+          </Link>
+          <Link to="/roles" className="text-xs text-slate-300 hover:text-white mr-2">
+            Roles & Matrix
+          </Link>
           <Link to="/login">
             <Button variant="outline" size="sm" leftIcon={<Lock className="w-3.5 h-3.5" />}>
               Sign In

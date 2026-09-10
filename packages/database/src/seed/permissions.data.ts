@@ -44,7 +44,7 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     category: 'SYSTEM',
   },
 
-  // School & Campus Configuration (6)
+  // School & Campus Configuration
   {
     resource: 'SCHOOL',
     action: 'CREATE',
@@ -68,6 +68,34 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
   },
   {
     resource: 'CAMPUS',
+    action: 'CREATE',
+    permissionString: 'campus:create',
+    description: 'Create new campus sites',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'CAMPUS',
+    action: 'READ',
+    permissionString: 'campus:read',
+    description: 'View campus sites',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'CAMPUS',
+    action: 'UPDATE',
+    permissionString: 'campus:update',
+    description: 'Update campus details',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'CAMPUS',
+    action: 'DELETE',
+    permissionString: 'campus:delete',
+    description: 'Archive or deactivate campus sites',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'CAMPUS',
     action: 'MANAGE',
     permissionString: 'campus:manage',
     description: 'Manage campus sites',
@@ -75,9 +103,72 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
   },
   {
     resource: 'ACADEMIC_YEAR',
+    action: 'CREATE',
+    permissionString: 'academic_year:create',
+    description: 'Create academic years',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'ACADEMIC_YEAR',
+    action: 'READ',
+    permissionString: 'academic_year:read',
+    description: 'View academic calendars',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'ACADEMIC_YEAR',
+    action: 'UPDATE',
+    permissionString: 'academic_year:update',
+    description: 'Update academic calendar details',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'ACADEMIC_YEAR',
+    action: 'ACTIVATE',
+    permissionString: 'academic_year:activate',
+    description: 'Activate academic year and set as current session',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'ACADEMIC_YEAR',
+    action: 'CLOSE',
+    permissionString: 'academic_year:close',
+    description: 'Close academic year session',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'ACADEMIC_YEAR',
     action: 'MANAGE',
     permissionString: 'academic_year:manage',
     description: 'Manage academic calendars',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'SETTINGS',
+    action: 'READ',
+    permissionString: 'settings:read',
+    description: 'View school operational settings',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'SETTINGS',
+    action: 'UPDATE',
+    permissionString: 'settings:update',
+    description: 'Update school operational settings',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'BRANDING',
+    action: 'READ',
+    permissionString: 'branding:read',
+    description: 'View school branding assets',
+    category: 'ACADEMIC',
+  },
+  {
+    resource: 'BRANDING',
+    action: 'UPDATE',
+    permissionString: 'branding:update',
+    description: 'Update school branding assets and display themes',
     category: 'ACADEMIC',
   },
   {

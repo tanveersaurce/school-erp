@@ -1,4 +1,5 @@
 import { Schema, Document, Query, Types } from 'mongoose';
+import { getTenantContext } from '../context/tenantContext.js';
 
 export interface TenantDocument extends Document {
   tenantId: Types.ObjectId;
@@ -17,10 +18,38 @@ export function tenantPlugin(schema: Schema): void {
     });
   }
 
-  // Pre-save hook: prevent modifying tenantId on existing documents
+  // Pre-validate hook: auto-stamp tenantId from ALS context before required field validation runs
+  schema.pre('validate', function (next) {
+    const context = getTenantContext();
+    if (context?.tenantId && !context.isPlatformAdmin) {
+      if (this.isNew && !this.tenantId) {
+        this.tenantId = new Types.ObjectId(context.tenantId);
+      }
+    }
+    next();
+  });
+
+  // Pre-save hook: prevent modifying tenantId on existing documents, auto-stamp or validate
   schema.pre('save', function (next) {
     if (this.isModified('tenantId') && !this.isNew) {
       return next(new Error('Cross-tenant mutation prohibited: tenantId is immutable.'));
+    }
+
+    const context = getTenantContext();
+    if (context?.tenantId && !context.isPlatformAdmin) {
+      if (this.isNew && !this.tenantId) {
+        this.tenantId = new Types.ObjectId(context.tenantId);
+      } else if (
+        this.isNew &&
+        this.tenantId &&
+        this.tenantId.toString() !== context.tenantId.toString()
+      ) {
+        return next(
+          new Error(
+            'Cross-tenant mutation prohibited: payload tenantId does not match current tenant context.'
+          )
+        );
+      }
     }
     next();
   });
@@ -44,7 +73,7 @@ export function tenantPlugin(schema: Schema): void {
     }
   });
 
-  // Query middleware: automatically apply tenantId filter if provided in query options or scope
+  // Query middleware: automatically apply tenantId filter if provided in AsyncLocalStorage context or query options
   schema.pre(
     ['find', 'findOne', 'findOneAndUpdate', 'updateMany', 'countDocuments', 'deleteMany'],
     function (this: Query<any, any>) {
@@ -54,8 +83,13 @@ export function tenantPlugin(schema: Schema): void {
       }
 
       const filter = this.getFilter();
-      if (options && options.tenantId && !filter.tenantId) {
-        this.where({ tenantId: options.tenantId });
+      if (!filter.tenantId) {
+        const context = getTenantContext();
+        if (context?.tenantId && !context.isPlatformAdmin) {
+          this.where({ tenantId: new Types.ObjectId(context.tenantId) });
+        } else if (options && options.tenantId) {
+          this.where({ tenantId: options.tenantId });
+        }
       }
     }
   );

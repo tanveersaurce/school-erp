@@ -18,6 +18,8 @@ import {
   FeeStructure,
 } from '../src/models/index.js';
 
+import { SYSTEM_PERMISSIONS } from '../src/seed/permissions.data.js';
+
 describe('Seed Engine & Idempotency Suite', () => {
   beforeAll(async () => {
     await setupTestDB();
@@ -31,7 +33,7 @@ describe('Seed Engine & Idempotency Suite', () => {
     const result1 = await runSeed();
 
     expect(result1.tenantId).toBeDefined();
-    expect(result1.permissionsCount).toBe(75);
+    expect(result1.permissionsCount).toBe(SYSTEM_PERMISSIONS.length);
     expect(result1.rolesCount).toBe(14);
     expect(result1.usersCreated).toHaveLength(6);
 
@@ -46,7 +48,7 @@ describe('Seed Engine & Idempotency Suite', () => {
     expect(ayCount).toBe(1);
 
     const permCount = await Permission.countDocuments();
-    expect(permCount).toBe(75);
+    expect(permCount).toBe(SYSTEM_PERMISSIONS.length);
 
     const roleCount = await Role.countDocuments();
     expect(roleCount).toBe(14);
@@ -82,14 +84,14 @@ describe('Seed Engine & Idempotency Suite', () => {
   it('should be strictly idempotent on subsequent runs without creating duplicate documents', async () => {
     // Run seed again
     const result2 = await runSeed();
-    expect(result2.permissionsCount).toBe(75);
+    expect(result2.permissionsCount).toBe(SYSTEM_PERMISSIONS.length);
     expect(result2.rolesCount).toBe(14);
 
     // Verify counts have NOT doubled
     expect(await Tenant.countDocuments({ slug: 'greenwood-trust' })).toBe(1);
     expect(await School.countDocuments({ code: 'GHS' })).toBe(1);
     expect(await AcademicYear.countDocuments({ name: '2026-2027' })).toBe(1);
-    expect(await Permission.countDocuments()).toBe(75);
+    expect(await Permission.countDocuments()).toBe(SYSTEM_PERMISSIONS.length);
     expect(await Role.countDocuments()).toBe(14);
     expect(await User.countDocuments()).toBe(6);
     expect(await Class.countDocuments()).toBe(2);

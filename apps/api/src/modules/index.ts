@@ -7,3 +7,5 @@ export * from './auth/email.service.js';
 export * from './rbac/rbac.routes.js';
 export * from './rbac/rbac.service.js';
 export * from './rbac/policies/resource.policy.js';
+export * from './tenant/tenant.routes.js';
+export * from './tenant/tenant.service.js';

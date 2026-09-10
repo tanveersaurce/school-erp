@@ -38,6 +38,11 @@ const rawBaseQuery = fetchBaseQuery({
       headers.set('Authorization', `Bearer ${token}`);
     }
 
+    const tenantId = state?.auth?.user?.tenantId;
+    if (tenantId) {
+      headers.set('X-Tenant-ID', tenantId);
+    }
+
     return headers;
   },
 });
@@ -84,7 +89,20 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Health', 'Auth', 'User', 'Tenant', 'Session', 'Role', 'Permission'],
+  tagTypes: [
+    'Health',
+    'Auth',
+    'User',
+    'Tenant',
+    'School',
+    'Campus',
+    'AcademicYear',
+    'Settings',
+    'Branding',
+    'Session',
+    'Role',
+    'Permission',
+  ],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({
       query: () => '/health/readiness',

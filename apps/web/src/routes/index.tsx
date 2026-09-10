@@ -8,6 +8,7 @@ import { SessionsPage } from '../pages/SessionsPage.js';
 import { ForbiddenPage } from '../pages/ForbiddenPage.js';
 import { NotFoundPage } from '../pages/NotFoundPage.js';
 import { RolesPage } from '../pages/rbac/RolesPage.js';
+import { OrganizationPage } from '../pages/organization/OrganizationPage.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -45,6 +46,14 @@ export const routes: RouteObject[] = [
     element: (
       <PermissionRoute anyOf={['rbac:manage', 'role:read']}>
         <RolesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/organization',
+    element: (
+      <PermissionRoute anyOf={['school:read', 'school:update', 'campus:read', 'campus:manage']}>
+        <OrganizationPage />
       </PermissionRoute>
     ),
   },
