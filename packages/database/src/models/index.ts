@@ -15,3 +15,4 @@ export * from './hostel.model.js';
 export * from './inventory.model.js';
 export * from './communication.model.js';
 export * from './system.model.js';
+export * from './employee.model.js';

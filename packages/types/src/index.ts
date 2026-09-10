@@ -17,3 +17,4 @@ export * from './inventory.js';
 export * from './communication.js';
 export * from './system.js';
 export * from './rbac.js';
+export * from './employee.js';

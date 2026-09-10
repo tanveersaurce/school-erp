@@ -102,6 +102,10 @@ export const baseApi = createApi({
     'Session',
     'Role',
     'Permission',
+    'Employee',
+    'Department',
+    'Designation',
+    'Teacher',
   ],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({

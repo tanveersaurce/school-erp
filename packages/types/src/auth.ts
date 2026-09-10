@@ -18,6 +18,7 @@ export interface AuthContext {
   userId: string;
   tenantId: string;
   schoolId?: string;
+  campusId?: string;
   userType: UserType;
   sessionId: string;
   email: string;

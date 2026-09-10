@@ -11,6 +11,7 @@ import { healthRouter } from './routes/health.routes.js';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { rbacRouter } from './modules/rbac/rbac.routes.js';
 import { tenantRouter } from './modules/tenant/tenant.routes.js';
+import { employeeRouter } from './modules/employee/employee.routes.js';
 import { tenantContextMiddleware } from './middlewares/tenantContext.js';
 import { appConfig } from './config/app.js';
 import { getDatabaseStatus } from './config/database.js';
@@ -86,6 +87,7 @@ export function createApp(): Application {
   app.use(`${appConfig.apiPrefix}/auth`, authRouter);
   app.use(appConfig.apiPrefix, rbacRouter);
   app.use(appConfig.apiPrefix, tenantRouter);
+  app.use(appConfig.apiPrefix, employeeRouter);
 
   // 10. Centralized Error & 404 Handlers
   app.use(notFoundHandler);

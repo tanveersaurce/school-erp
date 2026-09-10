@@ -9,3 +9,5 @@ export * from './rbac/rbac.service.js';
 export * from './rbac/policies/resource.policy.js';
 export * from './tenant/tenant.routes.js';
 export * from './tenant/tenant.service.js';
+export * from './employee/employee.routes.js';
+export * from './employee/employee.service.js';

@@ -82,16 +82,20 @@ The academic calendar controls terms, grading periods, promotion gates, and atte
 Configured via `GET /schools/settings` and `PATCH /schools/settings`:
 
 ### A. Localization & Time Formatting
+
 - `dateFormat`: Supported formats include `"DD/MM/YYYY"`, `"MM/DD/YYYY"`, `"YYYY-MM-DD"`.
 - `timeFormat`: `"12H"` (AM/PM) or `"24H"` (military).
 - `weekStartDay`: Week start anchor (`"MONDAY"`, `"SUNDAY"`, etc.).
 - `defaultLanguage`: ISO language code (default: `"en"`).
 
 ### B. Working Schedule
+
 - `workingDays`: Array of active instructional days (e.g., `["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"]`).
 
 ### C. Automated Document Numbering Sequences
+
 To eliminate race conditions and maintain institutional audit sequences:
+
 - `admissionNumberPrefix`: Prefix for student admissions (e.g., `"ADM-"` or `"APX-ADM"`).
 - `invoicePrefix`: Prefix for fee billing statements (e.g., `"INV-"` or `"APX-INV"`).
 - `receiptPrefix`: Prefix for payment receipts (e.g., `"REC-"` or `"APX-REC"`).

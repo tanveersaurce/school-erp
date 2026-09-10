@@ -15,6 +15,12 @@ export interface IEmailProvider {
     verificationToken: string,
     verifyUrl: string
   ): Promise<void>;
+  sendStaffInvitationEmail(
+    to: string,
+    invitationToken: string,
+    invitationUrl: string,
+    schoolName?: string
+  ): Promise<void>;
 }
 
 export class DevEmailProvider implements IEmailProvider {
@@ -61,6 +67,32 @@ export class DevEmailProvider implements IEmailProvider {
         verifyUrl,
       },
       '📧 [DEV EMAIL] Email verification link dispatched'
+    );
+  }
+
+  async sendStaffInvitationEmail(
+    to: string,
+    invitationToken: string,
+    invitationUrl: string,
+    schoolName?: string
+  ): Promise<void> {
+    const orgName = schoolName || 'EduSphere ERP';
+    const record: SentEmailRecord = {
+      to,
+      subject: `Welcome to ${orgName} - Complete Your Staff Account Setup`,
+      url: invitationUrl,
+      token: invitationToken,
+      sentAt: new Date(),
+    };
+    this.sentEmails.push(record);
+
+    logger.info(
+      {
+        recipient: to,
+        subject: record.subject,
+        invitationUrl,
+      },
+      '📧 [DEV EMAIL] Staff invitation dispatched'
     );
   }
 

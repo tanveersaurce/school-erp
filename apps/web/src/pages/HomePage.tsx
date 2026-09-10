@@ -237,6 +237,33 @@ export function HomePage(): React.JSX.Element {
               <Button variant="secondary" size="sm" onClick={() => setIsDemoModalOpen(true)}>
                 Open Dialog Modal
               </Button>
+              <Link to="/staff">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Staff Directory
+                </Button>
+              </Link>
+              <Link to="/teachers">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Teaching Faculty
+                </Button>
+              </Link>
+              <Link to="/departments-designations">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Departments & Designations
+                </Button>
+              </Link>
               <Link to="/403">
                 <Button
                   variant="outline"

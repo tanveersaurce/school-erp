@@ -66,7 +66,7 @@ export interface IVerificationTokenDoc {
   tenantId: Types.ObjectId;
   userId: Types.ObjectId;
   tokenHash: string;
-  tokenType: 'PASSWORD_RESET' | 'EMAIL_VERIFICATION';
+  tokenType: 'PASSWORD_RESET' | 'EMAIL_VERIFICATION' | 'STAFF_INVITATION';
   expiresAt: Date;
   isUsed: boolean;
   usedAt?: Date;
@@ -202,7 +202,7 @@ const VerificationTokenSchema = new Schema<IVerificationTokenDoc>(
     tokenHash: { type: String, required: true, index: true },
     tokenType: {
       type: String,
-      enum: ['PASSWORD_RESET', 'EMAIL_VERIFICATION'],
+      enum: ['PASSWORD_RESET', 'EMAIL_VERIFICATION', 'STAFF_INVITATION'],
       required: true,
       index: true,
     },
