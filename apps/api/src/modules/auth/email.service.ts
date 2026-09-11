@@ -21,6 +21,18 @@ export interface IEmailProvider {
     invitationUrl: string,
     schoolName?: string
   ): Promise<void>;
+  sendGuardianInvitationEmail(
+    to: string,
+    invitationToken: string,
+    invitationUrl: string,
+    schoolName?: string
+  ): Promise<void>;
+  sendStudentInvitationEmail(
+    to: string,
+    invitationToken: string,
+    invitationUrl: string,
+    schoolName?: string
+  ): Promise<void>;
 }
 
 export class DevEmailProvider implements IEmailProvider {
@@ -93,6 +105,58 @@ export class DevEmailProvider implements IEmailProvider {
         invitationUrl,
       },
       '📧 [DEV EMAIL] Staff invitation dispatched'
+    );
+  }
+
+  async sendGuardianInvitationEmail(
+    to: string,
+    invitationToken: string,
+    invitationUrl: string,
+    schoolName?: string
+  ): Promise<void> {
+    const orgName = schoolName || 'EduSphere ERP';
+    const record: SentEmailRecord = {
+      to,
+      subject: `Welcome to ${orgName} Parent Portal - Complete Your Account Setup`,
+      url: invitationUrl,
+      token: invitationToken,
+      sentAt: new Date(),
+    };
+    this.sentEmails.push(record);
+
+    logger.info(
+      {
+        recipient: to,
+        subject: record.subject,
+        invitationUrl,
+      },
+      '📧 [DEV EMAIL] Guardian invitation dispatched'
+    );
+  }
+
+  async sendStudentInvitationEmail(
+    to: string,
+    invitationToken: string,
+    invitationUrl: string,
+    schoolName?: string
+  ): Promise<void> {
+    const orgName = schoolName || 'EduSphere ERP';
+    const record: SentEmailRecord = {
+      to,
+      subject: `Welcome to ${orgName} Student Portal - Complete Your Account Setup`,
+      url: invitationUrl,
+      token: invitationToken,
+      sentAt: new Date(),
+    };
+    this.sentEmails.push(record);
+
+    logger.info(
+      {
+        recipient: to,
+        subject: record.subject,
+        invitationUrl,
+      },
+      '📧 [DEV EMAIL] Student invitation dispatched'
     );
   }
 

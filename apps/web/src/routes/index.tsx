@@ -13,6 +13,11 @@ import { StaffListPage } from '../pages/staff/StaffListPage.js';
 import { StaffDetailsPage } from '../pages/staff/StaffDetailsPage.js';
 import { TeacherListPage } from '../pages/teachers/TeacherListPage.js';
 import { DepartmentDesignationPage } from '../pages/staff/DepartmentDesignationPage.js';
+import { StudentListPage } from '../pages/students/StudentListPage.js';
+import { StudentDetailsPage } from '../pages/students/StudentDetailsPage.js';
+import { GuardianListPage } from '../pages/guardians/GuardianListPage.js';
+import { GuardianDetailsPage } from '../pages/guardians/GuardianDetailsPage.js';
+import { MyChildrenPage } from '../pages/parent/MyChildrenPage.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -91,6 +96,46 @@ export const routes: RouteObject[] = [
       <PermissionRoute anyOf={['department:read', 'designation:read']}>
         <DepartmentDesignationPage />
       </PermissionRoute>
+    ),
+  },
+  {
+    path: '/students',
+    element: (
+      <PermissionRoute anyOf={['student:read', 'student:create']}>
+        <StudentListPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/students/:id',
+    element: (
+      <PermissionRoute anyOf={['student:read', 'student:update', 'student:view_pii']}>
+        <StudentDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/guardians',
+    element: (
+      <PermissionRoute anyOf={['guardian:read', 'guardian:create']}>
+        <GuardianListPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/guardians/:id',
+    element: (
+      <PermissionRoute anyOf={['guardian:read', 'guardian:update']}>
+        <GuardianDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/my-children',
+    element: (
+      <ProtectedRoute>
+        <MyChildrenPage />
+      </ProtectedRoute>
     ),
   },
   {

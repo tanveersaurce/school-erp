@@ -78,6 +78,15 @@ export function HomePage(): React.JSX.Element {
             </button>
           </div>
 
+          <Link to="/students" className="text-xs text-slate-300 hover:text-white mr-1">
+            Students
+          </Link>
+          <Link to="/guardians" className="text-xs text-slate-300 hover:text-white mr-1">
+            Guardians
+          </Link>
+          <Link to="/my-children" className="text-xs text-slate-300 hover:text-white mr-1">
+            Parent Portal
+          </Link>
           <Link to="/organization" className="text-xs text-slate-300 hover:text-white mr-1">
             Organization
           </Link>
@@ -237,9 +246,36 @@ export function HomePage(): React.JSX.Element {
               <Button variant="secondary" size="sm" onClick={() => setIsDemoModalOpen(true)}>
                 Open Dialog Modal
               </Button>
-              <Link to="/staff">
+              <Link to="/students">
                 <Button
                   variant="primary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Student Directory
+                </Button>
+              </Link>
+              <Link to="/guardians">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Guardians
+                </Button>
+              </Link>
+              <Link to="/my-children">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Parent Portal
+                </Button>
+              </Link>
+              <Link to="/staff">
+                <Button
+                  variant="outline"
                   size="sm"
                   rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
                 >

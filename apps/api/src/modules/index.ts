@@ -11,3 +11,5 @@ export * from './tenant/tenant.routes.js';
 export * from './tenant/tenant.service.js';
 export * from './employee/employee.routes.js';
 export * from './employee/employee.service.js';
+export * from './student/student.routes.js';
+export * from './student/student.service.js';

@@ -1,10 +1,38 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApplicationError, createErrorResponse } from '@edusphere/common';
+import { ApplicationError, ValidationError, createErrorResponse } from '@edusphere/common';
+import { ZodError } from 'zod';
 import { logger } from '../core/logger/logger.js';
 import { env } from '../config/env.js';
 
 export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction): void {
   const requestId = req.id || 'req_unknown';
+
+  if (err instanceof ZodError || err.name === 'ZodError') {
+    const zodErr = err as ZodError;
+    const details = zodErr.issues?.map((issue) => ({
+      field: issue.path.join('.'),
+      issue: issue.message,
+    }));
+    const validationError = new ValidationError('Request validation failed', details);
+    logger.warn(
+      {
+        requestId,
+        errorCode: validationError.errorCode,
+        statusCode: 422,
+        message: validationError.message,
+        details,
+        path: req.originalUrl,
+        method: req.method,
+      },
+      'Zod validation failed'
+    );
+    res
+      .status(422)
+      .json(
+        createErrorResponse(validationError.errorCode, validationError.message, requestId, details)
+      );
+    return;
+  }
 
   if (err instanceof ApplicationError) {
     logger.warn(

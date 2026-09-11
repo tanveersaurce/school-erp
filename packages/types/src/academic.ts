@@ -64,9 +64,9 @@ export interface IStudentEnrollment {
   campusId?: string;
   studentId: string;
   academicYearId: string;
-  classId: string;
-  sectionId: string;
-  rollNumber: number;
+  classId?: string;
+  sectionId?: string;
+  rollNumber?: number;
   status: EnrollmentStatus;
   startDate: Date;
   endDate?: Date;

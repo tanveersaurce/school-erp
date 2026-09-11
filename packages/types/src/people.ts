@@ -55,7 +55,7 @@ export interface IParent {
   updatedAt: Date;
 }
 
-export type ParentRelationType = 'FATHER' | 'MOTHER' | 'GUARDIAN' | 'OTHER';
+export type ParentRelationType = 'FATHER' | 'MOTHER' | 'GUARDIAN' | 'GRANDPARENT' | 'OTHER';
 
 export interface IStudentParentRelation {
   id: string;

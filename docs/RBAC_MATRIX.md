@@ -69,14 +69,18 @@ classDiagram
 
 ## 2. Granular Permission Catalog
 
-The platform defines **75 fine-grained permissions** categorized by functional domain:
+The platform defines **132 fine-grained permissions** categorized by functional domain:
 
-### Academic & Student Operations
+### Academic, Student & Guardian Operations (Phase 7 Expanded)
 
-- `student:create`, `student:read`, `student:update`, `student:delete`, `student:promote`, `student:transfer`
-- `admission:create`, `admission:read`, `admission:review`, `admission:approve`, `admission:reject`
-- `class:manage`, `section:manage`, `subject:manage`, `curriculum:manage`
-- `timetable:create`, `timetable:read`, `timetable:update`, `timetable:publish`
+- **Student Core & Lifecycle**: `student:create`, `student:read`, `student:update`, `student:delete`, `student:admit`, `student:activate`, `student:suspend`, `student:transfer`, `student:withdraw`, `student:graduate`, `student:archive`, `student:view_pii`
+- **Guardian Directory & Profiles**: `guardian:create`, `guardian:read`, `guardian:update`, `guardian:delete`
+- **Student-Guardian Relationships**: `relationship:create`, `relationship:read`, `relationship:update`, `relationship:delete`
+- **Student Document Vault**: `student_document:create`, `student_document:read`, `student_document:verify`, `student_document:delete`
+- **Enrollment Abstraction**: `enrollment:create`, `enrollment:read`, `enrollment:update`, `enrollment:delete`
+- **Admissions Pipeline**: `admission:create`, `admission:read`, `admission:review`, `admission:approve`, `admission:reject`
+- **Class & Structure (Phase 8)**: `class:manage`, `section:manage`, `subject:manage`, `curriculum:manage`
+- **Timetable (Phase 8)**: `timetable:create`, `timetable:read`, `timetable:update`, `timetable:publish`
 
 ### Daily Tracking & Classroom
 

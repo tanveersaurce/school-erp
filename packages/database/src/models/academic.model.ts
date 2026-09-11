@@ -74,8 +74,8 @@ export interface IStudentEnrollmentDoc extends Omit<
   campusId?: Types.ObjectId;
   studentId: Types.ObjectId;
   academicYearId: Types.ObjectId;
-  classId: Types.ObjectId;
-  sectionId: Types.ObjectId;
+  classId?: Types.ObjectId;
+  sectionId?: Types.ObjectId;
 }
 
 // 1. Class Schema
@@ -185,14 +185,15 @@ const StudentEnrollmentSchema = new Schema<IStudentEnrollmentDoc>(
       required: true,
       index: true,
     },
-    classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true, index: true },
-    sectionId: { type: Schema.Types.ObjectId, ref: 'Section', required: true, index: true },
-    rollNumber: { type: Number, required: true },
+    classId: { type: Schema.Types.ObjectId, ref: 'Class', index: true },
+    sectionId: { type: Schema.Types.ObjectId, ref: 'Section', index: true },
+    rollNumber: { type: Number },
     status: {
       type: String,
       enum: ['ENROLLED', 'PROMOTED', 'RETAINED', 'TRANSFERRED', 'WITHDRAWN'] as EnrollmentStatus[],
       default: 'ENROLLED',
       required: true,
+      index: true,
     },
     startDate: { type: Date, required: true, default: Date.now },
     endDate: { type: Date },
@@ -203,7 +204,7 @@ StudentEnrollmentSchema.plugin(tenantPlugin);
 StudentEnrollmentSchema.index({ tenantId: 1, academicYearId: 1, studentId: 1 }, { unique: true });
 StudentEnrollmentSchema.index(
   { tenantId: 1, academicYearId: 1, classId: 1, sectionId: 1, rollNumber: 1 },
-  { unique: true }
+  { unique: true, sparse: true }
 );
 
 export const Class = model<IClassDoc>('Class', ClassSchema);
