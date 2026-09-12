@@ -19,7 +19,9 @@ import {
   RolePermission,
   Class,
   Section,
+  AcademicClass,
   Subject,
+  ClassSubject,
   Teacher,
   TeacherSubjectAssignment,
   Student,
@@ -323,7 +325,7 @@ export async function runSeed(): Promise<SeedResult> {
     { upsert: true, new: true, setDefaultsOnInsert: true }
   );
 
-  await Section.findOneAndUpdate(
+  const section10B = await Section.findOneAndUpdate(
     { tenantId: tenant._id, classId: grade10._id, name: 'Section B' },
     {
       tenantId: tenant._id,
@@ -340,6 +342,53 @@ export async function runSeed(): Promise<SeedResult> {
   );
   console.log(`[Seed] Classes and Sections initialized.`);
 
+  // 10b. Seed Academic Classes (Grade 10-A and Grade 10-B offerings)
+  const academicClass10A = await AcademicClass.findOneAndUpdate(
+    {
+      tenantId: tenant._id,
+      academicYearId: academicYear._id,
+      campusId: campus._id,
+      classId: grade10._id,
+      sectionId: section10A._id,
+    },
+    {
+      tenantId: tenant._id,
+      schoolId: school._id,
+      campusId: campus._id,
+      academicYearId: academicYear._id,
+      classId: grade10._id,
+      sectionId: section10A._id,
+      classTeacherId: teacher._id,
+      capacity: 40,
+      room: 'Room 201',
+      isDeleted: false,
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+
+  await AcademicClass.findOneAndUpdate(
+    {
+      tenantId: tenant._id,
+      academicYearId: academicYear._id,
+      campusId: campus._id,
+      classId: grade10._id,
+      sectionId: section10B._id,
+    },
+    {
+      tenantId: tenant._id,
+      schoolId: school._id,
+      campusId: campus._id,
+      academicYearId: academicYear._id,
+      classId: grade10._id,
+      sectionId: section10B._id,
+      capacity: 40,
+      room: 'Room 202',
+      isDeleted: false,
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+  console.log(`[Seed] Academic Classes initialized.`);
+
   // 11. Seed Subjects
   const mathSubject = await Subject.findOneAndUpdate(
     { tenantId: tenant._id, schoolId: school._id, code: 'MATH10' },
@@ -355,7 +404,7 @@ export async function runSeed(): Promise<SeedResult> {
     { upsert: true, new: true, setDefaultsOnInsert: true }
   );
 
-  await Subject.findOneAndUpdate(
+  const sciSubject = await Subject.findOneAndUpdate(
     { tenantId: tenant._id, schoolId: school._id, code: 'SCI10' },
     {
       tenantId: tenant._id,
@@ -369,6 +418,52 @@ export async function runSeed(): Promise<SeedResult> {
     { upsert: true, new: true, setDefaultsOnInsert: true }
   );
 
+  // 11b. Seed Class-Subject Mappings
+  await ClassSubject.findOneAndUpdate(
+    {
+      tenantId: tenant._id,
+      academicYearId: academicYear._id,
+      classId: grade10._id,
+      subjectId: mathSubject._id,
+    },
+    {
+      tenantId: tenant._id,
+      schoolId: school._id,
+      campusId: campus._id,
+      academicYearId: academicYear._id,
+      classId: grade10._id,
+      subjectId: mathSubject._id,
+      isOptional: false,
+      creditHours: 5,
+      sequence: 1,
+      isDeleted: false,
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+
+  await ClassSubject.findOneAndUpdate(
+    {
+      tenantId: tenant._id,
+      academicYearId: academicYear._id,
+      classId: grade10._id,
+      subjectId: sciSubject._id,
+    },
+    {
+      tenantId: tenant._id,
+      schoolId: school._id,
+      campusId: campus._id,
+      academicYearId: academicYear._id,
+      classId: grade10._id,
+      subjectId: sciSubject._id,
+      isOptional: false,
+      creditHours: 5,
+      sequence: 2,
+      isDeleted: false,
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+  console.log(`[Seed] Class-Subject mappings configured.`);
+
   // 12. Seed TeacherSubjectAssignment
   await TeacherSubjectAssignment.findOneAndUpdate(
     {
@@ -381,10 +476,12 @@ export async function runSeed(): Promise<SeedResult> {
       tenantId: tenant._id,
       academicYearId: academicYear._id,
       schoolId: school._id,
+      campusId: campus._id,
       teacherId: teacher._id,
       subjectId: mathSubject._id,
       classId: grade10._id,
       sectionId: section10A._id,
+      academicClassId: academicClass10A._id,
     },
     { upsert: true }
   );
@@ -468,6 +565,7 @@ export async function runSeed(): Promise<SeedResult> {
       academicYearId: academicYear._id,
       classId: grade10._id,
       sectionId: section10A._id,
+      academicClassId: academicClass10A._id,
       rollNumber: 1,
       status: 'ENROLLED',
       startDate: new Date('2026-04-01T00:00:00.000Z'),

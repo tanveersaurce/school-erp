@@ -24,12 +24,11 @@ Student Enrollment represents the formal academic binding between a `Student` an
 ```
 
 ### Core Invariant:
+
 A student can have **at most one enrollment record per academic year** in a tenant:
+
 ```typescript
-StudentEnrollmentSchema.index(
-  { tenantId: 1, academicYearId: 1, studentId: 1 },
-  { unique: true }
-);
+StudentEnrollmentSchema.index({ tenantId: 1, academicYearId: 1, studentId: 1 }, { unique: true });
 ```
 
 ---
@@ -42,9 +41,9 @@ In Phase 7, `classId`, `sectionId`, and `rollNumber` remain strictly optional re
 
 ## 3. REST API Reference
 
-| Method | Endpoint | Required Permission | Description |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/enrollments` | `enrollment:read` | Lists enrollments with filters (student, year, campus) |
-| `POST` | `/api/v1/enrollments` | `enrollment:create` | Creates new enrollment record |
-| `GET` | `/api/v1/enrollments/:id` | `enrollment:read` | Detailed enrollment information |
-| `PATCH`| `/api/v1/enrollments/:id` | `enrollment:update` | Updates enrollment status or section details |
+| Method  | Endpoint                  | Required Permission | Description                                            |
+| :------ | :------------------------ | :------------------ | :----------------------------------------------------- |
+| `GET`   | `/api/v1/enrollments`     | `enrollment:read`   | Lists enrollments with filters (student, year, campus) |
+| `POST`  | `/api/v1/enrollments`     | `enrollment:create` | Creates new enrollment record                          |
+| `GET`   | `/api/v1/enrollments/:id` | `enrollment:read`   | Detailed enrollment information                        |
+| `PATCH` | `/api/v1/enrollments/:id` | `enrollment:update` | Updates enrollment status or section details           |

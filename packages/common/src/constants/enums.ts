@@ -225,3 +225,33 @@ export enum AdmissionType {
   SCHOLARSHIP = 'SCHOLARSHIP',
   MANAGEMENT = 'MANAGEMENT',
 }
+
+export enum EducationLevel {
+  PRE_PRIMARY = 'PRE_PRIMARY',
+  PRIMARY = 'PRIMARY',
+  MIDDLE = 'MIDDLE',
+  SECONDARY = 'SECONDARY',
+  SENIOR_SECONDARY = 'SENIOR_SECONDARY',
+  HIGHER_EDUCATION = 'HIGHER_EDUCATION',
+}
+
+export enum AcademicStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum SubjectCategory {
+  CORE = 'CORE',
+  ELECTIVE = 'ELECTIVE',
+  OPTIONAL = 'OPTIONAL',
+  PRACTICAL = 'PRACTICAL',
+  CO_CURRICULAR = 'CO_CURRICULAR',
+}
+
+export enum TeacherAssignmentStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  COMPLETED = 'COMPLETED',
+  TRANSFERRED = 'TRANSFERRED',
+}

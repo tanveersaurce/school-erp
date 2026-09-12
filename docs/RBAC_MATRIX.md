@@ -69,18 +69,23 @@ classDiagram
 
 ## 2. Granular Permission Catalog
 
-The platform defines **132 fine-grained permissions** categorized by functional domain:
+The platform defines **158 fine-grained permissions** categorized by functional domain:
 
-### Academic, Student & Guardian Operations (Phase 7 Expanded)
+### Academic, Student & Guardian Operations (Phase 8 Expanded)
 
 - **Student Core & Lifecycle**: `student:create`, `student:read`, `student:update`, `student:delete`, `student:admit`, `student:activate`, `student:suspend`, `student:transfer`, `student:withdraw`, `student:graduate`, `student:archive`, `student:view_pii`
 - **Guardian Directory & Profiles**: `guardian:create`, `guardian:read`, `guardian:update`, `guardian:delete`
 - **Student-Guardian Relationships**: `relationship:create`, `relationship:read`, `relationship:update`, `relationship:delete`
 - **Student Document Vault**: `student_document:create`, `student_document:read`, `student_document:verify`, `student_document:delete`
-- **Enrollment Abstraction**: `enrollment:create`, `enrollment:read`, `enrollment:update`, `enrollment:delete`
+- **Enrollment & Roll Numbers**: `enrollment:create`, `enrollment:read`, `enrollment:update`, `enrollment:delete`, `student:enroll`, `student:update_enrollment`
 - **Admissions Pipeline**: `admission:create`, `admission:read`, `admission:review`, `admission:approve`, `admission:reject`
-- **Class & Structure (Phase 8)**: `class:manage`, `section:manage`, `subject:manage`, `curriculum:manage`
-- **Timetable (Phase 8)**: `timetable:create`, `timetable:read`, `timetable:update`, `timetable:publish`
+- **Grade & Class Levels**: `class:create`, `class:read`, `class:update`, `class:delete`, `class:manage`
+- **Class Sections & Divisions**: `section:create`, `section:read`, `section:update`, `section:delete`, `section:manage`
+- **Academic Class Offerings**: `academic_class:create`, `academic_class:read`, `academic_class:update`, `academic_class:delete`, `academic_class:manage`
+- **Subject Master Catalog**: `subject:create`, `subject:read`, `subject:update`, `subject:delete`, `subject:manage`
+- **Class-Subject Curriculum**: `class_subject:create`, `class_subject:read`, `class_subject:update`, `class_subject:delete`, `class_subject:manage`
+- **Teacher Allocations**: `teacher_assignment:create`, `teacher_assignment:read`, `teacher_assignment:update`, `teacher_assignment:delete`, `teacher_assignment:manage`
+- **Timetable (Phase 9)**: `timetable:create`, `timetable:read`, `timetable:update`, `timetable:publish`
 
 ### Daily Tracking & Classroom
 

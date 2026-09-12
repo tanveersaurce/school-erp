@@ -13,6 +13,7 @@ import { rbacRouter } from './modules/rbac/rbac.routes.js';
 import { tenantRouter } from './modules/tenant/tenant.routes.js';
 import { employeeRouter } from './modules/employee/employee.routes.js';
 import { studentRouter } from './modules/student/student.routes.js';
+import { academicRouter } from './modules/academic/academic.routes.js';
 import { tenantContextMiddleware } from './middlewares/tenantContext.js';
 import { appConfig } from './config/app.js';
 import { getDatabaseStatus } from './config/database.js';
@@ -90,6 +91,7 @@ export function createApp(): Application {
   app.use(appConfig.apiPrefix, tenantRouter);
   app.use(appConfig.apiPrefix, employeeRouter);
   app.use(appConfig.apiPrefix, studentRouter);
+  app.use(appConfig.apiPrefix, academicRouter);
 
   // 10. Centralized Error & 404 Handlers
   app.use(notFoundHandler);

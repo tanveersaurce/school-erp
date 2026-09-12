@@ -13,3 +13,5 @@ export * from './employee/employee.routes.js';
 export * from './employee/employee.service.js';
 export * from './student/student.routes.js';
 export * from './student/student.service.js';
+export * from './academic/academic.routes.js';
+export * from './academic/academic.service.js';

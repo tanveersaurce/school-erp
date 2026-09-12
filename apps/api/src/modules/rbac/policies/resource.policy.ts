@@ -9,6 +9,8 @@ import {
   StudentEnrollment,
   TeacherSubjectAssignment,
   Section,
+  AcademicClass,
+  Subject,
   FeeInvoice,
 } from '@edusphere/database';
 
@@ -224,6 +226,151 @@ export class ResourcePolicy {
 
     // Students / Parents can only access invoices for their own / child record
     return this.canAccessStudent(auth, invoice.studentId.toString());
+  }
+
+  /**
+   * Evaluates if the authenticated context is authorized to access an academic class (offering).
+   */
+  async canAccessAcademicClass(auth: AuthContext, academicClassId: string): Promise<boolean> {
+    if (!auth || !auth.tenantId || !auth.userId || !academicClassId) {
+      return false;
+    }
+
+    if (!Types.ObjectId.isValid(academicClassId)) {
+      return false;
+    }
+
+    const academicClass = await AcademicClass.findOne({
+      _id: new Types.ObjectId(academicClassId),
+      tenantId: new Types.ObjectId(auth.tenantId),
+      isDeleted: false,
+    }).lean();
+
+    if (!academicClass) {
+      return false; // Cross-tenant or not found
+    }
+
+    // Admins and Principals
+    if (
+      auth.userType === UserType.SUPER_ADMIN ||
+      auth.userType === UserType.SCHOOL_ADMIN ||
+      auth.roles?.includes('SUPER_ADMIN') ||
+      auth.roles?.includes('SCHOOL_ADMIN') ||
+      auth.roles?.includes('PRINCIPAL') ||
+      auth.roles?.includes('VICE_PRINCIPAL')
+    ) {
+      return true;
+    }
+
+    // Teachers: Must be class teacher or assigned to teach in this academic class / section
+    if (auth.userType === UserType.TEACHER) {
+      const teacherProfile = await Teacher.findOne({
+        tenantId: new Types.ObjectId(auth.tenantId),
+        userId: new Types.ObjectId(auth.userId),
+        isDeleted: false,
+      }).lean();
+
+      if (!teacherProfile) return false;
+
+      // Designated class teacher
+      if (
+        academicClass.classTeacherId &&
+        academicClass.classTeacherId.toString() === teacherProfile._id.toString()
+      ) {
+        return true;
+      }
+
+      // Teacher assigned to any subject in this section/class
+      const assignment = await TeacherSubjectAssignment.findOne({
+        tenantId: new Types.ObjectId(auth.tenantId),
+        teacherId: teacherProfile._id,
+        $or: [
+          { academicClassId: academicClass._id },
+          { sectionId: academicClass.sectionId, academicYearId: academicClass.academicYearId },
+        ],
+      }).lean();
+
+      return !!assignment;
+    }
+
+    // Students: Must be enrolled in this academic class
+    if (auth.userType === UserType.STUDENT) {
+      const student = await Student.findOne({
+        tenantId: new Types.ObjectId(auth.tenantId),
+        userId: new Types.ObjectId(auth.userId),
+        isDeleted: false,
+      }).lean();
+
+      if (!student) return false;
+
+      const enrollment = await StudentEnrollment.findOne({
+        tenantId: new Types.ObjectId(auth.tenantId),
+        studentId: student._id,
+        academicYearId: academicClass.academicYearId,
+        $or: [
+          { academicClassId: academicClass._id },
+          { classId: academicClass.classId, sectionId: academicClass.sectionId },
+        ],
+        status: 'ENROLLED',
+      }).lean();
+
+      return !!enrollment;
+    }
+
+    // Parents: Child must be enrolled in this academic class
+    if (auth.userType === UserType.PARENT) {
+      const parentProfile = await Parent.findOne({
+        tenantId: new Types.ObjectId(auth.tenantId),
+        userId: new Types.ObjectId(auth.userId),
+        isDeleted: false,
+      }).lean();
+
+      if (!parentProfile) return false;
+
+      const relations = await StudentParentRelation.find({
+        tenantId: new Types.ObjectId(auth.tenantId),
+        parentId: parentProfile._id,
+      }).lean();
+
+      const studentIds = relations.map((r) => r.studentId);
+      if (studentIds.length === 0) return false;
+
+      const enrollment = await StudentEnrollment.findOne({
+        tenantId: new Types.ObjectId(auth.tenantId),
+        studentId: { $in: studentIds },
+        academicYearId: academicClass.academicYearId,
+        $or: [
+          { academicClassId: academicClass._id },
+          { classId: academicClass.classId, sectionId: academicClass.sectionId },
+        ],
+        status: 'ENROLLED',
+      }).lean();
+
+      return !!enrollment;
+    }
+
+    return false;
+  }
+
+  /**
+   * Evaluates if the authenticated context is authorized to access a subject.
+   */
+  async canAccessSubject(auth: AuthContext, subjectId: string): Promise<boolean> {
+    if (!auth || !auth.tenantId || !auth.userId || !subjectId) {
+      return false;
+    }
+
+    if (!Types.ObjectId.isValid(subjectId)) {
+      return false;
+    }
+
+    const subject = await Subject.findOne({
+      _id: new Types.ObjectId(subjectId),
+      tenantId: new Types.ObjectId(auth.tenantId),
+      isDeleted: false,
+    }).lean();
+
+    return !!subject;
   }
 }
 

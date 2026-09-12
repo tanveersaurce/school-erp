@@ -18,6 +18,12 @@ import { StudentDetailsPage } from '../pages/students/StudentDetailsPage.js';
 import { GuardianListPage } from '../pages/guardians/GuardianListPage.js';
 import { GuardianDetailsPage } from '../pages/guardians/GuardianDetailsPage.js';
 import { MyChildrenPage } from '../pages/parent/MyChildrenPage.js';
+import { AcademicDashboardPage } from '../pages/academic/AcademicDashboardPage.js';
+import { ClassListPage } from '../pages/academic/ClassListPage.js';
+import { SectionListPage } from '../pages/academic/SectionListPage.js';
+import { AcademicClassListPage } from '../pages/academic/AcademicClassListPage.js';
+import { AcademicClassDetailsPage } from '../pages/academic/AcademicClassDetailsPage.js';
+import { SubjectListPage } from '../pages/academic/SubjectListPage.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -136,6 +142,66 @@ export const routes: RouteObject[] = [
       <ProtectedRoute>
         <MyChildrenPage />
       </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/academic',
+    element: (
+      <PermissionRoute
+        anyOf={[
+          'class:read',
+          'section:read',
+          'academic_class:read',
+          'subject:read',
+          'academic_class:manage',
+        ]}
+      >
+        <AcademicDashboardPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/academic/classes',
+    element: (
+      <PermissionRoute anyOf={['class:read', 'class:create', 'class:manage']}>
+        <ClassListPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/academic/sections',
+    element: (
+      <PermissionRoute anyOf={['section:read', 'section:create', 'section:manage']}>
+        <SectionListPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/academic/academic-classes',
+    element: (
+      <PermissionRoute
+        anyOf={['academic_class:read', 'academic_class:create', 'academic_class:manage']}
+      >
+        <AcademicClassListPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/academic/academic-classes/:id',
+    element: (
+      <PermissionRoute
+        anyOf={['academic_class:read', 'academic_class:update', 'academic_class:manage']}
+      >
+        <AcademicClassDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/academic/subjects',
+    element: (
+      <PermissionRoute anyOf={['subject:read', 'subject:create', 'subject:manage']}>
+        <SubjectListPage />
+      </PermissionRoute>
     ),
   },
   {
