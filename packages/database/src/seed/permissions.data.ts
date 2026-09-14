@@ -828,7 +828,14 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     category: 'ADMISSION',
   },
 
-  // Attendance & Classroom (7)
+  // Attendance & Classroom
+  {
+    resource: 'ATTENDANCE',
+    action: 'CREATE',
+    permissionString: 'attendance:create',
+    description: 'Create or draft student attendance',
+    category: 'ATTENDANCE',
+  },
   {
     resource: 'ATTENDANCE',
     action: 'MARK',
@@ -852,6 +859,20 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
   },
   {
     resource: 'ATTENDANCE',
+    action: 'SUBMIT',
+    permissionString: 'attendance:submit',
+    description: 'Submit class attendance for review/finalization',
+    category: 'ATTENDANCE',
+  },
+  {
+    resource: 'ATTENDANCE',
+    action: 'APPROVE',
+    permissionString: 'attendance:approve',
+    description: 'Approve submitted class attendance',
+    category: 'ATTENDANCE',
+  },
+  {
+    resource: 'ATTENDANCE',
     action: 'LOCK',
     permissionString: 'attendance:lock',
     description: 'Lock attendance registers against editing',
@@ -859,9 +880,51 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
   },
   {
     resource: 'ATTENDANCE',
+    action: 'CORRECT',
+    permissionString: 'attendance:correct',
+    description: 'Request or execute attendance corrections',
+    category: 'ATTENDANCE',
+  },
+  {
+    resource: 'ATTENDANCE',
+    action: 'REPORT',
+    permissionString: 'attendance:report',
+    description: 'View attendance analytics and summaries',
+    category: 'ATTENDANCE',
+  },
+  {
+    resource: 'ATTENDANCE',
     action: 'EXPORT',
     permissionString: 'attendance:export',
     description: 'Download attendance reports',
+    category: 'ATTENDANCE',
+  },
+  {
+    resource: 'HOLIDAY',
+    action: 'CREATE',
+    permissionString: 'holiday:create',
+    description: 'Declare school holidays and calendar breaks',
+    category: 'ATTENDANCE',
+  },
+  {
+    resource: 'HOLIDAY',
+    action: 'READ',
+    permissionString: 'holiday:read',
+    description: 'View declared school holidays',
+    category: 'ATTENDANCE',
+  },
+  {
+    resource: 'HOLIDAY',
+    action: 'UPDATE',
+    permissionString: 'holiday:update',
+    description: 'Modify declared school holidays',
+    category: 'ATTENDANCE',
+  },
+  {
+    resource: 'HOLIDAY',
+    action: 'DELETE',
+    permissionString: 'holiday:delete',
+    description: 'Remove declared school holidays',
     category: 'ATTENDANCE',
   },
   {

@@ -470,6 +470,27 @@ export class ResourcePolicy {
     if (!entry) return false;
     return this.canAccessTimetable(auth, entry.timetableId.toString());
   }
+
+  /**
+   * Evaluates if the authenticated context is authorized to access an attendance session document.
+   */
+  async canAccessAttendanceSession(auth: AuthContext, attendanceId: string): Promise<boolean> {
+    if (!auth || !auth.tenantId || !auth.userId || !attendanceId) return false;
+    if (!Types.ObjectId.isValid(attendanceId)) return false;
+    const { StudentAttendance } = await import('@edusphere/database');
+    const attendance = await StudentAttendance.findOne({
+      _id: new Types.ObjectId(attendanceId),
+      tenantId: new Types.ObjectId(auth.tenantId),
+    }).lean();
+    if (!attendance) return false;
+    if (auth.campusId && attendance.campusId && attendance.campusId.toString() !== auth.campusId) {
+      const isSuper = [UserType.SUPER_ADMIN, UserType.SCHOOL_ADMIN, UserType.PRINCIPAL].includes(
+        auth.userType as UserType
+      );
+      if (!isSuper) return false;
+    }
+    return true;
+  }
 }
 
 export const resourcePolicy = new ResourcePolicy();

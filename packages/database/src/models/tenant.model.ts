@@ -7,6 +7,7 @@ import {
   AcademicYearStatus,
   OnboardingStatus,
   WeekDay,
+  AttendanceMode,
 } from '@edusphere/common';
 import { ITenant, ISchool, ICampus, IAcademicYear } from '@edusphere/types';
 import { softDeletePlugin } from '../plugins/softDeletePlugin.js';
@@ -129,6 +130,19 @@ const SchoolSchema = new Schema<ISchoolDoc>(
         invoicePrefix: { type: String, default: 'INV' },
         receiptPrefix: { type: String, default: 'REC' },
         employeeIdPrefix: { type: String, default: 'EMP' },
+      },
+      attendance: {
+        attendanceMode: {
+          type: String,
+          enum: Object.values(AttendanceMode),
+          default: AttendanceMode.DAILY,
+        },
+        lateThresholdMinutes: { type: Number, default: 15 },
+        halfDayThresholdMinutes: { type: Number, default: 120 },
+        attendanceCutoffTime: { type: String },
+        approvalRequired: { type: Boolean, default: false },
+        allowDirectCorrection: { type: Boolean, default: true },
+        lowAttendanceThresholdPercentage: { type: Number, default: 75 },
       },
     },
     principalId: { type: Schema.Types.ObjectId, ref: 'User' },

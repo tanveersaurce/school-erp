@@ -16,3 +16,4 @@ export * from './student/student.service.js';
 export * from './academic/academic.routes.js';
 export * from './academic/academic.service.js';
 export * from './timetable/index.js';
+export * from './attendance/index.js';

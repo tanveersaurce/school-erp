@@ -32,6 +32,11 @@ import { ClassTimetablePage } from '../pages/timetable/ClassTimetablePage.js';
 import { TeacherTimetableViewPage } from '../pages/timetable/TeacherTimetableViewPage.js';
 import { RoomTimetableViewPage } from '../pages/timetable/RoomTimetableViewPage.js';
 import { MySchedulePage } from '../pages/timetable/MySchedulePage.js';
+import { AttendanceDashboardPage } from '../pages/attendance/AttendanceDashboardPage.js';
+import { MarkAttendancePage } from '../pages/attendance/MarkAttendancePage.js';
+import { AttendanceHistoryPage } from '../pages/attendance/AttendanceHistoryPage.js';
+import { AttendanceCorrectionsPage } from '../pages/attendance/AttendanceCorrectionsPage.js';
+import { AttendanceReportsPage } from '../pages/attendance/AttendanceReportsPage.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -289,6 +294,46 @@ export const routes: RouteObject[] = [
       <ProtectedRoute>
         <MySchedulePage />
       </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/attendance',
+    element: (
+      <PermissionRoute anyOf={['attendance:read', 'attendance:mark']}>
+        <AttendanceDashboardPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/attendance/mark',
+    element: (
+      <PermissionRoute anyOf={['attendance:mark']}>
+        <MarkAttendancePage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/attendance/history',
+    element: (
+      <PermissionRoute anyOf={['attendance:read']}>
+        <AttendanceHistoryPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/attendance/corrections',
+    element: (
+      <PermissionRoute anyOf={['attendance:correct', 'attendance:read']}>
+        <AttendanceCorrectionsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/attendance/reports',
+    element: (
+      <PermissionRoute anyOf={['attendance:read', 'attendance:reports']}>
+        <AttendanceReportsPage />
+      </PermissionRoute>
     ),
   },
   {

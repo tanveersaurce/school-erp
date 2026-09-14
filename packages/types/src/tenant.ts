@@ -6,6 +6,7 @@ import {
   AcademicYearStatus,
   OnboardingStatus,
   WeekDay,
+  AttendanceMode,
 } from '@edusphere/common';
 
 export interface TenantContext {
@@ -86,10 +87,21 @@ export interface ISchoolNumberingSettings {
   employeeIdPrefix: string;
 }
 
+export interface ISchoolAttendanceSettings {
+  attendanceMode: AttendanceMode;
+  lateThresholdMinutes: number;
+  halfDayThresholdMinutes: number;
+  attendanceCutoffTime?: string;
+  approvalRequired: boolean;
+  allowDirectCorrection: boolean;
+  lowAttendanceThresholdPercentage: number;
+}
+
 export interface ISchoolSettings {
   general: ISchoolGeneralSettings;
   workingDays: WeekDay[];
   numbering: ISchoolNumberingSettings;
+  attendance?: ISchoolAttendanceSettings;
 }
 
 export interface ISchool {

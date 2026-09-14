@@ -67,6 +67,32 @@ export enum AttendanceStatus {
   EXCUSED = 'EXCUSED',
 }
 
+export enum AttendanceMode {
+  DAILY = 'DAILY',
+  PERIOD = 'PERIOD',
+  BOTH = 'BOTH',
+}
+
+export enum AttendanceLifecycleStatus {
+  DRAFT = 'DRAFT',
+  SUBMITTED = 'SUBMITTED',
+  APPROVED = 'APPROVED',
+  LOCKED = 'LOCKED',
+}
+
+export enum CorrectionStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
+
+export enum HolidayType {
+  PUBLIC_HOLIDAY = 'PUBLIC_HOLIDAY',
+  SCHOOL_HOLIDAY = 'SCHOOL_HOLIDAY',
+  TERM_BREAK = 'TERM_BREAK',
+  EMERGENCY_CLOSURE = 'EMERGENCY_CLOSURE',
+}
+
 export enum InvoiceStatus {
   DRAFT = 'DRAFT',
   ISSUED = 'ISSUED',
