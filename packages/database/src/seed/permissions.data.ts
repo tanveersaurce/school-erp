@@ -1070,7 +1070,7 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     category: 'ACADEMIC',
   },
 
-  // Examinations & Grading (9)
+  // Examinations & Grading (24)
   {
     resource: 'EXAM',
     action: 'CREATE',
@@ -1083,6 +1083,20 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     action: 'READ',
     permissionString: 'exam:read',
     description: 'View exam details',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'EXAM',
+    action: 'UPDATE',
+    permissionString: 'exam:update',
+    description: 'Edit exam configuration and dates',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'EXAM',
+    action: 'DELETE',
+    permissionString: 'exam:delete',
+    description: 'Delete draft exams',
     category: 'EXAMINATION',
   },
   {
@@ -1107,6 +1121,20 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     category: 'EXAMINATION',
   },
   {
+    resource: 'EXAM',
+    action: 'ARCHIVE',
+    permissionString: 'exam:archive',
+    description: 'Archive completed exams',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'MARKS',
+    action: 'READ',
+    permissionString: 'marks:read',
+    description: 'View student marks sheets',
+    category: 'EXAMINATION',
+  },
+  {
     resource: 'MARKS',
     action: 'ENTRY',
     permissionString: 'marks:entry',
@@ -1115,9 +1143,72 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
   },
   {
     resource: 'MARKS',
+    action: 'UPDATE',
+    permissionString: 'marks:update',
+    description: 'Update draft marks entries',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'MARKS',
     action: 'VERIFY',
     permissionString: 'marks:verify',
     description: 'Verify and approve grade sheets',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'MARKS',
+    action: 'CORRECT',
+    permissionString: 'marks:correct',
+    description: 'Request or execute marks corrections',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'MARKS',
+    action: 'LOCK',
+    permissionString: 'marks:lock',
+    description: 'Lock marks to prevent further editing',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'RESULT',
+    action: 'CALCULATE',
+    permissionString: 'result:calculate',
+    description: 'Calculate student results, percentages, and grades',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'RESULT',
+    action: 'READ',
+    permissionString: 'result:read',
+    description: 'View student examination results',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'RESULT',
+    action: 'APPROVE',
+    permissionString: 'result:approve',
+    description: 'Approve calculated examination results',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'RESULT',
+    action: 'PUBLISH',
+    permissionString: 'result:publish',
+    description: 'Publish results to students and parents',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'RESULT',
+    action: 'CORRECT',
+    permissionString: 'result:correct',
+    description: 'Modify or revise published results',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'REPORT_CARD',
+    action: 'READ',
+    permissionString: 'report_card:read',
+    description: 'View report card summaries',
     category: 'EXAMINATION',
   },
   {
@@ -1132,6 +1223,20 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     action: 'PUBLISH',
     permissionString: 'report_card:publish',
     description: 'Release report cards to students/parents',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'GRADING_SCHEME',
+    action: 'READ',
+    permissionString: 'grading_scheme:read',
+    description: 'View grading scales and schemes',
+    category: 'EXAMINATION',
+  },
+  {
+    resource: 'GRADING_SCHEME',
+    action: 'MANAGE',
+    permissionString: 'grading_scheme:manage',
+    description: 'Create and edit grading schemes',
     category: 'EXAMINATION',
   },
 

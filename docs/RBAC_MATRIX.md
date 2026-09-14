@@ -92,10 +92,13 @@ The platform defines **158 fine-grained permissions** categorized by functional 
 - `attendance:mark`, `attendance:read`, `attendance:update`, `attendance:lock`, `attendance:export`
 - `homework:create`, `homework:read`, `homework:update`, `homework:grade`, `homework:submit`
 
-### Examination & Grading
+### Examination, Marks & Results (Phase 12 Expanded)
 
-- `exam:create`, `exam:read`, `exam:schedule`, `exam:publish`, `exam:lock`
-- `marks:entry`, `marks:verify`, `marks:override`, `report_card:generate`, `report_card:publish`
+- **Examination Lifecycle**: `exam:create`, `exam:read`, `exam:update`, `exam:delete`, `exam:schedule`, `exam:publish`, `exam:lock`, `exam:manage`
+- **Marks Roster & Locking**: `marks:entry`, `marks:read`, `marks:update`, `marks:verify`, `marks:lock`, `marks:correct`, `marks:override`, `marks:manage`
+- **Results Aggregation & Publishing**: `result:calculate`, `result:read`, `result:approve`, `result:publish`, `result:manage`
+- **Grading Schemes Engine**: `grading_scheme:create`, `grading_scheme:read`, `grading_scheme:update`, `grading_scheme:delete`, `grading_scheme:manage`
+- **Report Card Foundation**: `report_card:generate`, `report_card:read`, `report_card:publish`
 
 ### Financial & Billing
 

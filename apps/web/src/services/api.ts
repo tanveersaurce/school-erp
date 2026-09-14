@@ -124,6 +124,11 @@ export const baseApi = createApi({
     'Holiday',
     'Assignment',
     'AssignmentSubmission',
+    'Exam',
+    'ExamSchedule',
+    'ExamMark',
+    'Result',
+    'GradingScheme',
   ],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({

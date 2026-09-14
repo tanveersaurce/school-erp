@@ -46,6 +46,16 @@ import {
   StudentAssignmentSubmitPage,
   ParentChildAssignmentsPage,
 } from '../pages/assignments/index.js';
+import {
+  ExamDashboardPage,
+  ExamListPage,
+  CreateEditExamPage,
+  ExamDetailsPage,
+  ExamSchedulePage,
+  MarksEntryPage,
+  ResultsManagementPage,
+  StudentResultViewPage,
+} from '../pages/examinations/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -407,6 +417,86 @@ export const routes: RouteObject[] = [
       <ProtectedRoute>
         <ParentChildAssignmentsPage />
       </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/examinations',
+    element: (
+      <ProtectedRoute>
+        <ExamDashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/examinations/list',
+    element: (
+      <PermissionRoute anyOf={['exam:read', 'exam:manage']}>
+        <ExamListPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/examinations/new',
+    element: (
+      <PermissionRoute anyOf={['exam:create', 'exam:manage']}>
+        <CreateEditExamPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/examinations/:id/edit',
+    element: (
+      <PermissionRoute anyOf={['exam:update', 'exam:manage']}>
+        <CreateEditExamPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/examinations/:id',
+    element: (
+      <PermissionRoute anyOf={['exam:read', 'exam:manage']}>
+        <ExamDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/examinations/:id/schedule',
+    element: (
+      <PermissionRoute anyOf={['exam:schedule', 'exam:manage']}>
+        <ExamSchedulePage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/examinations/:id/marks',
+    element: (
+      <PermissionRoute anyOf={['marks:entry', 'marks:read', 'marks:manage']}>
+        <MarksEntryPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/examinations/:id/results',
+    element: (
+      <PermissionRoute anyOf={['result:calculate', 'result:approve', 'result:publish', 'result:read', 'exam:manage']}>
+        <ResultsManagementPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/examinations/my-results',
+    element: (
+      <ProtectedRoute>
+        <StudentResultViewPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/examinations/results/student/:studentId',
+    element: (
+      <PermissionRoute anyOf={['result:read', 'exam:manage']}>
+        <StudentResultViewPage />
+      </PermissionRoute>
     ),
   },
   {
