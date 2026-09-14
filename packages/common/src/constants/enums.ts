@@ -310,3 +310,48 @@ export enum TimetableEntryStatus {
   ACTIVE = 'ACTIVE',
   CANCELLED = 'CANCELLED',
 }
+
+export enum AssignmentType {
+  HOMEWORK = 'HOMEWORK',
+  ASSIGNMENT = 'ASSIGNMENT',
+  PROJECT = 'PROJECT',
+  PRACTICE = 'PRACTICE',
+  CLASSWORK = 'CLASSWORK',
+  OTHER = 'OTHER',
+}
+
+export enum AssignmentStatus {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  CLOSED = 'CLOSED',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum SubmissionType {
+  ONLINE_FILE = 'ONLINE_FILE',
+  ONLINE_TEXT = 'ONLINE_TEXT',
+  BOTH = 'BOTH',
+  OFFLINE = 'OFFLINE',
+}
+
+export enum AssignmentTargetType {
+  ALL = 'ALL',
+  SPECIFIC_STUDENTS = 'SPECIFIC_STUDENTS',
+}
+
+export enum AssignmentSubmissionStatus {
+  DRAFT = 'DRAFT',
+  SUBMITTED = 'SUBMITTED',
+  LATE = 'LATE',
+  GRADED = 'GRADED',
+  RETURNED = 'RETURNED',
+}
+
+export enum StudentAssignmentStatus {
+  NOT_STARTED = 'NOT_STARTED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  SUBMITTED = 'SUBMITTED',
+  LATE = 'LATE',
+  GRADED = 'GRADED',
+  OVERDUE = 'OVERDUE',
+}

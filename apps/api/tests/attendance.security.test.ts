@@ -367,8 +367,8 @@ describe('Phase 10: Attendance Security & Multi-Tenant RBAC Suite', () => {
     student2Id = s2._id.toString();
 
     await StudentEnrollment.create([
-      { tenantId: tenant1Id, schoolId: school1Id, campusId: campus1Id, studentId: s1._id, academicYearId: academicYear1Id, academicClassId: acDoc._id, status: 'ENROLLED' },
-      { tenantId: tenant1Id, schoolId: school1Id, campusId: campus1Id, studentId: s2._id, academicYearId: academicYear1Id, academicClassId: acDoc._id, status: 'ENROLLED' },
+      { tenantId: tenant1Id, schoolId: school1Id, campusId: campus1Id, studentId: s1._id, academicYearId: academicYear1Id, academicClassId: acDoc._id, classId: classDoc._id, sectionId: sectionDoc._id, rollNumber: 1, status: 'ENROLLED' },
+      { tenantId: tenant1Id, schoolId: school1Id, campusId: campus1Id, studentId: s2._id, academicYearId: academicYear1Id, academicClassId: acDoc._id, classId: classDoc._id, sectionId: sectionDoc._id, rollNumber: 2, status: 'ENROLLED' },
     ]);
 
     // Parent 1 (linked to Student 1 only)

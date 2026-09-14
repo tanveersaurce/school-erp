@@ -37,6 +37,15 @@ import { MarkAttendancePage } from '../pages/attendance/MarkAttendancePage.js';
 import { AttendanceHistoryPage } from '../pages/attendance/AttendanceHistoryPage.js';
 import { AttendanceCorrectionsPage } from '../pages/attendance/AttendanceCorrectionsPage.js';
 import { AttendanceReportsPage } from '../pages/attendance/AttendanceReportsPage.js';
+import {
+  AssignmentDashboardPage,
+  TeacherAssignmentListPage,
+  CreateEditAssignmentPage,
+  AssignmentDetailsPage,
+  StudentAssignmentListPage,
+  StudentAssignmentSubmitPage,
+  ParentChildAssignmentsPage,
+} from '../pages/assignments/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -334,6 +343,70 @@ export const routes: RouteObject[] = [
       <PermissionRoute anyOf={['attendance:read', 'attendance:reports']}>
         <AttendanceReportsPage />
       </PermissionRoute>
+    ),
+  },
+  {
+    path: '/assignments',
+    element: (
+      <ProtectedRoute>
+        <AssignmentDashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/assignments/list',
+    element: (
+      <PermissionRoute anyOf={['assignment:read', 'homework:read']}>
+        <TeacherAssignmentListPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/assignments/new',
+    element: (
+      <PermissionRoute anyOf={['assignment:create', 'homework:create']}>
+        <CreateEditAssignmentPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/assignments/:id/edit',
+    element: (
+      <PermissionRoute anyOf={['assignment:update', 'homework:update']}>
+        <CreateEditAssignmentPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/assignments/:id',
+    element: (
+      <PermissionRoute anyOf={['assignment:read', 'homework:read']}>
+        <AssignmentDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/assignments/student',
+    element: (
+      <ProtectedRoute>
+        <StudentAssignmentListPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/assignments/:id/submit',
+    element: (
+      <ProtectedRoute>
+        <StudentAssignmentSubmitPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/assignments/parent',
+    element: (
+      <ProtectedRoute>
+        <ParentChildAssignmentsPage />
+      </ProtectedRoute>
     ),
   },
   {

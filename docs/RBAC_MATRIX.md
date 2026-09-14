@@ -135,8 +135,14 @@ Below is the definitive baseline matrix for the **14 standard system roles**:
 | **Attendance Corrections (`attendance:correct`)** |   ✅    |      ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
 | **Correction Review (`attendance:correct:review`)** | ✅    |      ✅      |    ✅     |       ✅       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
 | **Attendance Reports (`attendance:report:read`)** |  ✅    |      ✅      |    ✅     |       ✅       |   ✅    |     👁️     |   ❌   |    ❌     |      ❌       |     ❌     |      👁️      |  ❌   |   ❌    |   ❌   |
-| **Homework (`homework:create/grade`)**      |     ✅      |      ✅      |    👁️     |       👁️       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
-| **Homework (`homework:submit`)**            |     ❌      |      ❌      |    ❌     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ✅*   |   ❌   |
+| **Assignments (`assignment:create/update/delete`)** | ✅ | ✅ | 👁️ | 👁️ | ✅* | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Assignments (`assignment:publish/close/archive`)** | ✅ | ✅ | 👁️ | 👁️ | ✅* | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Assignments (`assignment:read`)**         |     ✅      |      ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   👁️*   |  👁️*   |
+| **Submissions (`submission:create/update`)** |    ❌      |      ❌      |    ❌     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ✅*   |   ❌   |
+| **Submissions (`submission:read`)**          |    ✅      |      ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   👁️*   |  👁️*   |
+| **Submissions (`submission:grade/return`)**  |    ✅      |      ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Assignment Analytics (`assignment_report:read`)** | ✅ |   ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
+| **Legacy Homework (`homework:*`)**          |     ✅      |      ✅      |    👁️     |       👁️       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ✅*   |  👁️*   |
 | **Exams (`exam:create/schedule`)**          |     ✅      |      ✅      |    ✅     |       ✅       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
 | **Marks (`marks:entry`)**                   |     ✅      |      ✅      |    ✅     |       ✅       |   ✅*   |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
 | **Marks (`marks:verify/publish`)**          |     ✅      |      ✅      |    ✅     |       ❌       |   ❌    |     ❌     |   ❌   |    ❌     |      ❌       |     ❌     |      ❌      |  ❌   |   ❌    |   ❌   |
