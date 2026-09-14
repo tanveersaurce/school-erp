@@ -255,3 +255,32 @@ export enum TeacherAssignmentStatus {
   COMPLETED = 'COMPLETED',
   TRANSFERRED = 'TRANSFERRED',
 }
+
+export enum PeriodType {
+  TEACHING = 'TEACHING',
+  BREAK = 'BREAK',
+  LUNCH = 'LUNCH',
+  ACTIVITY = 'ACTIVITY',
+  ASSEMBLY = 'ASSEMBLY',
+}
+
+export enum TimetableStatus {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum RoomType {
+  CLASSROOM = 'CLASSROOM',
+  LABORATORY = 'LABORATORY',
+  COMPUTER_LAB = 'COMPUTER_LAB',
+  AUDITORIUM = 'AUDITORIUM',
+  LIBRARY = 'LIBRARY',
+  WORKSHOP = 'WORKSHOP',
+  OTHER = 'OTHER',
+}
+
+export enum TimetableEntryStatus {
+  ACTIVE = 'ACTIVE',
+  CANCELLED = 'CANCELLED',
+}

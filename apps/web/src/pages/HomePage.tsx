@@ -79,6 +79,12 @@ export function HomePage(): React.JSX.Element {
           </div>
 
           <Link
+            to="/timetable"
+            className="text-xs text-indigo-300 hover:text-white font-medium mr-1"
+          >
+            Timetable
+          </Link>
+          <Link
             to="/academic"
             className="text-xs text-indigo-300 hover:text-white font-medium mr-1"
           >
@@ -252,6 +258,24 @@ export function HomePage(): React.JSX.Element {
               <Button variant="secondary" size="sm" onClick={() => setIsDemoModalOpen(true)}>
                 Open Dialog Modal
               </Button>
+              <Link to="/timetable">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Timetable Hub
+                </Button>
+              </Link>
+              <Link to="/timetable/class-view">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Class Schedule Matrix
+                </Button>
+              </Link>
               <Link to="/academic">
                 <Button
                   variant="primary"

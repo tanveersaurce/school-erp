@@ -12,6 +12,10 @@ import {
   AcademicClass,
   Subject,
   FeeInvoice,
+  Timetable,
+  Period,
+  Classroom,
+  TimetableEntry,
 } from '@edusphere/database';
 
 export class ResourcePolicy {
@@ -371,6 +375,100 @@ export class ResourcePolicy {
     }).lean();
 
     return !!subject;
+  }
+
+  /**
+   * Evaluates if the authenticated context is authorized to access a timetable.
+   */
+  async canAccessTimetable(auth: AuthContext, timetableId: string): Promise<boolean> {
+    if (!auth || !auth.tenantId || !auth.userId || !timetableId) {
+      return false;
+    }
+
+    if (!Types.ObjectId.isValid(timetableId)) {
+      return false;
+    }
+
+    const timetable = await Timetable.findOne({
+      _id: new Types.ObjectId(timetableId),
+      tenantId: new Types.ObjectId(auth.tenantId),
+      isDeleted: false,
+    }).lean();
+
+    if (!timetable) {
+      return false;
+    }
+
+    // Campus isolation: if token is campus-scoped, it must match
+    if (auth.campusId && timetable.campusId && timetable.campusId.toString() !== auth.campusId) {
+      return false;
+    }
+
+    // Super Admin, School Admin, Principal, Vice Principal have full access
+    if (
+      auth.userType === UserType.SUPER_ADMIN ||
+      auth.userType === UserType.SCHOOL_ADMIN ||
+      auth.roles?.includes('SUPER_ADMIN') ||
+      auth.roles?.includes('SCHOOL_ADMIN') ||
+      auth.roles?.includes('PRINCIPAL') ||
+      auth.roles?.includes('VICE_PRINCIPAL')
+    ) {
+      return true;
+    }
+
+    // Teachers / Students / Parents can only access PUBLISHED timetables
+    if (timetable.status !== 'PUBLISHED') {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Evaluates if the authenticated context is authorized to access a period.
+   */
+  async canAccessPeriod(auth: AuthContext, periodId: string): Promise<boolean> {
+    if (!auth || !auth.tenantId || !auth.userId || !periodId) return false;
+    if (!Types.ObjectId.isValid(periodId)) return false;
+    const period = await Period.findOne({
+      _id: new Types.ObjectId(periodId),
+      tenantId: new Types.ObjectId(auth.tenantId),
+      isDeleted: false,
+    }).lean();
+    if (!period) return false;
+    if (auth.campusId && period.campusId && period.campusId.toString() !== auth.campusId) return false;
+    return true;
+  }
+
+  /**
+   * Evaluates if the authenticated context is authorized to access a classroom/room.
+   */
+  async canAccessClassroom(auth: AuthContext, classroomId: string): Promise<boolean> {
+    if (!auth || !auth.tenantId || !auth.userId || !classroomId) return false;
+    if (!Types.ObjectId.isValid(classroomId)) return false;
+    const classroom = await Classroom.findOne({
+      _id: new Types.ObjectId(classroomId),
+      tenantId: new Types.ObjectId(auth.tenantId),
+      isDeleted: false,
+    }).lean();
+    if (!classroom) return false;
+    if (auth.campusId && classroom.campusId && classroom.campusId.toString() !== auth.campusId) return false;
+    return true;
+  }
+
+  /**
+   * Evaluates if the authenticated context is authorized to access a timetable entry.
+   */
+  async canAccessTimetableEntry(auth: AuthContext, entryId: string): Promise<boolean> {
+    if (!auth || !auth.tenantId || !auth.userId || !entryId) return false;
+    if (!Types.ObjectId.isValid(entryId)) return false;
+    const entry = await TimetableEntry.findOne({
+      _id: new Types.ObjectId(entryId),
+      tenantId: new Types.ObjectId(auth.tenantId),
+      isDeleted: false,
+    }).lean();
+    if (!entry) return false;
+    return this.canAccessTimetable(auth, entry.timetableId.toString());
   }
 }
 
