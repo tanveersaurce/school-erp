@@ -47,6 +47,17 @@ export const Money = {
   },
 
   /**
+   * Alias for formatMoney
+   */
+  format(
+    minorUnits: number,
+    currency = 'USD',
+    locale = 'en-US'
+  ): string {
+    return Money.formatMoney(minorUnits, currency, locale);
+  },
+
+  /**
    * Adds integer minor units safely.
    */
   add(...amounts: number[]): number {

@@ -212,6 +212,7 @@ export enum LeaveStatus {
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
   CANCELLED = 'CANCELLED',
+  WITHDRAWN = 'WITHDRAWN',
 }
 
 export enum TenantPlan {
@@ -435,4 +436,86 @@ export enum StudentAssignmentStatus {
   LATE = 'LATE',
   GRADED = 'GRADED',
   OVERDUE = 'OVERDUE',
+}
+
+export enum LeaveDurationType {
+  FULL_DAY = 'FULL_DAY',
+  HALF_DAY = 'HALF_DAY',
+}
+
+export enum HalfDayPeriod {
+  FIRST_HALF = 'FIRST_HALF',
+  SECOND_HALF = 'SECOND_HALF',
+}
+
+export enum LeaveAccrualMode {
+  ANNUAL = 'ANNUAL',
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+}
+
+export enum SalaryComponentType {
+  EARNING = 'EARNING',
+  DEDUCTION = 'DEDUCTION',
+}
+
+export enum ComponentCalculationType {
+  FIXED = 'FIXED',
+  PERCENTAGE = 'PERCENTAGE',
+}
+
+export enum PayrollPeriodStatus {
+  DRAFT = 'DRAFT',
+  OPEN = 'OPEN',
+  PROCESSING = 'PROCESSING',
+  CALCULATED = 'CALCULATED',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  APPROVED = 'APPROVED',
+  PROCESSED = 'PROCESSED',
+  LOCKED = 'LOCKED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum PayrollPaymentStatus {
+  UNPAID = 'UNPAID',
+  PAYMENT_PENDING = 'PAYMENT_PENDING',
+  PAID = 'PAID',
+  FAILED = 'FAILED',
+  REVERSED = 'REVERSED',
+}
+
+export enum PayrollAdjustmentType {
+  BONUS = 'BONUS',
+  INCENTIVE = 'INCENTIVE',
+  ARREARS = 'ARREARS',
+  REIMBURSEMENT = 'REIMBURSEMENT',
+  ONE_TIME_DEDUCTION = 'ONE_TIME_DEDUCTION',
+  ADVANCE_DEDUCTION = 'ADVANCE_DEDUCTION',
+}
+
+export enum OvertimeStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  PROCESSED = 'PROCESSED',
+}
+
+export enum StatutoryType {
+  PF = 'PF',
+  ESI = 'ESI',
+  PROFESSIONAL_TAX = 'PROFESSIONAL_TAX',
+  TDS = 'TDS',
+  OTHER = 'OTHER',
+}
+
+export enum HRDocumentType {
+  ID_PROOF = 'ID_PROOF',
+  ADDRESS_PROOF = 'ADDRESS_PROOF',
+  EDUCATION_CERTIFICATE = 'EDUCATION_CERTIFICATE',
+  EXPERIENCE_CERTIFICATE = 'EXPERIENCE_CERTIFICATE',
+  OFFER_LETTER = 'OFFER_LETTER',
+  APPOINTMENT_LETTER = 'APPOINTMENT_LETTER',
+  CONTRACT = 'CONTRACT',
+  RESIGNATION_LETTER = 'RESIGNATION_LETTER',
+  OTHER = 'OTHER',
 }

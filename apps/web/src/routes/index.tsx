@@ -66,6 +66,16 @@ import {
   IncomeExpensePage,
   FinanceReportsPage,
 } from '../pages/finance/index.js';
+import {
+  HrDashboardPage,
+  EmployeeHrPage,
+  LeaveManagementPage,
+  SalaryManagementPage,
+  PayrollRunsPage,
+  PayrollDetailsPage,
+  PayslipsPage,
+  HrReportsPage,
+} from '../pages/hr/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -588,6 +598,81 @@ export const routes: RouteObject[] = [
     element: (
       <PermissionRoute anyOf={['finance_report:read']}>
         <FinanceReportsPage />
+      </PermissionRoute>
+    ),
+  },
+  // =========================================================================
+  // Phase 14: HR & Payroll Routes
+  // =========================================================================
+  {
+    path: '/hr',
+    element: (
+      <ProtectedRoute>
+        <HrDashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/hr/employees',
+    element: (
+      <PermissionRoute anyOf={['employee_hr:read', 'employee_hr:update']}>
+        <EmployeeHrPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hr/leaves',
+    element: (
+      <ProtectedRoute>
+        <LeaveManagementPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/hr/salaries',
+    element: (
+      <PermissionRoute anyOf={['salary_structure:read', 'salary_component:read', 'employee_salary:read']}>
+        <SalaryManagementPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hr/payroll',
+    element: (
+      <PermissionRoute anyOf={['payroll_period:read', 'payroll:read']}>
+        <PayrollRunsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hr/payroll/:id',
+    element: (
+      <PermissionRoute anyOf={['payroll_period:read', 'payroll:read']}>
+        <PayrollDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hr/payslips',
+    element: (
+      <ProtectedRoute>
+        <PayslipsPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/hr/payslips/:id',
+    element: (
+      <ProtectedRoute>
+        <PayslipsPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/hr/reports',
+    element: (
+      <PermissionRoute anyOf={['employee_hr:read', 'payroll:read']}>
+        <HrReportsPage />
       </PermissionRoute>
     ),
   },

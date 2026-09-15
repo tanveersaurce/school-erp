@@ -138,6 +138,17 @@ export const baseApi = createApi({
     'Income',
     'Expense',
     'FinanceReport',
+    'LeaveType',
+    'LeavePolicy',
+    'LeaveBalance',
+    'LeaveApplication',
+    'SalaryComponent',
+    'SalaryStructure',
+    'EmployeeSalaryAssignment',
+    'PayrollPeriod',
+    'PayrollItem',
+    'Payslip',
+    'HrReport',
   ],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({

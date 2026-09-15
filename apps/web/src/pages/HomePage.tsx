@@ -79,6 +79,12 @@ export function HomePage(): React.JSX.Element {
           </div>
 
           <Link
+            to="/hr"
+            className="text-xs text-indigo-300 hover:text-white font-medium mr-1"
+          >
+            HR & Payroll
+          </Link>
+          <Link
             to="/finance"
             className="text-xs text-indigo-300 hover:text-white font-medium mr-1"
           >
@@ -282,6 +288,15 @@ export function HomePage(): React.JSX.Element {
               <Button variant="secondary" size="sm" onClick={() => setIsDemoModalOpen(true)}>
                 Open Dialog Modal
               </Button>
+              <Link to="/hr">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  HR & Payroll Hub
+                </Button>
+              </Link>
               <Link to="/finance">
                 <Button
                   variant="primary"

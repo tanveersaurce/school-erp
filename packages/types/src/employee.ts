@@ -171,7 +171,12 @@ export interface IEmployee {
   employmentType: EmploymentType;
   employmentStatus: EmploymentStatus;
   joiningDate: Date;
+  probationStartDate?: Date;
+  probationEndDate?: Date;
   confirmationDate?: Date;
+  workLocation?: string;
+  resignationDate?: Date;
+  lastWorkingDate?: Date;
   terminationDate?: Date;
   terminationReason?: string;
   qualifications: IQualification[];
@@ -218,7 +223,12 @@ export interface EmployeeDto {
   employmentType: EmploymentType;
   employmentStatus: EmploymentStatus;
   joiningDate: string;
+  probationStartDate?: string;
+  probationEndDate?: string;
   confirmationDate?: string;
+  workLocation?: string;
+  resignationDate?: string;
+  lastWorkingDate?: string;
   terminationDate?: string;
   terminationReason?: string;
   qualifications: IQualification[];
