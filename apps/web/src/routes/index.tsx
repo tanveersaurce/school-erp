@@ -56,6 +56,16 @@ import {
   ResultsManagementPage,
   StudentResultViewPage,
 } from '../pages/examinations/index.js';
+import {
+  FinanceDashboardPage,
+  FeeStructuresPage,
+  FeeInvoicesPage,
+  FeePaymentsPage,
+  StudentLedgerPage,
+  RefundsManagementPage,
+  IncomeExpensePage,
+  FinanceReportsPage,
+} from '../pages/finance/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -496,6 +506,88 @@ export const routes: RouteObject[] = [
     element: (
       <PermissionRoute anyOf={['result:read', 'exam:manage']}>
         <StudentResultViewPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/finance',
+    element: (
+      <ProtectedRoute>
+        <FinanceDashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/finance/structures',
+    element: (
+      <PermissionRoute anyOf={['fee_structure:read', 'fee_structure:manage', 'fee_category:read']}>
+        <FeeStructuresPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/finance/invoices',
+    element: (
+      <PermissionRoute anyOf={['fee_invoice:read', 'fee_invoice:generate', 'fee_invoice:void']}>
+        <FeeInvoicesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/finance/payments',
+    element: (
+      <PermissionRoute anyOf={['payment:read', 'payment:collect']}>
+        <FeePaymentsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/finance/ledger',
+    element: (
+      <PermissionRoute anyOf={['finance_report:read', 'payment:read', 'fee_invoice:read']}>
+        <StudentLedgerPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/finance/my-fees',
+    element: (
+      <ProtectedRoute>
+        <StudentLedgerPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/finance/child-fees/:studentId',
+    element: (
+      <ProtectedRoute>
+        <StudentLedgerPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/finance/refunds',
+    element: (
+      <PermissionRoute
+        anyOf={['payment:refund_request', 'payment:refund_review', 'payment:refund_process']}
+      >
+        <RefundsManagementPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/finance/income-expense',
+    element: (
+      <PermissionRoute anyOf={['income_expense:manage', 'finance_report:read']}>
+        <IncomeExpensePage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/finance/reports',
+    element: (
+      <PermissionRoute anyOf={['finance_report:read']}>
+        <FinanceReportsPage />
       </PermissionRoute>
     ),
   },

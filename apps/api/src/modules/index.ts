@@ -19,3 +19,5 @@ export * from './timetable/index.js';
 export * from './attendance/index.js';
 export * from './assignment/index.js';
 export * from './examination/index.js';
+export * from './finance/index.js';
+

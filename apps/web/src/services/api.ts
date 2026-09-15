@@ -129,6 +129,15 @@ export const baseApi = createApi({
     'ExamMark',
     'Result',
     'GradingScheme',
+    'FeeCategory',
+    'FeeStructure',
+    'StudentFeeAssignment',
+    'FeeInvoice',
+    'Payment',
+    'Refund',
+    'Income',
+    'Expense',
+    'FinanceReport',
   ],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({

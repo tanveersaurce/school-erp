@@ -18,6 +18,7 @@ import { timetableRouter } from './modules/timetable/timetable.routes.js';
 import { attendanceRouter } from './modules/attendance/attendance.routes.js';
 import { assignmentRouter } from './modules/assignment/assignment.routes.js';
 import { examRouter } from './modules/examination/exam.routes.js';
+import { financeRouter } from './modules/finance/finance.routes.js';
 import { tenantContextMiddleware } from './middlewares/tenantContext.js';
 import { appConfig } from './config/app.js';
 import { getDatabaseStatus } from './config/database.js';
@@ -101,6 +102,7 @@ export function createApp(): Application {
   app.use(appConfig.apiPrefix, assignmentRouter);
   app.use(`${appConfig.apiPrefix}/examinations`, examRouter);
   app.use(`${appConfig.apiPrefix}/exams`, examRouter);
+  app.use(`${appConfig.apiPrefix}/finance`, financeRouter);
 
   // 10. Centralized Error & 404 Handlers
   app.use(notFoundHandler);

@@ -127,6 +127,38 @@ export enum HolidayType {
   EMERGENCY_CLOSURE = 'EMERGENCY_CLOSURE',
 }
 
+export enum FeeFrequency {
+  ONE_TIME = 'ONE_TIME',
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+  HALF_YEARLY = 'HALF_YEARLY',
+  ANNUAL = 'ANNUAL',
+}
+
+export enum FeeCategoryType {
+  TUITION = 'TUITION',
+  TRANSPORT = 'TRANSPORT',
+  HOSTEL = 'HOSTEL',
+  LAB = 'LAB',
+  LIBRARY = 'LIBRARY',
+  EXAMINATION = 'EXAMINATION',
+  SPORTS = 'SPORTS',
+  ADMISSION = 'ADMISSION',
+  ACTIVITY = 'ACTIVITY',
+  MISCELLANEOUS = 'MISCELLANEOUS',
+}
+
+export enum DiscountType {
+  PERCENTAGE = 'PERCENTAGE',
+  FLAT = 'FLAT',
+}
+
+export enum LateFeeType {
+  FLAT = 'FLAT',
+  DAILY_RATE = 'DAILY_RATE',
+  PERCENTAGE = 'PERCENTAGE',
+}
+
 export enum InvoiceStatus {
   DRAFT = 'DRAFT',
   ISSUED = 'ISSUED',
@@ -134,6 +166,7 @@ export enum InvoiceStatus {
   PAID = 'PAID',
   OVERDUE = 'OVERDUE',
   VOID = 'VOID',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum PaymentStatus {
@@ -141,6 +174,20 @@ export enum PaymentStatus {
   SUCCESS = 'SUCCESS',
   FAILED = 'FAILED',
   REFUNDED = 'REFUNDED',
+  PARTIALLY_REFUNDED = 'PARTIALLY_REFUNDED',
+}
+
+export enum RefundStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  PROCESSED = 'PROCESSED',
+}
+
+export enum ReconciliationStatus {
+  MATCHED = 'MATCHED',
+  DISCREPANCY = 'DISCREPANCY',
+  UNMATCHED = 'UNMATCHED',
 }
 
 export enum PaymentMethod {

@@ -1240,7 +1240,35 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     category: 'EXAMINATION',
   },
 
-  // Fees & Financial Ledger (10)
+  // Fees & Financial Ledger
+  {
+    resource: 'FEE_CATEGORY',
+    action: 'CREATE',
+    permissionString: 'fee_category:create',
+    description: 'Define fee categories and heads',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'FEE_CATEGORY',
+    action: 'READ',
+    permissionString: 'fee_category:read',
+    description: 'View fee categories and heads',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'FEE_CATEGORY',
+    action: 'UPDATE',
+    permissionString: 'fee_category:update',
+    description: 'Update fee categories',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'FEE_CATEGORY',
+    action: 'DELETE',
+    permissionString: 'fee_category:delete',
+    description: 'Delete fee categories',
+    category: 'FINANCE',
+  },
   {
     resource: 'FEE_STRUCTURE',
     action: 'CREATE',
@@ -1267,6 +1295,34 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     action: 'DELETE',
     permissionString: 'fee_structure:delete',
     description: 'Delete fee structure',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'FEE_ASSIGNMENT',
+    action: 'CREATE',
+    permissionString: 'fee_assignment:create',
+    description: 'Assign fee structures to students',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'FEE_ASSIGNMENT',
+    action: 'READ',
+    permissionString: 'fee_assignment:read',
+    description: 'View student fee assignments and concessions',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'FEE_ASSIGNMENT',
+    action: 'UPDATE',
+    permissionString: 'fee_assignment:update',
+    description: 'Update student fee assignments and concessions',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'FEE_ASSIGNMENT',
+    action: 'DELETE',
+    permissionString: 'fee_assignment:delete',
+    description: 'Delete student fee assignments',
     category: 'FINANCE',
   },
   {
@@ -1309,6 +1365,27 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     action: 'REFUND',
     permissionString: 'payment:refund',
     description: 'Process fee refunds',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'PAYMENT',
+    action: 'RECONCILE',
+    permissionString: 'payment:reconcile',
+    description: 'Reconcile gateway payments and transactions',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'FINANCE_REPORT',
+    action: 'READ',
+    permissionString: 'finance_report:read',
+    description: 'View financial summaries and defaulters reports',
+    category: 'FINANCE',
+  },
+  {
+    resource: 'INCOME_EXPENSE',
+    action: 'MANAGE',
+    permissionString: 'income_expense:manage',
+    description: 'Record and manage income and expense ledgers',
     category: 'FINANCE',
   },
 
