@@ -76,6 +76,18 @@ import {
   PayslipsPage,
   HrReportsPage,
 } from '../pages/hr/index.js';
+import {
+  LibraryDashboardPage,
+  BookCatalogPage,
+  BookDetailsPage,
+  CirculationDeskPage,
+  LibraryMembersPage,
+  ReservationsPage,
+  FinesManagementPage,
+  LibraryReportsPage,
+  LibrarySettingsPage,
+  MyLibraryPage,
+} from '../pages/library/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -674,6 +686,86 @@ export const routes: RouteObject[] = [
       <PermissionRoute anyOf={['employee_hr:read', 'payroll:read']}>
         <HrReportsPage />
       </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library',
+    element: (
+      <PermissionRoute anyOf={['library:read', 'book:read', 'circulation:read']}>
+        <LibraryDashboardPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/catalog',
+    element: (
+      <PermissionRoute anyOf={['book:read']}>
+        <BookCatalogPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/books/:id',
+    element: (
+      <PermissionRoute anyOf={['book:read']}>
+        <BookDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/circulation',
+    element: (
+      <PermissionRoute anyOf={['circulation:read', 'circulation:issue', 'circulation:return']}>
+        <CirculationDeskPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/members',
+    element: (
+      <PermissionRoute anyOf={['library_member:read', 'library:read']}>
+        <LibraryMembersPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/reservations',
+    element: (
+      <PermissionRoute anyOf={['reservation:read', 'reservation:manage']}>
+        <ReservationsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/fines',
+    element: (
+      <PermissionRoute anyOf={['fine:read', 'fine:collect', 'fine:waive']}>
+        <FinesManagementPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/reports',
+    element: (
+      <PermissionRoute anyOf={['library_report:read', 'library:read']}>
+        <LibraryReportsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/settings',
+    element: (
+      <PermissionRoute anyOf={['library_settings:manage', 'library:manage']}>
+        <LibrarySettingsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/library/me',
+    element: (
+      <ProtectedRoute>
+        <MyLibraryPage />
+      </ProtectedRoute>
     ),
   },
   {

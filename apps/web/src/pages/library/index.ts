@@ -1,0 +1,10 @@
+export { LibraryDashboardPage } from './LibraryDashboardPage.js';
+export { BookCatalogPage } from './BookCatalogPage.js';
+export { BookDetailsPage } from './BookDetailsPage.js';
+export { CirculationDeskPage } from './CirculationDeskPage.js';
+export { LibraryMembersPage } from './LibraryMembersPage.js';
+export { ReservationsPage } from './ReservationsPage.js';
+export { FinesManagementPage } from './FinesManagementPage.js';
+export { LibraryReportsPage } from './LibraryReportsPage.js';
+export { LibrarySettingsPage } from './LibrarySettingsPage.js';
+export { MyLibraryPage } from './MyLibraryPage.js';

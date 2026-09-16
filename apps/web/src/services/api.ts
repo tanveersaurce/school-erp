@@ -149,6 +149,15 @@ export const baseApi = createApi({
     'PayrollItem',
     'Payslip',
     'HrReport',
+    'Library',
+    'LibrarySettings',
+    'Book',
+    'BookCopy',
+    'LibraryMember',
+    'LibraryCirculation',
+    'LibraryReservation',
+    'LibraryFine',
+    'LibraryReport',
   ],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({

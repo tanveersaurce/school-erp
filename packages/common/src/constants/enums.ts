@@ -519,3 +519,94 @@ export enum HRDocumentType {
   RESIGNATION_LETTER = 'RESIGNATION_LETTER',
   OTHER = 'OTHER',
 }
+
+// ============================================================================
+// Phase 15: Library Management Enums
+// ============================================================================
+
+export enum BookCopyStatus {
+  AVAILABLE = 'AVAILABLE',
+  ISSUED = 'ISSUED',
+  RESERVED = 'RESERVED',
+  OVERDUE = 'OVERDUE',
+  LOST = 'LOST',
+  DAMAGED = 'DAMAGED',
+  UNDER_REPAIR = 'UNDER_REPAIR',
+  WITHDRAWN = 'WITHDRAWN',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum BookCondition {
+  NEW = 'NEW',
+  GOOD = 'GOOD',
+  FAIR = 'FAIR',
+  DAMAGED = 'DAMAGED',
+  LOST = 'LOST',
+}
+
+export enum LibraryMemberType {
+  STUDENT = 'STUDENT',
+  TEACHER = 'TEACHER',
+  STAFF = 'STAFF',
+}
+
+export enum LibraryMemberStatus {
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  EXPIRED = 'EXPIRED',
+  CLOSED = 'CLOSED',
+}
+
+export enum CirculationStatus {
+  ISSUED = 'ISSUED',
+  RETURNED = 'RETURNED',
+  OVERDUE = 'OVERDUE',
+  LOST = 'LOST',
+  DAMAGED = 'DAMAGED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum ReservationStatus {
+  PENDING = 'PENDING',
+  READY = 'READY',
+  FULFILLED = 'FULFILLED',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum LibraryFineType {
+  OVERDUE = 'OVERDUE',
+  LOST_BOOK = 'LOST_BOOK',
+  DAMAGED_BOOK = 'DAMAGED_BOOK',
+  MANUAL_PENALTY = 'MANUAL_PENALTY',
+}
+
+export enum LibraryFineStatus {
+  PENDING = 'PENDING',
+  PARTIALLY_PAID = 'PARTIALLY_PAID',
+  PAID = 'PAID',
+  WAIVED = 'WAIVED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum FineCalculationMethod {
+  DAILY_RATE = 'DAILY_RATE',
+  FIXED = 'FIXED',
+  PERCENTAGE = 'PERCENTAGE',
+}
+
+export enum BookWithdrawalReason {
+  LOST = 'LOST',
+  DAMAGED_BEYOND_REPAIR = 'DAMAGED_BEYOND_REPAIR',
+  OBSOLETE = 'OBSOLETE',
+  DUPLICATE = 'DUPLICATE',
+  OTHER = 'OTHER',
+}
+
+export enum DamagedBookAction {
+  REPAIR = 'REPAIR',
+  REPLACE = 'REPLACE',
+  CONTINUE_CIRCULATION = 'CONTINUE_CIRCULATION',
+  WITHDRAW = 'WITHDRAW',
+}
+
