@@ -610,3 +610,180 @@ export enum DamagedBookAction {
   WITHDRAW = 'WITHDRAW',
 }
 
+// ============================================================================
+// Phase 16: Transport Management Enums
+// ============================================================================
+
+export enum VehicleStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  MAINTENANCE = 'MAINTENANCE',
+  OUT_OF_SERVICE = 'OUT_OF_SERVICE',
+  RETIRED = 'RETIRED',
+}
+
+export enum VehicleTypeCode {
+  BUS = 'BUS',
+  MINI_BUS = 'MINI_BUS',
+  VAN = 'VAN',
+  OTHER = 'OTHER',
+}
+
+export enum VehicleDocumentType {
+  REGISTRATION = 'REGISTRATION',
+  INSURANCE = 'INSURANCE',
+  FITNESS = 'FITNESS',
+  PERMIT = 'PERMIT',
+  POLLUTION = 'POLLUTION',
+  ROADWORTHINESS = 'ROADWORTHINESS',
+  OTHER = 'OTHER',
+}
+
+export enum TransportDocumentStatus {
+  PENDING = 'PENDING',
+  VALID = 'VALID',
+  EXPIRING_SOON = 'EXPIRING_SOON',
+  EXPIRED = 'EXPIRED',
+  REJECTED = 'REJECTED',
+}
+
+export enum DriverStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  EXPIRED = 'EXPIRED',
+  TERMINATED = 'TERMINATED',
+}
+
+export enum DriverVerificationStatus {
+  PENDING = 'PENDING',
+  VERIFIED = 'VERIFIED',
+  REJECTED = 'REJECTED',
+}
+
+export enum DriverDocumentType {
+  DRIVING_LICENSE = 'DRIVING_LICENSE',
+  ID_DOCUMENT = 'ID_DOCUMENT',
+  MEDICAL_FITNESS = 'MEDICAL_FITNESS',
+  POLICE_VERIFICATION = 'POLICE_VERIFICATION',
+  OTHER = 'OTHER',
+}
+
+export enum RouteDirection {
+  PICKUP = 'PICKUP',
+  DROP = 'DROP',
+  BOTH = 'BOTH',
+}
+
+export enum TransportAssignmentStatus {
+  ACTIVE = 'ACTIVE',
+  PENDING = 'PENDING',
+  SUSPENDED = 'SUSPENDED',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum TripType {
+  MORNING_PICKUP = 'MORNING_PICKUP',
+  AFTERNOON_DROP = 'AFTERNOON_DROP',
+  SPECIAL_TRIP = 'SPECIAL_TRIP',
+}
+
+export enum TripStatus {
+  SCHEDULED = 'SCHEDULED',
+  READY = 'READY',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+  DELAYED = 'DELAYED',
+  INCIDENT = 'INCIDENT',
+}
+
+export enum StudentTripStatus {
+  ASSIGNED = 'ASSIGNED',
+  BOARDING = 'BOARDING',
+  BOARDED = 'BOARDED',
+  NOT_BOARDED = 'NOT_BOARDED',
+  DROPPED = 'DROPPED',
+  ABSENT = 'ABSENT',
+  MISSED_STOP = 'MISSED_STOP',
+  EMERGENCY = 'EMERGENCY',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum TransportIncidentType {
+  ACCIDENT = 'ACCIDENT',
+  BREAKDOWN = 'BREAKDOWN',
+  DELAY = 'DELAY',
+  STUDENT_BEHAVIOR = 'STUDENT_BEHAVIOR',
+  MEDICAL_EMERGENCY = 'MEDICAL_EMERGENCY',
+  ROUTE_DEVIATION = 'ROUTE_DEVIATION',
+  OTHER = 'OTHER',
+}
+
+export enum IncidentSeverity {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL',
+}
+
+export enum IncidentStatus {
+  OPEN = 'OPEN',
+  INVESTIGATING = 'INVESTIGATING',
+  RESOLVED = 'RESOLVED',
+  CLOSED = 'CLOSED',
+}
+
+export enum VehicleServiceType {
+  ROUTINE = 'ROUTINE',
+  ROUTINE_SERVICE = 'ROUTINE_SERVICE',
+  REPAIR = 'REPAIR',
+  EMERGENCY = 'EMERGENCY',
+  TIRE_CHANGE = 'TIRE_CHANGE',
+  OIL_CHANGE = 'OIL_CHANGE',
+  INSPECTION_REMEDY = 'INSPECTION_REMEDY',
+}
+
+export enum MaintenanceStatus {
+  SCHEDULED = 'SCHEDULED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum InspectionResult {
+  PASSED = 'PASSED',
+  FAILED = 'FAILED',
+  CONDITIONAL = 'CONDITIONAL',
+}
+
+export enum TransportFeeFrequency {
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+  HALF_YEARLY = 'HALF_YEARLY',
+  ANNUAL = 'ANNUAL',
+  ONE_TIME = 'ONE_TIME',
+}
+
+export enum TransportFeeBillingStatus {
+  PENDING = 'PENDING',
+  BILLED = 'BILLED',
+  INVOICED = 'INVOICED',
+  PAID = 'PAID',
+  EXEMPT = 'EXEMPT',
+}
+
+export enum BoardingVerificationPolicy {
+  MANUAL = 'MANUAL',
+  RFID_SIMULATED = 'RFID_SIMULATED',
+  BARCODE = 'BARCODE',
+}
+
+export enum TransportFeeModel {
+  ROUTE_BASED = 'ROUTE_BASED',
+  STOP_BASED = 'STOP_BASED',
+  DISTANCE_TIER = 'DISTANCE_TIER',
+  FLAT = 'FLAT',
+}
+

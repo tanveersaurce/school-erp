@@ -88,6 +88,26 @@ import {
   LibrarySettingsPage,
   MyLibraryPage,
 } from '../pages/library/index.js';
+import {
+  TransportDashboardPage,
+  VehiclesPage,
+  VehicleDetailsPage,
+  RoutesPage,
+  RouteDetailsPage,
+  StopsPage,
+  DriversPage,
+  AttendantsPage,
+  StudentAssignmentsPage,
+  TripsPage,
+  TripDetailsPage,
+  IncidentsPage,
+  MaintenancePage,
+  InspectionsPage,
+  DocumentsPage,
+  TransportReportsPage,
+  TransportSettingsPage,
+  MyTransportPage,
+} from '../pages/transport/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -765,6 +785,153 @@ export const routes: RouteObject[] = [
     element: (
       <ProtectedRoute>
         <MyLibraryPage />
+      </ProtectedRoute>
+    ),
+  },
+  // =========================================================================
+  // Phase 16: Transport Management Routes
+  // =========================================================================
+  {
+    path: '/transport',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <TransportDashboardPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/vehicles',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <VehiclesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/vehicles/:id',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <VehicleDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/routes',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <RoutesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/routes/:id',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <RouteDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/stops',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <StopsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/drivers',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <DriversPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/attendants',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <AttendantsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/assignments',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <StudentAssignmentsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/trips',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage', 'trip:execute']}>
+        <TripsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/trips/:id',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage', 'trip:execute']}>
+        <TripDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/incidents',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <IncidentsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/maintenance',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <MaintenancePage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/inspections',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage', 'vehicle:inspect']}>
+        <InspectionsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/documents',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <DocumentsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/reports',
+    element: (
+      <PermissionRoute anyOf={['transport:read', 'transport:manage']}>
+        <TransportReportsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/settings',
+    element: (
+      <PermissionRoute anyOf={['transport:manage']}>
+        <TransportSettingsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/transport/me',
+    element: (
+      <ProtectedRoute>
+        <MyTransportPage />
       </ProtectedRoute>
     ),
   },
