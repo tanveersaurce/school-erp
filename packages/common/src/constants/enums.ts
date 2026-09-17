@@ -787,3 +787,167 @@ export enum TransportFeeModel {
   FLAT = 'FLAT',
 }
 
+// ============================================================================
+// Phase 17 — Hostel Management Enums
+// ============================================================================
+
+export enum HostelType {
+  BOYS = 'BOYS',
+  GIRLS = 'GIRLS',
+  MIXED = 'MIXED',
+  STAFF = 'STAFF',
+  OTHER = 'OTHER',
+}
+
+export enum HostelStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  MAINTENANCE = 'MAINTENANCE',
+  CLOSED = 'CLOSED',
+}
+
+export enum RoomTypeCategory {
+  SINGLE = 'SINGLE',
+  DOUBLE = 'DOUBLE',
+  TRIPLE = 'TRIPLE',
+  FOUR_BED = 'FOUR_BED',
+  DORMITORY = 'DORMITORY',
+  OTHER = 'OTHER',
+}
+
+export enum RoomStatus {
+  AVAILABLE = 'AVAILABLE',
+  PARTIALLY_OCCUPIED = 'PARTIALLY_OCCUPIED',
+  FULL = 'FULL',
+  MAINTENANCE = 'MAINTENANCE',
+  CLOSED = 'CLOSED',
+}
+
+export enum BedStatus {
+  AVAILABLE = 'AVAILABLE',
+  OCCUPIED = 'OCCUPIED',
+  RESERVED = 'RESERVED',
+  MAINTENANCE = 'MAINTENANCE',
+  BLOCKED = 'BLOCKED',
+  RETIRED = 'RETIRED',
+}
+
+export enum HostelAllocationStatus {
+  PENDING = 'PENDING',
+  ALLOCATED = 'ALLOCATED',
+  CHECKED_IN = 'CHECKED_IN',
+  TRANSFERRED = 'TRANSFERRED',
+  CHECKED_OUT = 'CHECKED_OUT',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum HostelTransferReason {
+  ROOM_CHANGE = 'ROOM_CHANGE',
+  DISCIPLINARY = 'DISCIPLINARY',
+  MEDICAL = 'MEDICAL',
+  CAPACITY = 'CAPACITY',
+  MAINTENANCE = 'MAINTENANCE',
+  REQUESTED = 'REQUESTED',
+  OTHER = 'OTHER',
+}
+
+export enum HostelAttendanceStatus {
+  PRESENT = 'PRESENT',
+  ABSENT = 'ABSENT',
+  LEAVE = 'LEAVE',
+  OUT = 'OUT',
+  EXCUSED = 'EXCUSED',
+}
+
+export enum HostelOutingStatus {
+  REQUESTED = 'REQUESTED',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  OUT = 'OUT',
+  RETURNED = 'RETURNED',
+  CANCELLED = 'CANCELLED',
+  OVERDUE = 'OVERDUE',
+}
+
+export enum HostelIncidentType {
+  MEDICAL = 'MEDICAL',
+  DISCIPLINARY = 'DISCIPLINARY',
+  SAFETY = 'SAFETY',
+  PROPERTY_DAMAGE = 'PROPERTY_DAMAGE',
+  MISSING_ITEM = 'MISSING_ITEM',
+  CONFLICT = 'CONFLICT',
+  ABSENCE = 'ABSENCE',
+  OTHER = 'OTHER',
+}
+
+export enum HostelIncidentSeverity {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL',
+}
+
+export enum HostelIncidentStatus {
+  OPEN = 'OPEN',
+  INVESTIGATING = 'INVESTIGATING',
+  RESOLVED = 'RESOLVED',
+  CLOSED = 'CLOSED',
+}
+
+export enum HostelInspectionStatus {
+  PASSED = 'PASSED',
+  FAILED = 'FAILED',
+  NEEDS_ATTENTION = 'NEEDS_ATTENTION',
+}
+
+export enum HostelMaintenancePriority {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  URGENT = 'URGENT',
+}
+
+export enum HostelMaintenanceStatus {
+  OPEN = 'OPEN',
+  ASSIGNED = 'ASSIGNED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  RESOLVED = 'RESOLVED',
+  CLOSED = 'CLOSED',
+}
+
+export enum HostelMaintenanceCategory {
+  PLUMBING = 'PLUMBING',
+  ELECTRICAL = 'ELECTRICAL',
+  CARPENTRY = 'CARPENTRY',
+  PAINTING = 'PAINTING',
+  APPLIANCE = 'APPLIANCE',
+  CLEANING = 'CLEANING',
+  FURNITURE = 'FURNITURE',
+  OTHER = 'OTHER',
+}
+
+export enum HostelStaffRole {
+  WARDEN = 'WARDEN',
+  ASSISTANT_WARDEN = 'ASSISTANT_WARDEN',
+  CARETAKER = 'CARETAKER',
+  SECURITY = 'SECURITY',
+  STAFF = 'STAFF',
+}
+
+export enum HostelBillingFrequency {
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+  HALF_YEARLY = 'HALF_YEARLY',
+  ANNUAL = 'ANNUAL',
+  CUSTOM = 'CUSTOM',
+}
+
+export enum HostelGenderPolicy {
+  MALE_ONLY = 'MALE_ONLY',
+  FEMALE_ONLY = 'FEMALE_ONLY',
+  COED = 'COED',
+  RESTRICTED = 'RESTRICTED',
+}
+
+

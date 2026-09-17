@@ -23,3 +23,4 @@ export * from './finance/index.js';
 export * from './hr/index.js';
 export * from './library/index.js';
 export * from './transport/index.js';
+export * from './hostel/index.js';

@@ -108,6 +108,27 @@ import {
   TransportSettingsPage,
   MyTransportPage,
 } from '../pages/transport/index.js';
+import {
+  HostelDashboardPage,
+  HostelsPage,
+  HostelDetailsPage,
+  BuildingsPage,
+  RoomsPage,
+  RoomDetailsPage,
+  BedsPage,
+  AllocationsPage,
+  CheckInCheckOutPage,
+  TransfersPage,
+  HostelAttendancePage,
+  OutingsPage,
+  HostelIncidentsPage,
+  HostelMaintenancePage,
+  HostelInspectionsPage,
+  HostelDocumentsPage,
+  HostelReportsPage,
+  HostelSettingsPage,
+  MyHostelPage,
+} from '../pages/hostel/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -932,6 +953,161 @@ export const routes: RouteObject[] = [
     element: (
       <ProtectedRoute>
         <MyTransportPage />
+      </ProtectedRoute>
+    ),
+  },
+  // =========================================================================
+  // Phase 17 — Hostel & Residential Management
+  // =========================================================================
+  {
+    path: '/hostel',
+    element: (
+      <PermissionRoute anyOf={['hostel:read', 'hostel:manage', 'hostel:reports']}>
+        <HostelDashboardPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/hostels',
+    element: (
+      <PermissionRoute anyOf={['hostel:read', 'hostel:manage']}>
+        <HostelsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/hostels/:id',
+    element: (
+      <PermissionRoute anyOf={['hostel:read', 'hostel:manage']}>
+        <HostelDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/buildings',
+    element: (
+      <PermissionRoute anyOf={['hostel:read', 'hostel:manage']}>
+        <BuildingsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/rooms',
+    element: (
+      <PermissionRoute anyOf={['hostel:read', 'hostel:manage']}>
+        <RoomsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/rooms/:id',
+    element: (
+      <PermissionRoute anyOf={['hostel:read', 'hostel:manage']}>
+        <RoomDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/beds',
+    element: (
+      <PermissionRoute anyOf={['hostel:read', 'hostel:manage']}>
+        <BedsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/allocations',
+    element: (
+      <PermissionRoute anyOf={['hostel:read', 'hostel:manage', 'hostel:allocate']}>
+        <AllocationsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/check-in-out',
+    element: (
+      <PermissionRoute anyOf={['hostel:manage', 'hostel:allocate']}>
+        <CheckInCheckOutPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/transfers',
+    element: (
+      <PermissionRoute anyOf={['hostel:manage', 'hostel:allocate']}>
+        <TransfersPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/attendance',
+    element: (
+      <PermissionRoute anyOf={['hostel:attendance', 'hostel:manage']}>
+        <HostelAttendancePage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/outings',
+    element: (
+      <PermissionRoute anyOf={['hostel:outing', 'hostel:manage']}>
+        <OutingsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/incidents',
+    element: (
+      <PermissionRoute anyOf={['hostel:incident', 'hostel:manage']}>
+        <HostelIncidentsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/maintenance',
+    element: (
+      <PermissionRoute anyOf={['hostel:maintenance', 'hostel:manage']}>
+        <HostelMaintenancePage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/inspections',
+    element: (
+      <PermissionRoute anyOf={['hostel:maintenance', 'hostel:manage']}>
+        <HostelInspectionsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/documents',
+    element: (
+      <PermissionRoute anyOf={['hostel:manage', 'hostel:read']}>
+        <HostelDocumentsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/reports',
+    element: (
+      <PermissionRoute anyOf={['hostel:reports', 'hostel:manage']}>
+        <HostelReportsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/settings',
+    element: (
+      <PermissionRoute anyOf={['hostel:manage']}>
+        <HostelSettingsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/hostel/me',
+    element: (
+      <ProtectedRoute>
+        <MyHostelPage />
       </ProtectedRoute>
     ),
   },

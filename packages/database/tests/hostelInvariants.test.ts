@@ -5,6 +5,8 @@ import {
   Tenant,
   School,
   Hostel,
+  HostelBuilding,
+  HostelFloor,
   Room,
   Bed,
   HostelAllocation,
@@ -24,6 +26,11 @@ describe('Hostel Bed Allocation Invariants Suite', () => {
 
   beforeAll(async () => {
     await setupTestDB();
+    await Hostel.init();
+    await HostelBuilding.init();
+    await HostelFloor.init();
+    await Room.init();
+    await Bed.init();
     await HostelAllocation.init();
   });
 
@@ -199,6 +206,88 @@ describe('Hostel Bed Allocation Invariants Suite', () => {
         bedId: bed2._id,
         academicYearId,
         status: 'ALLOCATED',
+      })
+    ).rejects.toThrow(/E11000 duplicate key error/);
+  });
+
+  it('should prevent concurrent allocations when student is CHECKED_IN', async () => {
+    // Tom occupies Bed A and checks in
+    await HostelAllocation.create({
+      tenantId,
+      studentId: student1Id,
+      hostelId,
+      roomId,
+      bedId,
+      academicYearId,
+      status: 'CHECKED_IN',
+      actualCheckInDate: new Date(),
+    });
+
+    // Attempt to concurrently allocate same Bed A to Draco
+    await expect(
+      HostelAllocation.create({
+        tenantId,
+        studentId: student2Id,
+        hostelId,
+        roomId,
+        bedId,
+        academicYearId,
+        status: 'ALLOCATED',
+      })
+    ).rejects.toThrow(/E11000 duplicate key error/);
+  });
+
+  it('should prevent duplicate building codes within the same hostel', async () => {
+    await HostelBuilding.create({
+      tenantId,
+      schoolId,
+      hostelId,
+      name: 'Block Alpha',
+      code: 'BLK-A',
+      numberOfFloors: 3,
+    });
+
+    await expect(
+      HostelBuilding.create({
+        tenantId,
+        schoolId,
+        hostelId,
+        name: 'Block Annex',
+        code: 'BLK-A',
+        numberOfFloors: 2,
+      })
+    ).rejects.toThrow(/E11000 duplicate key error/);
+  });
+
+  it('should prevent duplicate floor numbers within the same building', async () => {
+    const building = await HostelBuilding.create({
+      tenantId,
+      schoolId,
+      hostelId,
+      name: 'Block Bravo',
+      code: 'BLK-B',
+      numberOfFloors: 4,
+    });
+
+    await HostelFloor.create({
+      tenantId,
+      schoolId,
+      hostelId,
+      buildingId: building._id,
+      name: 'First Floor',
+      floorNumber: 1,
+      code: 'FLR-1',
+    });
+
+    await expect(
+      HostelFloor.create({
+        tenantId,
+        schoolId,
+        hostelId,
+        buildingId: building._id,
+        name: 'First Floor Duplicate',
+        floorNumber: 1,
+        code: 'FLR-1-DUP',
       })
     ).rejects.toThrow(/E11000 duplicate key error/);
   });
