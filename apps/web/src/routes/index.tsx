@@ -129,6 +129,29 @@ import {
   HostelSettingsPage,
   MyHostelPage,
 } from '../pages/hostel/index.js';
+import {
+  InventoryDashboardPage,
+  InventoryItemsPage,
+  InventoryItemDetailsPage,
+  InventoryCategoriesPage,
+  InventoryUnitsPage,
+  InventorySuppliersPage,
+  InventoryStoresPage,
+  InventoryStoreDetailsPage,
+  InventoryStockPage,
+  InventoryReceiptsPage,
+  InventoryIssuesPage,
+  InventoryReturnsPage,
+  InventoryTransfersPage,
+  InventoryAdjustmentsPage,
+  InventoryStocktakesPage,
+  InventoryReservationsPage,
+  InventoryAssetsPage,
+  InventoryAssetDetailsPage,
+  InventoryMaintenancePage,
+  InventoryReportsPage,
+  InventorySettingsPage,
+} from '../pages/inventory/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -1109,6 +1132,177 @@ export const routes: RouteObject[] = [
       <ProtectedRoute>
         <MyHostelPage />
       </ProtectedRoute>
+    ),
+  },
+  // =========================================================================
+  // Phase 18: Inventory Management
+  // =========================================================================
+  {
+    path: '/inventory',
+    element: (
+      <PermissionRoute anyOf={['inventory:read', 'inventory:manage', 'inventory_item:read']}>
+        <InventoryDashboardPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/items',
+    element: (
+      <PermissionRoute anyOf={['inventory_item:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryItemsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/items/:id',
+    element: (
+      <PermissionRoute anyOf={['inventory_item:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryItemDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/categories',
+    element: (
+      <PermissionRoute anyOf={['inventory_item:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryCategoriesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/units',
+    element: (
+      <PermissionRoute anyOf={['inventory_item:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryUnitsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/suppliers',
+    element: (
+      <PermissionRoute anyOf={['inventory_supplier:read', 'inventory:read', 'inventory:manage']}>
+        <InventorySuppliersPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/stores',
+    element: (
+      <PermissionRoute anyOf={['inventory_store:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryStoresPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/stores/:id',
+    element: (
+      <PermissionRoute anyOf={['inventory_store:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryStoreDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/stock',
+    element: (
+      <PermissionRoute anyOf={['inventory_stock:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryStockPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/receipts',
+    element: (
+      <PermissionRoute anyOf={['inventory_receipt:read', 'inventory_receipt:create', 'inventory:manage']}>
+        <InventoryReceiptsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/issues',
+    element: (
+      <PermissionRoute anyOf={['inventory_issue:read', 'inventory_issue:create', 'inventory:manage']}>
+        <InventoryIssuesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/returns',
+    element: (
+      <PermissionRoute anyOf={['inventory_issue:read', 'inventory:manage']}>
+        <InventoryReturnsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/transfers',
+    element: (
+      <PermissionRoute anyOf={['inventory_transfer:read', 'inventory_transfer:create', 'inventory:manage']}>
+        <InventoryTransfersPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/adjustments',
+    element: (
+      <PermissionRoute anyOf={['inventory_adjustment:read', 'inventory_adjustment:create', 'inventory:manage']}>
+        <InventoryAdjustmentsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/stocktakes',
+    element: (
+      <PermissionRoute anyOf={['stocktake:read', 'stocktake:create', 'inventory:manage']}>
+        <InventoryStocktakesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/reservations',
+    element: (
+      <PermissionRoute anyOf={['inventory_stock:read', 'inventory:manage']}>
+        <InventoryReservationsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/assets',
+    element: (
+      <PermissionRoute anyOf={['inventory_asset:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryAssetsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/assets/:id',
+    element: (
+      <PermissionRoute anyOf={['inventory_asset:read', 'inventory:read', 'inventory:manage']}>
+        <InventoryAssetDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/maintenance',
+    element: (
+      <PermissionRoute anyOf={['inventory_asset:maintenance', 'inventory:manage']}>
+        <InventoryMaintenancePage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/reports',
+    element: (
+      <PermissionRoute anyOf={['inventory_report:read', 'inventory:manage']}>
+        <InventoryReportsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/inventory/settings',
+    element: (
+      <PermissionRoute anyOf={['inventory:manage']}>
+        <InventorySettingsPage />
+      </PermissionRoute>
     ),
   },
   {

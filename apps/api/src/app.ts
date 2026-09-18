@@ -23,6 +23,7 @@ import { hrRouter } from './modules/hr/hr.routes.js';
 import { libraryRouter } from './modules/library/library.routes.js';
 import { transportRouter } from './modules/transport/transport.routes.js';
 import { hostelRouter } from './modules/hostel/hostel.routes.js';
+import { inventoryRouter } from './modules/inventory/inventory.routes.js';
 import { tenantContextMiddleware } from './middlewares/tenantContext.js';
 import { appConfig } from './config/app.js';
 import { getDatabaseStatus } from './config/database.js';
@@ -111,6 +112,7 @@ export function createApp(): Application {
   app.use(`${appConfig.apiPrefix}/library`, libraryRouter);
   app.use(`${appConfig.apiPrefix}/transport`, transportRouter);
   app.use(`${appConfig.apiPrefix}/hostel`, hostelRouter);
+  app.use(`${appConfig.apiPrefix}/inventory`, inventoryRouter);
 
   // 10. Centralized Error & 404 Handlers
   app.use(notFoundHandler);

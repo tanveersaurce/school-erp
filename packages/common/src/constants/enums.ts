@@ -9,6 +9,7 @@ export enum UserType {
   LIBRARIAN = 'LIBRARIAN',
   TRANSPORT_MANAGER = 'TRANSPORT_MANAGER',
   HOSTEL_MANAGER = 'HOSTEL_MANAGER',
+  INVENTORY_MANAGER = 'INVENTORY_MANAGER',
   RECEPTIONIST = 'RECEPTIONIST',
   STAFF = 'STAFF',
   STUDENT = 'STUDENT',
@@ -948,6 +949,188 @@ export enum HostelGenderPolicy {
   FEMALE_ONLY = 'FEMALE_ONLY',
   COED = 'COED',
   RESTRICTED = 'RESTRICTED',
+}
+
+// ============================================================================
+// Phase 18 — Inventory Management Enums
+// ============================================================================
+
+export enum InventoryItemType {
+  CONSUMABLE = 'CONSUMABLE',
+  ASSET = 'ASSET',
+  SERVICE_MATERIAL = 'SERVICE_MATERIAL',
+  OTHER = 'OTHER',
+}
+
+export enum AssetStatus {
+  AVAILABLE = 'AVAILABLE',
+  ASSIGNED = 'ASSIGNED',
+  IN_USE = 'IN_USE',
+  MAINTENANCE = 'MAINTENANCE',
+  DAMAGED = 'DAMAGED',
+  LOST = 'LOST',
+  RETIRED = 'RETIRED',
+  DISPOSED = 'DISPOSED',
+}
+
+export enum AssetCondition {
+  NEW = 'NEW',
+  GOOD = 'GOOD',
+  FAIR = 'FAIR',
+  DAMAGED = 'DAMAGED',
+  CRITICAL = 'CRITICAL',
+  OTHER = 'OTHER',
+}
+
+export enum AssetAssignmentType {
+  EMPLOYEE = 'EMPLOYEE',
+  DEPARTMENT = 'DEPARTMENT',
+  CLASSROOM = 'CLASSROOM',
+  STUDENT = 'STUDENT',
+  NONE = 'NONE',
+}
+
+export enum InventoryStoreStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  CLOSED = 'CLOSED',
+}
+
+export enum InventoryLocationType {
+  AISLE = 'AISLE',
+  RACK = 'RACK',
+  SHELF = 'SHELF',
+  BIN = 'BIN',
+  ZONE = 'ZONE',
+  ROOM = 'ROOM',
+  OTHER = 'OTHER',
+}
+
+export enum StockMovementType {
+  RECEIPT = 'RECEIPT',
+  ISSUE = 'ISSUE',
+  RETURN = 'RETURN',
+  TRANSFER_IN = 'TRANSFER_IN',
+  TRANSFER_OUT = 'TRANSFER_OUT',
+  ADJUSTMENT_IN = 'ADJUSTMENT_IN',
+  ADJUSTMENT_OUT = 'ADJUSTMENT_OUT',
+  DAMAGE = 'DAMAGE',
+  LOSS = 'LOSS',
+  DISPOSAL = 'DISPOSAL',
+  OPENING_BALANCE = 'OPENING_BALANCE',
+}
+
+export enum StockReceiptStatus {
+  DRAFT = 'DRAFT',
+  RECEIVED = 'RECEIVED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum StockIssueStatus {
+  DRAFT = 'DRAFT',
+  ISSUED = 'ISSUED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum StockIssueDestinationType {
+  DEPARTMENT = 'DEPARTMENT',
+  EMPLOYEE = 'EMPLOYEE',
+  CLASSROOM = 'CLASSROOM',
+  STUDENT = 'STUDENT',
+  OTHER = 'OTHER',
+}
+
+export enum StockReturnStatus {
+  DRAFT = 'DRAFT',
+  RETURNED = 'RETURNED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum StockTransferStatus {
+  DRAFT = 'DRAFT',
+  REQUESTED = 'REQUESTED',
+  APPROVED = 'APPROVED',
+  IN_TRANSIT = 'IN_TRANSIT',
+  RECEIVED = 'RECEIVED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum StockAdjustmentType {
+  INCREASE = 'INCREASE',
+  DECREASE = 'DECREASE',
+}
+
+export enum StockAdjustmentReason {
+  PHYSICAL_COUNT = 'PHYSICAL_COUNT',
+  DAMAGE = 'DAMAGE',
+  LOSS = 'LOSS',
+  EXPIRY = 'EXPIRY',
+  CORRECTION = 'CORRECTION',
+  OPENING_BALANCE = 'OPENING_BALANCE',
+  OTHER = 'OTHER',
+}
+
+export enum StockAdjustmentStatus {
+  DRAFT = 'DRAFT',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
+
+export enum StocktakeStatus {
+  DRAFT = 'DRAFT',
+  COUNTING = 'COUNTING',
+  REVIEW = 'REVIEW',
+  APPROVED = 'APPROVED',
+  CLOSED = 'CLOSED',
+}
+
+export enum StockReservationStatus {
+  ACTIVE = 'ACTIVE',
+  FULFILLED = 'FULFILLED',
+  RELEASED = 'RELEASED',
+  EXPIRED = 'EXPIRED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum AssetMaintenanceType {
+  PREVENTIVE = 'PREVENTIVE',
+  REPAIR = 'REPAIR',
+  INSPECTION = 'INSPECTION',
+  CALIBRATION = 'CALIBRATION',
+  UPGRADE = 'UPGRADE',
+  OTHER = 'OTHER',
+}
+
+export enum AssetMaintenanceStatus {
+  REPORTED = 'REPORTED',
+  SCHEDULED = 'SCHEDULED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum AssetDisposalReason {
+  OBSOLETE = 'OBSOLETE',
+  DAMAGED = 'DAMAGED',
+  BEYOND_REPAIR = 'BEYOND_REPAIR',
+  LOST = 'LOST',
+  REPLACEMENT = 'REPLACEMENT',
+  OTHER = 'OTHER',
+}
+
+export enum AssetDisposalMethod {
+  SCRAP = 'SCRAP',
+  SALE = 'SALE',
+  DONATION = 'DONATION',
+  E_WASTE = 'E_WASTE',
+  RECYCLE = 'RECYCLE',
+  OTHER = 'OTHER',
+}
+
+export enum InventoryValuationMethod {
+  WEIGHTED_AVERAGE = 'WEIGHTED_AVERAGE',
+  FIFO = 'FIFO',
+  STANDARD_COST = 'STANDARD_COST',
 }
 
 

@@ -1,7 +1,7 @@
 # PROJECT_STATE.md — Workspace Inspection & Current State Analysis
 
-**Document Version:** 1.17.0  
-**Active Phase Completed:** Phase 17 — Hostel Management (COMPLETED)  
+**Document Version:** 1.18.0  
+**Active Phase Completed:** Phase 18 — Inventory Management (COMPLETED)  
 **Date:** September 17, 2026  
 **Author:** Principal Software Architect & Lead Security Engineer  
 
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary & Current State
 
-The EduSphere ERP multi-tenant SaaS platform has successfully progressed through Phases 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, and 17. The system is verified, tested, and fully functional across database, backend, and frontend.
+The EduSphere ERP multi-tenant SaaS platform has successfully progressed through Phases 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, and 18. The system is verified, tested, and fully functional across database, backend, and frontend.
 
 ### Phase Completion Milestones:
 
@@ -31,19 +31,20 @@ The EduSphere ERP multi-tenant SaaS platform has successfully progressed through
 - **Phase 15 — Library Management**: Decoupled bibliographic cataloging (`Book`) and physical barcode tracking (`BookCopy`); shelf location mapping; circulation lifecycle (`Circulation` checkout, renewals, checkin); zero-float overdue and replacement fine calculation; supervisor waiver audits; FIFO reservation queues; student/parent anti-IDOR self-service (`/library/me/*`); 18 fine-grained permissions (285 system permissions total); and 10 responsive React web pages.
 - **Phase 16 — Transport Management**: Fleet inventory and vehicle tracking (`Vehicle`, `VehicleType`); multi-stop sequenced routes (`TransportRoute`, `TransportStop`) with version history; driver and attendant compliance linking directly to Phase 6 `Employee`; student transport allocations with atomic capacity protection; zero-float tri-model fee billing (distance-tiered, flat-rate, zone-based) linked directly to Phase 13 `FeeInvoice` (`FeeCategoryType.TRANSPORT`); trip dispatch operations (`TransportTrip`) with student boarding roll-call and privacy-guarded GPS telemetry; vehicle maintenance and multi-point safety inspections; incident reporting; anti-IDOR parent and student views; 20 fine-grained permissions (305 system permissions total); and 18 responsive React web pages.
 - **Phase 17 — Hostel Management**: Physical bed inventory (`HostelBed`) as the single source of truth for capacity & occupancy; 5-tier structural hierarchy (`Hostel` ➔ `HostelBuilding` ➔ `HostelFloor` ➔ `HostelRoom` ➔ `HostelBed`); staff & warden integration 1:1 with Phase 6 `Employee`; student boarding allocations (`HostelStudentAllocation`) with atomic double-booking prevention, gender validation, check-in, property checkout clearance, and room transfer tracking (`HostelTransferRecord`); curfew & residential attendance roll call (`HostelAttendance`); boarder gate pass lifecycle (`HostelOuting`) with departure/return timestamps and overdue curfew alerts; zero-float fee billing integrated with Phase 13 `FeeInvoice` (`FeeCategoryType.HOSTEL`); hygiene & safety audits (`HostelRoomInspection`), incidents (`HostelIncident`), and maintenance work orders (`HostelMaintenance`); anti-IDOR boarder/parent portal (`/hostel/my`); 21 fine-grained permissions (326 system permissions total); and 19 responsive React web pages.
+- **Phase 18 — Inventory Management**: Consumables vs Durable Assets separation; Stores & Locations hierarchy (`InventoryStore`, `InventoryLocation`); Catalog, Categories & Units (`InventoryItem`, `InventoryCategory`, `InventoryUnit`); Atomic conditional decrement preventing negative stock; Append-only immutable stock ledger (`InventoryStockLedger`); Stock movements (Goods Receipts, Stock Issues, Stock Returns, Inter-Store Transfers with transit custody, and Stock Adjustments); Physical stocktakes with variance reconciliation (`InventoryStocktake`); Inventory Reservations (`InventoryReservation`); Durable asset tracking (`InventoryAsset`), condition ratings, custody assignments to employee/dept/classroom/student, maintenance work orders (`InventoryMaintenance`), and formal disposal audits (`InventoryDisposal`); Zero-float financial accounting via `Money` in integer minor units; 23 fine-grained permissions (349 system permissions total); and 19 responsive React web pages.
 
 ---
 
 ## 2. Test Suite & Verification Summary
 
-| Component   | Description                                                                                               | Total Tests | Status           |
-| :---------- | :-------------------------------------------------------------------------------------------------------- | :---------- | :--------------- |
-| Database    | Invariants, Seeds, Multi-Tenancy, Timetable, Attendance, Assignments, Exams, HR, Library & Hostel Invariants | 57          | ✅ PASS          |
-| Backend API | Auth, Tenant, Staff, Student, Academic, Timetable, Attendance, Assignments, Exams, Finance, HR, Library, Transport & Hostel | 427         | ✅ PASS          |
-| Frontend Web| Auth, Org, Staff, RBAC, Student, Parent, Academic, Timetable, Attendance, Exams, Finance, HR, Library, Transport & Hostel | 98          | ✅ PASS          |
-| **ALL**     | **Full Monorepo Regression**                                                                              | **582 / 582**| ✅ **100% PASS** |
+| Component   | Description                                                                                                                   | Total Tests | Status           |
+| :---------- | :---------------------------------------------------------------------------------------------------------------------------- | :---------- | :--------------- |
+| Database    | Invariants, Seeds, Multi-Tenancy, Timetable, Attendance, Assignments, Exams, HR, Library, Hostel & Inventory Invariants       | 63          | ✅ PASS          |
+| Backend API | Auth, Tenant, Staff, Student, Academic, Timetable, Attendance, Assignments, Exams, Finance, HR, Library, Transport, Hostel & Inventory | 451         | ✅ PASS          |
+| Frontend Web| Auth, Org, Staff, RBAC, Student, Parent, Academic, Timetable, Attendance, Exams, Finance, HR, Library, Transport, Hostel & Inventory | 111         | ✅ PASS          |
+| **ALL**     | **Full Monorepo Regression**                                                                                                  | **625 / 625**| ✅ **100% PASS** |
 
-- **Phase 17 Dedicated Test Suite**: 44 / 44 tests passing (6 Database + 32 Backend API + 6 Frontend Web).
+- **Phase 18 Dedicated Test Suite**: 35 / 35 tests passing (6 Database + 24 Backend API + 5 Frontend Web).
 - **TypeScript Compilation**: `npm run typecheck` exits cleanly with code 0 across all 6 workspaces (`common`, `database`, `types`, `api`, `web`, `worker`).
 - **Production Build**: Clean production build for all packages and Vite frontend (`npm run build`, 0 errors).
 
@@ -64,7 +65,7 @@ The EduSphere ERP multi-tenant SaaS platform has successfully progressed through
 
 ---
 
-## 4. Next Phase: Phase 18 — Inventory & Asset Management
+## 4. Next Phase: Phase 19 — Communication & Notifications
 
 - **Status**: PENDING AUTHORIZATION (STRICT STOP AT VERIFICATION GATE)
-- **Strict Boundary**: Phase 18 has NOT been started. Awaiting explicit user instruction before proceeding.
+- **Strict Boundary**: Phase 19 has NOT been started. Awaiting explicit user instruction before proceeding.

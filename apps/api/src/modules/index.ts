@@ -24,3 +24,15 @@ export * from './hr/index.js';
 export * from './library/index.js';
 export * from './transport/index.js';
 export * from './hostel/index.js';
+export {
+  inventoryRouter,
+  InventoryController,
+  InventoryPolicy,
+  InventoryCatalogService,
+  InventoryStoreService,
+  InventoryStockService,
+  InventoryMovementService,
+  InventoryStocktakeService,
+  InventoryAssetService,
+  InventoryReportsService,
+} from './inventory/index.js';
