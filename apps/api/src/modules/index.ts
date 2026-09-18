@@ -36,3 +36,5 @@ export {
   InventoryAssetService,
   InventoryReportsService,
 } from './inventory/index.js';
+export * from './communication/index.js';
+

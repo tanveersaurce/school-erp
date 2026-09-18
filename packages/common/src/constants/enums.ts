@@ -1133,4 +1133,107 @@ export enum InventoryValuationMethod {
   STANDARD_COST = 'STANDARD_COST',
 }
 
+export enum NotificationCategory {
+  AUTHENTICATION = 'AUTHENTICATION',
+  ACADEMIC = 'ACADEMIC',
+  ATTENDANCE = 'ATTENDANCE',
+  HOMEWORK = 'HOMEWORK',
+  EXAMINATION = 'EXAMINATION',
+  RESULTS = 'RESULTS',
+  FEES = 'FEES',
+  HR = 'HR',
+  LEAVE = 'LEAVE',
+  LIBRARY = 'LIBRARY',
+  TRANSPORT = 'TRANSPORT',
+  HOSTEL = 'HOSTEL',
+  INVENTORY = 'INVENTORY',
+  ANNOUNCEMENT = 'ANNOUNCEMENT',
+  SYSTEM = 'SYSTEM',
+  SECURITY = 'SECURITY',
+  OTHER = 'OTHER',
+}
+
+export enum NotificationChannel {
+  IN_APP = 'IN_APP',
+  EMAIL = 'EMAIL',
+  SMS = 'SMS',
+  PUSH = 'PUSH',
+  WHATSAPP = 'WHATSAPP',
+}
+
+export enum NotificationPriority {
+  LOW = 'LOW',
+  NORMAL = 'NORMAL',
+  HIGH = 'HIGH',
+  URGENT = 'URGENT',
+}
+
+export enum NotificationStatus {
+  QUEUED = 'QUEUED',
+  PROCESSING = 'PROCESSING',
+  DELIVERED = 'DELIVERED',
+  PARTIALLY_DELIVERED = 'PARTIALLY_DELIVERED',
+  FAILED = 'FAILED',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum DeliveryStatus {
+  PENDING = 'PENDING',
+  SENT = 'SENT',
+  DELIVERED = 'DELIVERED',
+  FAILED = 'FAILED',
+}
+
+export enum TemplateStatus {
+  DRAFT = 'DRAFT',
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum AnnouncementStatus {
+  DRAFT = 'DRAFT',
+  SCHEDULED = 'SCHEDULED',
+  PUBLISHED = 'PUBLISHED',
+  EXPIRED = 'EXPIRED',
+  CANCELLED = 'CANCELLED',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum AnnouncementCategory {
+  GENERAL = 'GENERAL',
+  ACADEMIC = 'ACADEMIC',
+  EVENT = 'EVENT',
+  EXAMINATION = 'EXAMINATION',
+  FEES = 'FEES',
+  EMERGENCY = 'EMERGENCY',
+  SPORTS = 'SPORTS',
+  HOLIDAY = 'HOLIDAY',
+  OTHER = 'OTHER',
+}
+
+export enum CommunicationJobType {
+  ANNOUNCEMENT_BROADCAST = 'ANNOUNCEMENT_BROADCAST',
+  TARGETED_MESSAGE = 'TARGETED_MESSAGE',
+  SCHEDULED_REMINDER = 'SCHEDULED_REMINDER',
+  BULK_COMMUNICATION = 'BULK_COMMUNICATION',
+}
+
+export enum CommunicationJobStatus {
+  QUEUED = 'QUEUED',
+  PROCESSING = 'PROCESSING',
+  COMPLETED = 'COMPLETED',
+  PARTIALLY_COMPLETED = 'PARTIALLY_COMPLETED',
+  FAILED = 'FAILED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum PushPlatform {
+  ANDROID = 'ANDROID',
+  IOS = 'IOS',
+  WEB = 'WEB',
+  OTHER = 'OTHER',
+}
+
 

@@ -207,6 +207,13 @@ export const baseApi = createApi({
     'InventoryMaintenance',
     'InventoryReports',
     'InventoryStats',
+    'Notifications',
+    'Announcements',
+    'NotificationTemplates',
+    'NotificationPreferences',
+    'NotificationDeliveries',
+    'CommunicationJobs',
+    'CommunicationStats',
   ],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({

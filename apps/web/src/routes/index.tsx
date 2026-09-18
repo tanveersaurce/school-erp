@@ -152,6 +152,19 @@ import {
   InventoryReportsPage,
   InventorySettingsPage,
 } from '../pages/inventory/index.js';
+import {
+  NotificationCenterPage,
+  AnnouncementsPage,
+  AnnouncementDetailsPage,
+  CreateEditAnnouncementPage,
+  CommunicationJobsPage,
+  CommunicationJobDetailsPage,
+  NotificationTemplatesPage,
+  NotificationTemplateEditorPage,
+  NotificationPreferencesPage,
+  NotificationDeliveriesPage,
+  CommunicationReportsPage,
+} from '../pages/communication/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -1302,6 +1315,119 @@ export const routes: RouteObject[] = [
     element: (
       <PermissionRoute anyOf={['inventory:manage']}>
         <InventorySettingsPage />
+      </PermissionRoute>
+    ),
+  },
+  // Communication & Notifications (Phase 19)
+  {
+    path: '/notifications',
+    element: (
+      <ProtectedRoute>
+        <NotificationCenterPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/communication',
+    element: (
+      <PermissionRoute anyOf={['communication_report:read', 'communication:read', 'announcement:read']}>
+        <CommunicationReportsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/reports',
+    element: (
+      <PermissionRoute anyOf={['communication_report:read', 'communication:read']}>
+        <CommunicationReportsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/announcements',
+    element: (
+      <PermissionRoute anyOf={['announcement:read', 'communication:read']}>
+        <AnnouncementsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/announcements/new',
+    element: (
+      <PermissionRoute anyOf={['announcement:create', 'announcement:publish']}>
+        <CreateEditAnnouncementPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/announcements/:id',
+    element: (
+      <PermissionRoute anyOf={['announcement:read', 'communication:read']}>
+        <AnnouncementDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/announcements/:id/edit',
+    element: (
+      <PermissionRoute anyOf={['announcement:update', 'announcement:create']}>
+        <CreateEditAnnouncementPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/templates',
+    element: (
+      <PermissionRoute anyOf={['notification_template:read', 'communication:read']}>
+        <NotificationTemplatesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/templates/new',
+    element: (
+      <PermissionRoute anyOf={['notification_template:create']}>
+        <NotificationTemplateEditorPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/templates/:id',
+    element: (
+      <PermissionRoute anyOf={['notification_template:read', 'notification_template:update']}>
+        <NotificationTemplateEditorPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/preferences',
+    element: (
+      <ProtectedRoute>
+        <NotificationPreferencesPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/communication/deliveries',
+    element: (
+      <PermissionRoute anyOf={['notification_delivery:read', 'communication:read']}>
+        <NotificationDeliveriesPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/jobs',
+    element: (
+      <PermissionRoute anyOf={['communication:read', 'communication:create']}>
+        <CommunicationJobsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/communication/jobs/:id',
+    element: (
+      <PermissionRoute anyOf={['communication:read']}>
+        <CommunicationJobDetailsPage />
       </PermissionRoute>
     ),
   },
