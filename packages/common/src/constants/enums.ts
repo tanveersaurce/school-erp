@@ -1236,4 +1236,58 @@ export enum PushPlatform {
   OTHER = 'OTHER',
 }
 
+// ============================================================================
+// Phase 20: Reports & Analytics Enums
+// ============================================================================
+
+export enum ReportCategory {
+  ACADEMIC = 'ACADEMIC',
+  STUDENT = 'STUDENTS',
+  STUDENTS = 'STUDENTS',
+  ATTENDANCE = 'ATTENDANCE',
+  EXAMINATION = 'EXAMINATION',
+  RESULTS = 'RESULTS',
+  FEES = 'FEES',
+  FINANCE = 'FINANCE',
+  HR = 'HR',
+  PAYROLL = 'PAYROLL',
+  LIBRARY = 'LIBRARY',
+  TRANSPORT = 'TRANSPORT',
+  HOSTEL = 'HOSTEL',
+  INVENTORY = 'INVENTORY',
+  COMMUNICATION = 'COMMUNICATION',
+  SYSTEM = 'SYSTEM',
+}
+
+export enum ReportFormat {
+  JSON = 'JSON',
+  CSV = 'CSV',
+  PDF = 'PDF',
+  XLSX = 'XLSX',
+}
+
+export enum ExportJobStatus {
+  QUEUED = 'QUEUED',
+  PROCESSING = 'PROCESSING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum ReportScheduleFrequency {
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+}
+
+export enum WidgetType {
+  KPI_CARD = 'KPI_CARD',
+  TREND_CHART = 'TREND_CHART',
+  DISTRIBUTION = 'DISTRIBUTION',
+  TABLE = 'TABLE',
+  ALERT = 'ALERT',
+}
+
 

@@ -165,6 +165,12 @@ import {
   NotificationDeliveriesPage,
   CommunicationReportsPage,
 } from '../pages/communication/index.js';
+import {
+  ReportsDashboardPage,
+  ReportExplorerPage,
+  ScheduledReportsPage,
+  ExportJobsPage,
+} from '../pages/reports/index.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -1428,6 +1434,38 @@ export const routes: RouteObject[] = [
     element: (
       <PermissionRoute anyOf={['communication:read']}>
         <CommunicationJobDetailsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/reports',
+    element: (
+      <PermissionRoute anyOf={['report:read', 'analytics:read']}>
+        <ReportsDashboardPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/reports/explorer',
+    element: (
+      <PermissionRoute anyOf={['report:read', 'report:export']}>
+        <ReportExplorerPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/reports/scheduled',
+    element: (
+      <PermissionRoute anyOf={['report:schedule', 'report:manage']}>
+        <ScheduledReportsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/reports/exports',
+    element: (
+      <PermissionRoute anyOf={['report:export', 'report:read']}>
+        <ExportJobsPage />
       </PermissionRoute>
     ),
   },

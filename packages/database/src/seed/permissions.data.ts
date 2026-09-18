@@ -2775,4 +2775,40 @@ export const SYSTEM_PERMISSIONS: PermissionSeedItem[] = [
     description: 'View communication analytics and delivery reports',
     category: 'COMMUNICATION',
   },
+  // Reports & Analytics (Phase 20)
+  {
+    resource: 'REPORT',
+    action: 'READ',
+    permissionString: 'report:read',
+    description: 'View and run operational reports and metrics',
+    category: 'SYSTEM',
+  },
+  {
+    resource: 'REPORT',
+    action: 'EXPORT',
+    permissionString: 'report:export',
+    description: 'Export report data to CSV or other formats',
+    category: 'SYSTEM',
+  },
+  {
+    resource: 'REPORT',
+    action: 'SCHEDULE',
+    permissionString: 'report:schedule',
+    description: 'Create and configure automated scheduled reports',
+    category: 'SYSTEM',
+  },
+  {
+    resource: 'REPORT',
+    action: 'MANAGE',
+    permissionString: 'report:manage',
+    description: 'Manage all report configurations and export jobs',
+    category: 'SYSTEM',
+  },
+  {
+    resource: 'ANALYTICS',
+    action: 'READ',
+    permissionString: 'analytics:read',
+    description: 'Access executive analytics dashboards and KPI metrics',
+    category: 'SYSTEM',
+  },
 ];

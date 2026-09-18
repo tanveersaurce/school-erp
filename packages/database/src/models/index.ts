@@ -16,3 +16,4 @@ export * from './inventory.model.js';
 export * from './communication.model.js';
 export * from './system.model.js';
 export * from './employee.model.js';
+export * from './reports.model.js';

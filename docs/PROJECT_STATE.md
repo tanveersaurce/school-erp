@@ -1,7 +1,7 @@
 # PROJECT_STATE.md — Workspace Inspection & Current State Analysis
 
-**Document Version:** 1.19.0  
-**Active Phase Completed:** Phase 19 — Communication & Notifications (COMPLETED)  
+**Document Version:** 1.20.0  
+**Active Phase Completed:** Phase 20 — Reports & Analytics (COMPLETED)  
 **Date:** September 18, 2026  
 **Author:** Principal Software Architect & Lead Security Engineer  
 
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary & Current State
 
-The EduSphere ERP multi-tenant SaaS platform has successfully progressed through Phases 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, and 19. The system is verified, tested, and fully functional across database, backend, and frontend.
+The EduSphere ERP multi-tenant SaaS platform has successfully progressed through Phases 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, and 20. The system is verified, tested, and fully functional across database, backend, and frontend.
 
 ### Phase Completion Milestones:
 
@@ -33,6 +33,7 @@ The EduSphere ERP multi-tenant SaaS platform has successfully progressed through
 - **Phase 17 — Hostel Management**: Physical bed inventory (`HostelBed`) as the single source of truth for capacity & occupancy; 5-tier structural hierarchy (`Hostel` ➔ `HostelBuilding` ➔ `HostelFloor` ➔ `HostelRoom` ➔ `HostelBed`); staff & warden integration 1:1 with Phase 6 `Employee`; student boarding allocations (`HostelStudentAllocation`) with atomic double-booking prevention, gender validation, check-in, property checkout clearance, and room transfer tracking (`HostelTransferRecord`); curfew & residential attendance roll call (`HostelAttendance`); boarder gate pass lifecycle (`HostelOuting`) with departure/return timestamps and overdue curfew alerts; zero-float fee billing integrated with Phase 13 `FeeInvoice` (`FeeCategoryType.HOSTEL`); hygiene & safety audits (`HostelRoomInspection`), incidents (`HostelIncident`), and maintenance work orders (`HostelMaintenance`); anti-IDOR boarder/parent portal (`/hostel/my`); 21 fine-grained permissions (326 system permissions total); and 19 responsive React web pages.
 - **Phase 18 — Inventory Management**: Consumables vs Durable Assets separation; Stores & Locations hierarchy (`InventoryStore`, `InventoryLocation`); Catalog, Categories & Units (`InventoryItem`, `InventoryCategory`, `InventoryUnit`); Atomic conditional decrement preventing negative stock; Append-only immutable stock ledger (`InventoryStockLedger`); Stock movements (Goods Receipts, Stock Issues, Stock Returns, Inter-Store Transfers with transit custody, and Stock Adjustments); Physical stocktakes with variance reconciliation (`InventoryStocktake`); Inventory Reservations (`InventoryReservation`); Durable asset tracking (`InventoryAsset`), condition ratings, custody assignments to employee/dept/classroom/student, maintenance work orders (`InventoryMaintenance`), and formal disposal audits (`InventoryDisposal`); Zero-float financial accounting via `Money` in integer minor units; 23 fine-grained permissions (349 system permissions total); and 19 responsive React web pages.
 - **Phase 19 — Communication & Notifications**: Decoupled event-driven notification architecture (`Domain Event` ➔ `Notification Resolver` ➔ `Notification Record (In-App)` ➔ `Delivery Queue (Worker)` ➔ `Provider Adapter`); Deterministic deduplication keys (`tenantId:eventType:sourceEntityId:recipientId`); Multi-channel provider adapters (In-App, Email, SMS, Push, WhatsApp); Safe regex template engine with variable token substitution and anti-XSS sanitization; User notification preferences with category overrides, quiet hours, and mandatory critical security alert delivery; Scheduled announcements with server-side audience targeting (school-wide, role, class/section, campus) and recipient acknowledgement tracking; Asynchronous bulk communication campaigns (`CommunicationJob`); Delivery audit logs with failure diagnostics and exponential backoff retry; Mobile/Web push device token registry (`PushDevice`); 21 fine-grained permissions (370 system permissions total); interactive notification bell with live badge counter; and 11 responsive React web pages.
+- **Phase 20 — Reports & Analytics**: Centralized declarative report registry containing 21+ report definitions across all 15 operational categories (`ACADEMIC`, `STUDENTS`, `ATTENDANCE`, `EXAMINATION`, `RESULTS`, `FEES`, `FINANCE`, `HR`, `PAYROLL`, `LIBRARY`, `TRANSPORT`, `HOSTEL`, `INVENTORY`, `COMMUNICATION`, `SYSTEM`); Zero-mutation reporting invariant with strictly read-only execution; Server-side role scope resolver (`scopeResolverService`) enforcing multi-tenant isolation and anti-IDOR clamping; Two-tier query caching with tenant-isolated SHA-256 keys (Redis + in-memory TTL); Streaming RFC 4180-compliant CSV export engine; Asynchronous batch export job tracking (`ReportExportJob`) with auto-cleanup TTL indexes; Automated recurring report schedules (`ScheduledReport`) with daily/weekly/monthly/term frequencies and manual triggers; Executive dashboard overview service computing institutional KPI cards and trend charts; 5 fine-grained permissions (375 system permissions total); and 4 responsive React web pages (`ReportsDashboardPage`, `ReportExplorerPage`, `ScheduledReportsPage`, `ExportJobsPage`).
 
 ---
 
@@ -40,12 +41,12 @@ The EduSphere ERP multi-tenant SaaS platform has successfully progressed through
 
 | Component   | Description                                                                                                                   | Total Tests | Status           |
 | :---------- | :---------------------------------------------------------------------------------------------------------------------------- | :---------- | :--------------- |
-| Database    | Invariants, Seeds, Multi-Tenancy, Timetable, Attendance, Assignments, Exams, HR, Library, Hostel, Inventory & Communication    | 69          | ✅ PASS          |
-| Backend API | Auth, Tenant, Staff, Student, Academic, Timetable, Attendance, Assignments, Exams, Finance, HR, Library, Transport, Hostel, Inventory & Communication | 475         | ✅ PASS          |
-| Frontend Web| Auth, Org, Staff, RBAC, Student, Parent, Academic, Timetable, Attendance, Exams, Finance, HR, Library, Transport, Hostel, Inventory & Communication | 119         | ✅ PASS          |
-| **ALL**     | **Full Monorepo Regression**                                                                                                  | **663 / 663**| ✅ **100% PASS** |
+| Database    | Invariants, Seeds, Multi-Tenancy, Timetable, Attendance, Assignments, Exams, HR, Library, Hostel, Inventory, Comm & Reports    | 76          | ✅ PASS          |
+| Backend API | Auth, Tenant, Staff, Student, Academic, Timetable, Attendance, Assignments, Exams, Finance, HR, Library, Transport, Hostel, Inventory, Comm & Reports | 504         | ✅ PASS          |
+| Frontend Web| Auth, Org, Staff, RBAC, Student, Parent, Academic, Timetable, Attendance, Exams, Finance, HR, Library, Transport, Hostel, Inventory, Comm & Reports | 125         | ✅ PASS          |
+| **ALL**     | **Full Monorepo Regression**                                                                                                  | **705 / 705**| ✅ **100% PASS** |
 
-- **Phase 19 Dedicated Test Suite**: 38 / 38 tests passing (6 Database + 24 Backend API + 8 Frontend Web).
+- **Phase 20 Dedicated Test Suite**: 42 / 42 tests passing (7 Database + 29 Backend API + 6 Frontend Web).
 - **TypeScript Compilation**: `npm run typecheck` exits cleanly with code 0 across all 6 workspaces (`common`, `database`, `types`, `api`, `web`, `worker`).
 - **Production Build**: Clean production build for all packages and Vite frontend (`npm run build`, 0 errors).
 
@@ -66,7 +67,7 @@ The EduSphere ERP multi-tenant SaaS platform has successfully progressed through
 
 ---
 
-## 4. Next Phase: Phase 20 — Reports & Analytics
+## 4. Next Phase: Phase 21 — Multi-Campus Management & System Settings
 
 - **Status**: PENDING AUTHORIZATION (STRICT STOP AT VERIFICATION GATE)
-- **Strict Boundary**: Phase 20 has NOT been started. Awaiting explicit user instruction before proceeding.
+- **Strict Boundary**: Phase 21 has NOT been started. Awaiting explicit user instruction before proceeding.

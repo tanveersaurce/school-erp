@@ -19,3 +19,4 @@ export * from './system.js';
 export * from './rbac.js';
 export * from './employee.js';
 export * from './student.js';
+export * from './reports.js';

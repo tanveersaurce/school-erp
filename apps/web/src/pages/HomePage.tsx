@@ -324,6 +324,24 @@ export function HomePage(): React.JSX.Element {
               <Button variant="secondary" size="sm" onClick={() => setIsDemoModalOpen(true)}>
                 Open Dialog Modal
               </Button>
+              <Link to="/reports">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Reports & Analytics Dashboard
+                </Button>
+              </Link>
+              <Link to="/reports/explorer">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
+                >
+                  Report Explorer
+                </Button>
+              </Link>
               <Link to="/communication">
                 <Button
                   variant="primary"

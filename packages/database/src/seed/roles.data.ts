@@ -408,6 +408,11 @@ export const SYSTEM_ROLES: SystemRoleDefinition[] = [
       'notification_delivery:retry',
       'communication_report:read',
       'audit:read',
+      'report:read',
+      'report:export',
+      'report:schedule',
+      'report:manage',
+      'analytics:read',
     ],
   },
   {
@@ -540,6 +545,10 @@ export const SYSTEM_ROLES: SystemRoleDefinition[] = [
       'transport_report:read',
       'announcement:publish',
       'audit:read',
+      'report:read',
+      'report:export',
+      'report:schedule',
+      'analytics:read',
     ],
   },
   {
@@ -759,6 +768,8 @@ export const SYSTEM_ROLES: SystemRoleDefinition[] = [
       'leave_application:cancel',
       'leave_balance:read',
       'employee_hr:read',
+      'report:read',
+      'report:export',
     ],
   },
   {
