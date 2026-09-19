@@ -172,6 +172,7 @@ export const createCampusSchema = z.object({
     })
     .optional(),
   status: z.nativeEnum(CampusStatus).optional(),
+  isMain: z.boolean().optional(),
 });
 
 export const updateCampusSchema = z.object({
@@ -200,6 +201,7 @@ export const updateCampusSchema = z.object({
     })
     .optional(),
   status: z.nativeEnum(CampusStatus).optional(),
+  isMain: z.boolean().optional(),
 });
 
 export const createAcademicYearSchema = z

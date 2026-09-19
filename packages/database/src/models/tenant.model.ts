@@ -175,6 +175,7 @@ const CampusSchema = new Schema<ICampusDoc>(
       phone: { type: String, trim: true },
     },
     principalId: { type: Schema.Types.ObjectId, ref: 'User' },
+    isMain: { type: Boolean, default: false },
     status: {
       type: String,
       enum: Object.values(CampusStatus),
@@ -188,6 +189,10 @@ const CampusSchema = new Schema<ICampusDoc>(
 CampusSchema.plugin(softDeletePlugin);
 CampusSchema.plugin(tenantPlugin);
 CampusSchema.index({ tenantId: 1, schoolId: 1, code: 1 }, { unique: true });
+CampusSchema.index(
+  { tenantId: 1, schoolId: 1, isMain: 1 },
+  { unique: true, partialFilterExpression: { isMain: true, isDeleted: false } }
+);
 
 // 4. Academic Year Schema (Session Calendar with status & current toggle)
 const AcademicYearSchema = new Schema<IAcademicYearDoc>(
@@ -212,7 +217,10 @@ const AcademicYearSchema = new Schema<IAcademicYearDoc>(
 AcademicYearSchema.plugin(softDeletePlugin);
 AcademicYearSchema.plugin(tenantPlugin);
 AcademicYearSchema.index({ tenantId: 1, schoolId: 1, campusId: 1, name: 1 }, { unique: true });
-AcademicYearSchema.index({ tenantId: 1, campusId: 1, isCurrent: 1 });
+AcademicYearSchema.index(
+  { tenantId: 1, campusId: 1, isCurrent: 1 },
+  { unique: true, partialFilterExpression: { isCurrent: true, isDeleted: false } }
+);
 
 export const Tenant = model<ITenantDoc>('Tenant', TenantSchema);
 export const School = model<ISchoolDoc>('School', SchoolSchema);

@@ -290,11 +290,7 @@ TransportSettingSchema.plugin(tenantPlugin);
 TransportSettingSchema.plugin(softDeletePlugin);
 TransportSettingSchema.index(
   { tenantId: 1, schoolId: 1, campusId: 1 },
-  { unique: true, partialFilterExpression: { campusId: { $type: 'objectId' } } }
-);
-TransportSettingSchema.index(
-  { tenantId: 1, schoolId: 1 },
-  { unique: true, partialFilterExpression: { campusId: { $exists: false } } }
+  { unique: true }
 );
 
 // 2. VehicleType Schema

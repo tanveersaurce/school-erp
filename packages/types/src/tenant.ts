@@ -138,6 +138,7 @@ export interface ICampus {
     phone?: string;
   };
   principalId?: string;
+  isMain: boolean;
   status: CampusStatus;
   isDeleted: boolean;
   createdAt: Date;
@@ -215,6 +216,7 @@ export interface CampusDto {
     phone?: string;
   };
   principalId?: string;
+  isMain: boolean;
   status: CampusStatus;
   createdAt: string;
   updatedAt: string;
@@ -312,6 +314,7 @@ export interface CreateCampusInput {
     phone?: string;
   };
   status?: CampusStatus;
+  isMain?: boolean;
 }
 
 export interface UpdateCampusInput {
@@ -323,6 +326,7 @@ export interface UpdateCampusInput {
     phone?: string;
   };
   status?: CampusStatus;
+  isMain?: boolean;
 }
 
 export interface CreateAcademicYearInput {
@@ -340,4 +344,11 @@ export interface UpdateAcademicYearInput {
   startDate?: string;
   endDate?: string;
   status?: AcademicYearStatus;
+}
+
+export interface NumberingPreviewDto {
+  admissionNumber: string;
+  invoiceNumber: string;
+  receiptNumber: string;
+  employeeId: string;
 }

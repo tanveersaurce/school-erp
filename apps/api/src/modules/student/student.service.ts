@@ -108,6 +108,7 @@ export class StudentService {
    */
   async generateNextAdmissionNumber(tenantId: string, schoolId?: string): Promise<string> {
     let prefix = 'ADM';
+    let digits = 5;
     const year = new Date().getFullYear();
 
     let schoolObjectId: Types.ObjectId | undefined;
@@ -122,6 +123,9 @@ export class StudentService {
       if (school?.settings?.numbering?.admissionNumberPrefix) {
         prefix = school.settings.numbering.admissionNumberPrefix;
       }
+      if (school?.settings?.numbering?.admissionNumberDigits) {
+        digits = school.settings.numbering.admissionNumberDigits;
+      }
     } else {
       const defaultSchool = await School.findOne({
         tenantId: new Types.ObjectId(tenantId),
@@ -131,6 +135,9 @@ export class StudentService {
         schoolObjectId = defaultSchool._id as Types.ObjectId;
         if (defaultSchool.settings?.numbering?.admissionNumberPrefix) {
           prefix = defaultSchool.settings.numbering.admissionNumberPrefix;
+        }
+        if (defaultSchool.settings?.numbering?.admissionNumberDigits) {
+          digits = defaultSchool.settings.numbering.admissionNumberDigits;
         }
       }
     }
@@ -146,7 +153,7 @@ export class StudentService {
     );
 
     const val = counter?.currentValue ?? 1;
-    return `${prefix}-${year}-${String(val).padStart(4, '0')}`;
+    return `${prefix}-${year}-${String(val).padStart(digits, '0')}`;
   }
 
   /**

@@ -19,6 +19,7 @@ import {
 } from '../src/models/index.js';
 
 import { SYSTEM_PERMISSIONS } from '../src/seed/permissions.data.js';
+import { SYSTEM_ROLES } from '../src/seed/roles.data.js';
 
 describe('Seed Engine & Idempotency Suite', () => {
   beforeAll(async () => {
@@ -34,7 +35,7 @@ describe('Seed Engine & Idempotency Suite', () => {
 
     expect(result1.tenantId).toBeDefined();
     expect(result1.permissionsCount).toBe(SYSTEM_PERMISSIONS.length);
-    expect(result1.rolesCount).toBe(14);
+    expect(result1.rolesCount).toBe(SYSTEM_ROLES.length);
     expect(result1.usersCreated).toHaveLength(6);
 
     // Verify entity existence
@@ -51,7 +52,7 @@ describe('Seed Engine & Idempotency Suite', () => {
     expect(permCount).toBe(SYSTEM_PERMISSIONS.length);
 
     const roleCount = await Role.countDocuments();
-    expect(roleCount).toBe(14);
+    expect(roleCount).toBe(SYSTEM_ROLES.length);
 
     const userCount = await User.countDocuments();
     expect(userCount).toBe(6);
@@ -85,14 +86,14 @@ describe('Seed Engine & Idempotency Suite', () => {
     // Run seed again
     const result2 = await runSeed();
     expect(result2.permissionsCount).toBe(SYSTEM_PERMISSIONS.length);
-    expect(result2.rolesCount).toBe(14);
+    expect(result2.rolesCount).toBe(SYSTEM_ROLES.length);
 
     // Verify counts have NOT doubled
     expect(await Tenant.countDocuments({ slug: 'greenwood-trust' })).toBe(1);
     expect(await School.countDocuments({ code: 'GHS' })).toBe(1);
     expect(await AcademicYear.countDocuments({ name: '2026-2027' })).toBe(1);
     expect(await Permission.countDocuments()).toBe(SYSTEM_PERMISSIONS.length);
-    expect(await Role.countDocuments()).toBe(14);
+    expect(await Role.countDocuments()).toBe(SYSTEM_ROLES.length);
     expect(await User.countDocuments()).toBe(6);
     expect(await Class.countDocuments()).toBe(2);
     expect(await Section.countDocuments()).toBe(2);

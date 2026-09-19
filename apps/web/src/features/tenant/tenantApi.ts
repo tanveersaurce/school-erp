@@ -14,6 +14,7 @@ import type {
   UpdateCampusInput,
   CreateAcademicYearInput,
   UpdateAcademicYearInput,
+  NumberingPreviewDto,
 } from '@edusphere/types';
 
 export const tenantApi = baseApi.injectEndpoints({
@@ -61,6 +62,14 @@ export const tenantApi = baseApi.injectEndpoints({
         invalidatesTags: ['Settings', 'School'],
       }
     ),
+
+    previewNumbering: builder.query<ApiResponse<NumberingPreviewDto>, void>({
+      query: () => ({
+        url: '/schools/numbering/preview',
+        method: 'GET',
+      }),
+      providesTags: ['Settings', 'School'],
+    }),
 
     getSchoolBranding: builder.query<ApiResponse<ISchoolBranding>, void>({
       query: () => ({
@@ -117,6 +126,17 @@ export const tenantApi = baseApi.injectEndpoints({
         ],
       }
     ),
+
+    setMainCampus: builder.mutation<ApiResponse<CampusDto>, string>({
+      query: (id) => ({
+        url: `/campuses/${id}/set-main`,
+        method: 'POST',
+      }),
+      invalidatesTags: (_res, _err, id) => [
+        { type: 'Campus', id },
+        { type: 'Campus', id: 'LIST' },
+      ],
+    }),
 
     archiveCampus: builder.mutation<ApiResponse<CampusDto>, string>({
       query: (id) => ({
@@ -201,11 +221,13 @@ export const {
   useUpdateSchoolProfileMutation,
   useGetSchoolSettingsQuery,
   useUpdateSchoolSettingsMutation,
+  usePreviewNumberingQuery,
   useGetSchoolBrandingQuery,
   useUpdateSchoolBrandingMutation,
   useGetCampusesQuery,
   useCreateCampusMutation,
   useUpdateCampusMutation,
+  useSetMainCampusMutation,
   useArchiveCampusMutation,
   useGetAcademicYearsQuery,
   useGetCurrentAcademicYearQuery,

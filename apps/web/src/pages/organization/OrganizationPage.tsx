@@ -11,8 +11,10 @@ import {
   useCloseAcademicYearMutation,
   useGetSchoolSettingsQuery,
   useUpdateSchoolSettingsMutation,
+  usePreviewNumberingQuery,
   useGetSchoolBrandingQuery,
   useUpdateSchoolBrandingMutation,
+  useSetMainCampusMutation,
 } from '../../features/tenant/tenantApi.js';
 import { Can } from '../../components/auth/Can.js';
 import { WeekDay, CampusStatus, AcademicYearStatus } from '@edusphere/common';
@@ -45,10 +47,15 @@ export const OrganizationPage: React.FC = () => {
     isLoading: isBrandingLoading,
     refetch: refetchBranding,
   } = useGetSchoolBrandingQuery();
+  const {
+    data: previewRes,
+    refetch: refetchPreview,
+  } = usePreviewNumberingQuery();
 
   // Mutations
   const [updateProfile, { isLoading: isUpdatingProfile }] = useUpdateSchoolProfileMutation();
   const [createCampus, { isLoading: isCreatingCampus }] = useCreateCampusMutation();
+  const [setMainCampus, { isLoading: isSettingMainCampus }] = useSetMainCampusMutation();
   const [archiveCampus] = useArchiveCampusMutation();
   const [createAcademicYear, { isLoading: isCreatingAy }] = useCreateAcademicYearMutation();
   const [activateAcademicYear] = useActivateAcademicYearMutation();
@@ -86,6 +93,7 @@ export const OrganizationPage: React.FC = () => {
   const academicYears = ayRes?.data || [];
   const settings = settingsRes?.data;
   const branding = brandingRes?.data;
+  const numberingPreview = previewRes?.data;
 
   // Initialize form state once queries load
   React.useEffect(() => {
@@ -220,6 +228,19 @@ export const OrganizationPage: React.FC = () => {
     }
   };
 
+  const handleSetMainCampus = async (campusId: string) => {
+    try {
+      await setMainCampus(campusId).unwrap();
+      setNotice({ type: 'success', message: 'Campus designated as main campus successfully.' });
+      refetchCampuses();
+    } catch (err: any) {
+      setNotice({
+        type: 'error',
+        message: err.data?.error?.message || 'Failed to set main campus.',
+      });
+    }
+  };
+
   const handleArchiveCampus = async (campusId: string) => {
     if (!window.confirm('Are you sure you want to archive this campus?')) return;
     try {
@@ -307,6 +328,7 @@ export const OrganizationPage: React.FC = () => {
       }).unwrap();
       setNotice({ type: 'success', message: 'Operational settings saved.' });
       refetchSettings();
+      refetchPreview();
     } catch (err: any) {
       setNotice({ type: 'error', message: err.data?.error?.message || 'Failed to save settings.' });
     }
@@ -577,7 +599,17 @@ export const OrganizationPage: React.FC = () => {
                 <tbody className="divide-y divide-slate-100">
                   {campuses.map((c) => (
                     <tr key={c.id} className="hover:bg-slate-50 transition">
-                      <td className="py-3 px-4 font-medium text-slate-900">{c.name}</td>
+                      <td className="py-3 px-4 font-medium text-slate-900 flex items-center gap-2">
+                        <span>{c.name}</span>
+                        {c.isMain && (
+                          <span
+                            data-testid={`campus-main-badge-${c.id}`}
+                            className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-200"
+                          >
+                            MAIN
+                          </span>
+                        )}
+                      </td>
                       <td className="py-3 px-4 font-mono text-slate-600">{c.code}</td>
                       <td className="py-3 px-4 text-slate-600">
                         {c.address?.city}, {c.address?.state}
@@ -593,12 +625,24 @@ export const OrganizationPage: React.FC = () => {
                           {c.status}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-right">
+                      <td className="py-3 px-4 text-right space-x-2">
+                        <Can permission="campus:update">
+                          {!c.isMain && c.status === CampusStatus.ACTIVE && (
+                            <button
+                              onClick={() => handleSetMainCampus(c.id)}
+                              disabled={isSettingMainCampus}
+                              data-testid={`set-main-btn-${c.id}`}
+                              className="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium px-2 py-1 rounded border border-indigo-200"
+                            >
+                              Set as Main
+                            </button>
+                          )}
+                        </Can>
                         <Can permission="campus:delete">
                           {c.status === CampusStatus.ACTIVE && (
                             <button
                               onClick={() => handleArchiveCampus(c.id)}
-                              className="text-xs text-rose-600 hover:text-rose-800 font-medium ml-3"
+                              className="text-xs text-rose-600 hover:text-rose-800 font-medium ml-2"
                             >
                               Archive
                             </button>
@@ -768,9 +812,47 @@ export const OrganizationPage: React.FC = () => {
               </div>
 
               <h3 className="text-sm font-bold uppercase text-slate-700 tracking-wider pt-4 border-t border-slate-100">
+                Weekly Operational Days
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3">
+                {[
+                  WeekDay.MONDAY,
+                  WeekDay.TUESDAY,
+                  WeekDay.WEDNESDAY,
+                  WeekDay.THURSDAY,
+                  WeekDay.FRIDAY,
+                  WeekDay.SATURDAY,
+                  WeekDay.SUNDAY,
+                ].map((day) => {
+                  const isChecked = (settingsForm.workingDays || []).includes(day);
+                  return (
+                    <label
+                      key={day}
+                      className="flex items-center space-x-2 text-xs font-medium text-slate-700 cursor-pointer bg-slate-50 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 transition"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={(e) => {
+                          const currentDays = settingsForm.workingDays || [];
+                          const updated = e.target.checked
+                            ? [...currentDays, day]
+                            : currentDays.filter((d: string) => d !== day);
+                          setSettingsForm({ ...settingsForm, workingDays: updated });
+                        }}
+                        className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                        data-testid={`working-day-${day.toLowerCase()}`}
+                      />
+                      <span className="capitalize">{day.toLowerCase()}</span>
+                    </label>
+                  );
+                })}
+              </div>
+
+              <h3 className="text-sm font-bold uppercase text-slate-700 tracking-wider pt-4 border-t border-slate-100">
                 Automated Document Numbering Prefixes
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                 <div>
                   <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">
                     Admission Number Prefix
@@ -809,6 +891,50 @@ export const OrganizationPage: React.FC = () => {
                     }
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono uppercase"
                   />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">
+                    Employee ID Prefix
+                  </label>
+                  <input
+                    type="text"
+                    value={settingsForm.employeeIdPrefix}
+                    onChange={(e) =>
+                      setSettingsForm({ ...settingsForm, employeeIdPrefix: e.target.value })
+                    }
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono uppercase"
+                    data-testid="employee-id-prefix-input"
+                  />
+                </div>
+              </div>
+
+              <h3 className="text-sm font-bold uppercase text-slate-700 tracking-wider pt-4 border-t border-slate-100">
+                Live Document Sequence Preview
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <div>
+                  <span className="block text-xs text-slate-500 font-medium">Sample Admission No.</span>
+                  <span className="font-mono text-sm font-bold text-slate-800" data-testid="preview-admission-number">
+                    {numberingPreview?.admissionNumber || `${settingsForm.admissionNumberPrefix || 'ADM'}-${new Date().getFullYear()}-00001`}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-xs text-slate-500 font-medium">Sample Invoice No.</span>
+                  <span className="font-mono text-sm font-bold text-slate-800" data-testid="preview-invoice-number">
+                    {numberingPreview?.invoiceNumber || `${settingsForm.invoicePrefix || 'INV'}-${new Date().getFullYear()}-00001`}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-xs text-slate-500 font-medium">Sample Receipt No.</span>
+                  <span className="font-mono text-sm font-bold text-slate-800" data-testid="preview-receipt-number">
+                    {numberingPreview?.receiptNumber || `${settingsForm.receiptPrefix || 'REC'}-${new Date().getFullYear()}-00001`}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-xs text-slate-500 font-medium">Sample Employee ID</span>
+                  <span className="font-mono text-sm font-bold text-slate-800" data-testid="preview-employee-id">
+                    {numberingPreview?.employeeId || `${settingsForm.employeeIdPrefix || 'EMP'}-0001`}
+                  </span>
                 </div>
               </div>
 
@@ -873,20 +999,89 @@ export const OrganizationPage: React.FC = () => {
                     />
                   </div>
                 </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">
+                    Secondary Brand Color
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="color"
+                      value={brandingForm.secondaryColor || '#06b6d4'}
+                      onChange={(e) =>
+                        setBrandingForm({ ...brandingForm, secondaryColor: e.target.value })
+                      }
+                      className="w-10 h-10 rounded border border-slate-300 p-1 cursor-pointer"
+                    />
+                    <input
+                      type="text"
+                      value={brandingForm.secondaryColor || '#06b6d4'}
+                      onChange={(e) =>
+                        setBrandingForm({ ...brandingForm, secondaryColor: e.target.value })
+                      }
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono"
+                      data-testid="secondary-color-input"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">
+                    Report Card Header Text
+                  </label>
+                  <input
+                    type="text"
+                    value={brandingForm.reportCardHeader}
+                    onChange={(e) =>
+                      setBrandingForm({ ...brandingForm, reportCardHeader: e.target.value })
+                    }
+                    placeholder="e.g. Official Grade Sheet & Evaluation Report"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">
+                    Logo URL
+                  </label>
+                  <input
+                    type="url"
+                    value={brandingForm.logoUrl || ''}
+                    onChange={(e) =>
+                      setBrandingForm({ ...brandingForm, logoUrl: e.target.value })
+                    }
+                    placeholder="https://example.com/logo.png"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                    data-testid="logo-url-input"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">
+                    Favicon URL
+                  </label>
+                  <input
+                    type="url"
+                    value={brandingForm.faviconUrl || ''}
+                    onChange={(e) =>
+                      setBrandingForm({ ...brandingForm, faviconUrl: e.target.value })
+                    }
+                    placeholder="https://example.com/favicon.ico"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                    data-testid="favicon-url-input"
+                  />
+                </div>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">
-                  Report Card Header Text
+                  Default Email Signature
                 </label>
-                <input
-                  type="text"
-                  value={brandingForm.reportCardHeader}
+                <textarea
+                  rows={3}
+                  value={brandingForm.emailSignature || ''}
                   onChange={(e) =>
-                    setBrandingForm({ ...brandingForm, reportCardHeader: e.target.value })
+                    setBrandingForm({ ...brandingForm, emailSignature: e.target.value })
                   }
-                  placeholder="e.g. Official Grade Sheet & Evaluation Report"
+                  placeholder="e.g. Regards, School Administration"
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                  data-testid="email-signature-input"
                 />
               </div>
 

@@ -187,6 +187,41 @@ describe('Frontend Organization Management Suite (Phase 5)', () => {
         );
       }
 
+      if (url.includes('/set-main')) {
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({
+              success: true,
+              data: { ...mockCampuses[1], isMain: true },
+            }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+        );
+      }
+
+      if (url.includes('/schools/numbering/preview')) {
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({
+              success: true,
+              data: {
+                admissionNumber: 'APX-ADM-2026-00001',
+                invoiceNumber: 'APX-INV-2026-00001',
+                receiptNumber: 'APX-REC-2026-00001',
+                employeeId: 'APX-EMP-0001',
+              },
+            }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+        );
+      }
+
       if (url.includes('/campuses')) {
         return Promise.resolve(
           new Response(JSON.stringify({ success: true, data: mockCampuses }), {
@@ -469,6 +504,104 @@ describe('Frontend Organization Management Suite (Phase 5)', () => {
       renderRoutedApp('/organization', authorizedState);
       await waitFor(() => {
         expect(screen.getByText(/Organization Management/i)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('5. Phase 5 Hardening UI Controls', () => {
+    const adminState = {
+      auth: {
+        isAuthenticated: true,
+        user: {
+          id: 'admin_1',
+          email: 'admin@apexacademy.edu',
+          userType: UserType.STAFF,
+          tenantId: 'tenant_123',
+          status: UserStatus.ACTIVE,
+          roles: ['ADMIN'],
+          permissions: [
+            'school:read',
+            'school:update',
+            'campus:read',
+            'campus:create',
+            'campus:update',
+            'campus:delete',
+            'settings:read',
+            'settings:update',
+            'branding:read',
+            'branding:update',
+          ],
+        },
+      },
+    };
+
+    it('renders MAIN badge on main campus and Set as Main button on non-main active campus', async () => {
+      renderWithProviders(<OrganizationPage />, adminState);
+
+      fireEvent.click(screen.getByTestId('tab-campuses'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('campus-main-badge-camp_1')).toBeInTheDocument();
+        expect(screen.getByTestId('campus-main-badge-camp_1')).toHaveTextContent('MAIN');
+        expect(screen.getByTestId('set-main-btn-camp_2')).toBeInTheDocument();
+        expect(screen.getByTestId('set-main-btn-camp_2')).toHaveTextContent('Set as Main');
+      });
+
+      fireEvent.click(screen.getByTestId('set-main-btn-camp_2'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('org-alert-notice')).toHaveTextContent(
+          /Campus designated as main campus successfully/i
+        );
+      });
+    });
+
+    it('renders weekly operational days checkboxes and employeeIdPrefix in Settings tab', async () => {
+      renderWithProviders(<OrganizationPage />, adminState);
+
+      fireEvent.click(screen.getByTestId('tab-settings'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('working-day-monday')).toBeInTheDocument();
+        expect(screen.getByTestId('working-day-monday')).toBeChecked();
+        expect(screen.getByTestId('working-day-sunday')).not.toBeChecked();
+        expect(screen.getByTestId('employee-id-prefix-input')).toHaveValue('APX-EMP');
+      });
+    });
+
+    it('renders live sequence numbering preview cards in Settings tab', async () => {
+      renderWithProviders(<OrganizationPage />, adminState);
+
+      fireEvent.click(screen.getByTestId('tab-settings'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('preview-admission-number')).toHaveTextContent(
+          'APX-ADM-2026-00001'
+        );
+        expect(screen.getByTestId('preview-invoice-number')).toHaveTextContent(
+          'APX-INV-2026-00001'
+        );
+        expect(screen.getByTestId('preview-receipt-number')).toHaveTextContent(
+          'APX-REC-2026-00001'
+        );
+        expect(screen.getByTestId('preview-employee-id')).toHaveTextContent('APX-EMP-0001');
+      });
+    });
+
+    it('renders secondary color, logo/favicon URLs, and email signature in Branding tab', async () => {
+      renderWithProviders(<OrganizationPage />, adminState);
+
+      fireEvent.click(screen.getByTestId('tab-branding'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('secondary-color-input')).toHaveValue('#06b6d4');
+        expect(screen.getByTestId('logo-url-input')).toHaveValue(
+          'https://apexacademy.edu/logo.png'
+        );
+        expect(screen.getByTestId('favicon-url-input')).toBeInTheDocument();
+        expect(screen.getByTestId('email-signature-input')).toHaveValue(
+          'Regards, Apex Administration'
+        );
       });
     });
   });

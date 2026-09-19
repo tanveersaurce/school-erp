@@ -105,6 +105,13 @@ tenantRouter.patch(
 );
 
 tenantRouter.get(
+  '/schools/numbering/preview',
+  authenticate,
+  requirePermission('settings:read'),
+  tenantController.previewNumbering.bind(tenantController)
+);
+
+tenantRouter.get(
   '/schools/branding',
   authenticate,
   requirePermission('branding:read'),
@@ -147,6 +154,13 @@ tenantRouter.patch(
   authenticate,
   requirePermission('campus:update'),
   tenantController.updateCampus.bind(tenantController)
+);
+
+tenantRouter.post(
+  '/campuses/:campusId/set-main',
+  authenticate,
+  requirePermission('campus:update'),
+  tenantController.setMainCampus.bind(tenantController)
 );
 
 tenantRouter.post(

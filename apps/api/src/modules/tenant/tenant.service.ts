@@ -40,6 +40,7 @@ import {
   UpdateCampusInput,
   CreateAcademicYearInput,
   UpdateAcademicYearInput,
+  NumberingPreviewDto,
 } from '@edusphere/types';
 import { invalidateTenantResolverCache } from '../../middlewares/tenantContext.js';
 import { recordAuditLog } from '../../core/audit/audit.service.js';
@@ -817,6 +818,26 @@ export class TenantService {
     return school.settings;
   }
 
+  async previewNumbering(tenantId: string, schoolId?: string): Promise<NumberingPreviewDto> {
+    const school = await this.getSchoolProfile(tenantId, schoolId);
+    const numbering = school.settings?.numbering || {
+      admissionNumberPrefix: 'ADM',
+      admissionNumberDigits: 5,
+      invoicePrefix: 'INV',
+      receiptPrefix: 'REC',
+      employeeIdPrefix: 'EMP',
+    };
+    const year = new Date().getFullYear();
+    const admDigits = numbering.admissionNumberDigits || 5;
+
+    return {
+      admissionNumber: `${numbering.admissionNumberPrefix || 'ADM'}-${year}-${'1'.padStart(admDigits, '0')}`,
+      invoiceNumber: `${numbering.invoicePrefix || 'INV'}-${year}-${'1'.padStart(5, '0')}`,
+      receiptNumber: `${numbering.receiptPrefix || 'REC'}-${year}-${'1'.padStart(5, '0')}`,
+      employeeId: `${numbering.employeeIdPrefix || 'EMP'}-${'1'.padStart(4, '0')}`,
+    };
+  }
+
   async getSchoolBranding(tenantId: string, schoolId?: string) {
     const school = await this.getSchoolProfile(tenantId, schoolId);
     return (
@@ -948,6 +969,21 @@ export class TenantService {
       );
     }
 
+    // Check existing campus count to determine auto-main for first campus
+    const existingCount = await Campus.countDocuments({
+      tenantId: new Types.ObjectId(tenantId),
+      schoolId: targetSchoolId,
+      isDeleted: false,
+    });
+    const isMain = input.isMain !== undefined ? input.isMain : existingCount === 0;
+
+    if (isMain) {
+      await Campus.updateMany(
+        { tenantId: new Types.ObjectId(tenantId), schoolId: targetSchoolId, isMain: true },
+        { $set: { isMain: false } }
+      );
+    }
+
     const campus = await Campus.create({
       tenantId: new Types.ObjectId(tenantId),
       schoolId: targetSchoolId,
@@ -955,6 +991,7 @@ export class TenantService {
       code: normalizedCode,
       address: input.address,
       contact: input.contact,
+      isMain,
       status: input.status || CampusStatus.ACTIVE,
     });
 
@@ -966,6 +1003,63 @@ export class TenantService {
         action: 'CAMPUS_CREATED',
         entity: 'Campus',
         entityId: campus._id.toString(),
+        after: campus.toObject(),
+        ipAddress: meta.ipAddress,
+        userAgent: meta.userAgent,
+        requestId: meta.requestId,
+      });
+    }
+
+    return this.mapCampusDto(campus);
+  }
+
+  async setMainCampus(
+    tenantId: string,
+    campusId: string,
+    meta?: AuditContextMeta
+  ): Promise<CampusDto> {
+    const campus = await Campus.findOne({
+      _id: campusId,
+      tenantId: new Types.ObjectId(tenantId),
+      isDeleted: false,
+    });
+    if (!campus) {
+      throw new NotFoundError('Campus not found.');
+    }
+
+    if (campus.status === CampusStatus.ARCHIVED) {
+      throw new BadRequestError('Archived campus cannot be set as the main campus.');
+    }
+
+    if (campus.isMain) {
+      return this.mapCampusDto(campus);
+    }
+
+    const before = campus.toObject();
+
+    // Demote any existing main campus for this school
+    await Campus.updateMany(
+      {
+        tenantId: campus.tenantId,
+        schoolId: campus.schoolId,
+        _id: { $ne: campus._id },
+        isMain: true,
+      },
+      { $set: { isMain: false } }
+    );
+
+    campus.isMain = true;
+    await campus.save();
+
+    if (meta?.userId) {
+      await recordAuditLog({
+        tenantId,
+        schoolId: campus.schoolId.toString(),
+        userId: meta.userId,
+        action: 'CAMPUS_SET_MAIN',
+        entity: 'Campus',
+        entityId: campus._id.toString(),
+        before,
         after: campus.toObject(),
         ipAddress: meta.ipAddress,
         userAgent: meta.userAgent,
@@ -1025,6 +1119,23 @@ export class TenantService {
         ...input.contact,
       };
     }
+    if (input.isMain !== undefined && input.isMain !== campus.isMain) {
+      if (input.isMain) {
+        await Campus.updateMany(
+          {
+            tenantId: campus.tenantId,
+            schoolId: campus.schoolId,
+            _id: { $ne: campus._id },
+            isMain: true,
+          },
+          { $set: { isMain: false } }
+        );
+        campus.isMain = true;
+      } else {
+        // Disallow unsetting main if this is the only active campus
+        campus.isMain = false;
+      }
+    }
 
     await campus.save();
 
@@ -1059,6 +1170,24 @@ export class TenantService {
     });
     if (!campus) {
       throw new NotFoundError('Campus not found.');
+    }
+
+    // Archival safeguards: check active campuses count
+    const activeCount = await Campus.countDocuments({
+      tenantId: campus.tenantId,
+      schoolId: campus.schoolId,
+      status: CampusStatus.ACTIVE,
+      isDeleted: false,
+    });
+
+    if (activeCount <= 1) {
+      throw new BadRequestError('Cannot archive the sole active campus of a school.');
+    }
+
+    if (campus.isMain) {
+      throw new BadRequestError(
+        'Cannot archive the main campus. Please designate another campus as main before archival.'
+      );
     }
 
     const before = campus.toObject();
@@ -1421,6 +1550,7 @@ export class TenantService {
       address: doc.address,
       contact: doc.contact,
       principalId: doc.principalId?.toString(),
+      isMain: doc.isMain ?? false,
       status: doc.status,
       createdAt: doc.createdAt?.toISOString(),
       updatedAt: doc.updatedAt?.toISOString(),

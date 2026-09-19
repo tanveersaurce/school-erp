@@ -290,6 +290,22 @@ export class TenantController {
     }
   }
 
+  async previewNumbering(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const tenantId = req.auth!.tenantId;
+      const schoolId = req.auth!.schoolId;
+      const result = await tenantService.previewNumbering(tenantId, schoolId);
+
+      res.status(200).json(
+        createSuccessResponse(result, 'Numbering preview generated successfully.', {
+          requestId: req.id,
+        })
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getSchoolBranding(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const tenantId = req.auth!.tenantId;
@@ -437,6 +453,23 @@ export class TenantController {
 
       res.status(200).json(
         createSuccessResponse(result, 'Campus archived successfully.', {
+          requestId: req.id,
+        })
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async setMainCampus(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const tenantId = req.auth!.tenantId;
+      const meta = getAuditMeta(req);
+
+      const result = await tenantService.setMainCampus(tenantId, req.params.campusId, meta);
+
+      res.status(200).json(
+        createSuccessResponse(result, 'Campus designated as main campus successfully.', {
           requestId: req.id,
         })
       );
