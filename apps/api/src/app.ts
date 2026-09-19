@@ -26,6 +26,8 @@ import { hostelRouter } from './modules/hostel/hostel.routes.js';
 import { inventoryRouter } from './modules/inventory/inventory.routes.js';
 import { communicationRouter, notificationRouter } from './modules/communication/communication.routes.js';
 import { reportsRouter } from './modules/reports/reports.routes.js';
+import { auditRouter } from './modules/audit/audit.routes.js';
+import { searchRouter } from './modules/search/search.routes.js';
 import { tenantContextMiddleware } from './middlewares/tenantContext.js';
 import { appConfig } from './config/app.js';
 import { getDatabaseStatus } from './config/database.js';
@@ -118,6 +120,8 @@ export function createApp(): Application {
   app.use(`${appConfig.apiPrefix}/communication`, communicationRouter);
   app.use(`${appConfig.apiPrefix}/notifications`, notificationRouter);
   app.use(`${appConfig.apiPrefix}/reports`, reportsRouter);
+  app.use(`${appConfig.apiPrefix}/audit-logs`, auditRouter);
+  app.use(`${appConfig.apiPrefix}/search`, searchRouter);
 
   // 10. Centralized Error & 404 Handlers
   app.use(notFoundHandler);

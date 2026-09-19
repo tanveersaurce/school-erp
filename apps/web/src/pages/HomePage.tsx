@@ -10,6 +10,7 @@ import {
   Laptop,
   ExternalLink,
   Lock,
+  Search,
 } from 'lucide-react';
 import { useGetHealthQuery } from '../services/api.js';
 import { useTheme } from '../context/ThemeContext.js';
@@ -23,6 +24,7 @@ import {
   CardContent,
 } from '../components/ui/Card.js';
 import { Dialog } from '../components/ui/Dialog.js';
+import { GlobalSearchModal } from '../components/search/GlobalSearchModal.js';
 
 export function HomePage(): React.JSX.Element {
   const {
@@ -35,6 +37,18 @@ export function HomePage(): React.JSX.Element {
   const { theme, setTheme } = useTheme();
   const { showToast } = useToast();
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between">
@@ -77,6 +91,28 @@ export function HomePage(): React.JSX.Element {
               <Laptop className="w-3.5 h-3.5" />
             </button>
           </div>
+
+          {/* Global Search Trigger */}
+          <button
+            type="button"
+            onClick={() => setIsSearchOpen(true)}
+            className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white border border-slate-700 text-xs transition"
+            title="Search (Ctrl+K)"
+          >
+            <Search className="w-3.5 h-3.5 text-indigo-400" />
+            <span className="hidden md:inline">Search...</span>
+            <kbd className="hidden md:inline-block px-1.5 py-0.2 bg-slate-900 border border-slate-700 rounded text-[10px] font-mono text-slate-400">
+              Ctrl+K
+            </kbd>
+          </button>
+
+          <Link
+            to="/audit"
+            className="text-xs text-amber-300 hover:text-white font-medium mr-1 flex items-center gap-1"
+          >
+            <Shield className="w-3 h-3" />
+            Audit Trail
+          </Link>
 
           <Link
             to="/communication"
@@ -574,6 +610,9 @@ export function HomePage(): React.JSX.Element {
           Status: Phase 1 UI Primitives Loaded Successfully
         </div>
       </Dialog>
+
+      {/* Phase 21: Global Search Modal */}
+      <GlobalSearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       {/* Footer */}
       <footer className="border-t border-slate-800/80 px-6 py-4 text-center text-xs text-slate-500">

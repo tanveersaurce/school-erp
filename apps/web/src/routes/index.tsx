@@ -171,6 +171,7 @@ import {
   ScheduledReportsPage,
   ExportJobsPage,
 } from '../pages/reports/index.js';
+import { AuditLogsPage } from '../pages/audit/AuditLogsPage.js';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute.js';
 import { PermissionRoute } from '../components/auth/PermissionRoute.js';
 
@@ -1466,6 +1467,14 @@ export const routes: RouteObject[] = [
     element: (
       <PermissionRoute anyOf={['report:export', 'report:read']}>
         <ExportJobsPage />
+      </PermissionRoute>
+    ),
+  },
+  {
+    path: '/audit',
+    element: (
+      <PermissionRoute anyOf={['audit:read']}>
+        <AuditLogsPage />
       </PermissionRoute>
     ),
   },

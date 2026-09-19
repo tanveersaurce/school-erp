@@ -217,6 +217,8 @@ export const baseApi = createApi({
     'Reports',
     'ReportExports',
     'ScheduledReports',
+    'AuditLogs',
+    'Search',
   ],
   endpoints: (builder) => ({
     getHealth: builder.query<ApiResponse<HealthData>, void>({
