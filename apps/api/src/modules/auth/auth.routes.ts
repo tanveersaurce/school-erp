@@ -15,6 +15,9 @@ import {
   loginRateLimiter,
   forgotPasswordRateLimiter,
   resendVerificationRateLimiter,
+  refreshRateLimiter,
+  resetPasswordRateLimiter,
+  verifyEmailRateLimiter,
 } from '../../middlewares/authRateLimiter.js';
 
 export const authRouter = Router();
@@ -24,7 +27,7 @@ authRouter.post('/login', loginRateLimiter, validateBody(loginSchema), (req, res
   authController.login(req, res, next)
 );
 
-authRouter.post('/refresh', validateBody(refreshTokenSchema), (req, res, next) =>
+authRouter.post('/refresh', refreshRateLimiter, validateBody(refreshTokenSchema), (req, res, next) =>
   authController.refresh(req, res, next)
 );
 
@@ -35,11 +38,11 @@ authRouter.post(
   (req, res, next) => authController.forgotPassword(req, res, next)
 );
 
-authRouter.post('/reset-password', validateBody(resetPasswordSchema), (req, res, next) =>
+authRouter.post('/reset-password', resetPasswordRateLimiter, validateBody(resetPasswordSchema), (req, res, next) =>
   authController.resetPassword(req, res, next)
 );
 
-authRouter.post('/verify-email', validateBody(verifyEmailSchema), (req, res, next) =>
+authRouter.post('/verify-email', verifyEmailRateLimiter, validateBody(verifyEmailSchema), (req, res, next) =>
   authController.verifyEmail(req, res, next)
 );
 

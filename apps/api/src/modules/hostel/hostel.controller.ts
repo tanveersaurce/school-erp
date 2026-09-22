@@ -12,6 +12,7 @@ import {
   HostelAllocation,
 } from '@edusphere/database';
 import { HostelPolicy } from './policies/hostel.policy.js';
+import { resolveAuthorizedSchoolId } from '../../core/auth/scope.helper.js';
 import { HostelStructureService } from './services/hostel-structure.service.js';
 import { WardenService } from './services/warden.service.js';
 import { HostelAllocationService } from './services/hostel-allocation.service.js';
@@ -30,7 +31,7 @@ export class HostelController {
     }
     const tenantId = new Types.ObjectId(req.tenantContext?.tenantId || auth.tenantId);
     const userId = new Types.ObjectId(auth.userId);
-    const schoolId = (req.query.schoolId as string) || (req.body?.schoolId as string) || auth.schoolId;
+    const schoolId = resolveAuthorizedSchoolId(req);
     return { auth, tenantId, userId, schoolId };
   }
 

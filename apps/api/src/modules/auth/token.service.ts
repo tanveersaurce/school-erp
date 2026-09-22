@@ -30,7 +30,7 @@ export class TokenService {
   }
 
   /**
-   * Generates a short-lived JWT Access Token.
+   * Generates a short-lived JWT Access Token with algorithm pinning, issuer, and audience.
    */
   generateAccessToken(payload: Omit<JwtPayload, 'iat' | 'exp' | 'jti'>): string {
     const jti = uuidv4();
@@ -40,21 +40,38 @@ export class TokenService {
     };
 
     return jwt.sign(tokenPayload, env.JWT_ACCESS_SECRET, {
+      algorithm: 'HS256',
+      issuer: 'edusphere-erp',
+      audience: 'edusphere-api',
       expiresIn: env.JWT_ACCESS_EXPIRY as jwt.SignOptions['expiresIn'],
     });
   }
 
   /**
    * Verifies and decodes a JWT Access Token.
+   * Enforces algorithm HS256, issuer, audience, and required claims.
    * Throws TokenExpiredError if expired or AuthenticationError if malformed/invalid.
    */
   verifyAccessToken(token: string): JwtPayload {
     try {
-      const decoded = jwt.verify(token, env.JWT_ACCESS_SECRET) as JwtPayload;
+      const decoded = jwt.verify(token, env.JWT_ACCESS_SECRET, {
+        algorithms: ['HS256'],
+        issuer: 'edusphere-erp',
+        audience: 'edusphere-api',
+      }) as JwtPayload;
+
+      // Validate required claims
+      if (!decoded.userId || !decoded.tenantId || !decoded.sessionId) {
+        throw new AuthenticationError('Token payload missing mandatory claims.');
+      }
+
       return decoded;
     } catch (err) {
       if (err instanceof jwt.TokenExpiredError) {
         throw new TokenExpiredError('Access token has expired. Please refresh your session.');
+      }
+      if (err instanceof AuthenticationError) {
+        throw err;
       }
       throw new AuthenticationError('Invalid or corrupted authentication token.');
     }

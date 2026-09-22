@@ -7,6 +7,7 @@ import { corsMiddleware } from './middlewares/cors.js';
 import { globalRateLimiter } from './middlewares/rateLimiter.js';
 import { notFoundHandler } from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+import { mongoSanitizeMiddleware } from './middlewares/mongoSanitize.js';
 import { healthRouter } from './routes/health.routes.js';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { rbacRouter } from './modules/rbac/rbac.routes.js';
@@ -59,6 +60,9 @@ export function createApp(): Application {
   app.use(cookieParser());
   app.use(express.json({ limit: appConfig.bodyLimit }));
   app.use(express.urlencoded({ extended: true, limit: appConfig.bodyLimit }));
+
+  // 7.5. Deep NoSQL Injection & Prototype Pollution Sanitization
+  app.use(mongoSanitizeMiddleware);
 
   // 8. Global Multi-Tenant Context Resolution & ALS Propagation
   app.use(tenantContextMiddleware);

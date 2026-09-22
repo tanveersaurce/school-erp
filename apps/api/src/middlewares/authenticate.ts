@@ -70,8 +70,16 @@ export async function authenticate(
           );
         }
         req.tenantContext.userId = user._id.toString();
+
+        // Enforce user's assigned schoolId if assigned
+        if (user.schoolId) {
+          req.tenantContext.schoolId = user.schoolId.toString();
+        }
       }
-      return next();
+
+      return runWithTenantContext(req.tenantContext, () => {
+        next();
+      });
     }
 
     // Tenant context was not resolved at ingress; initialize from authenticated user

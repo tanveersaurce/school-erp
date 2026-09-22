@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { authenticate } from '../../middlewares/authenticate.js';
 import { requirePermission, requireAnyPermission } from '../../middlewares/authorize.js';
+import { exportRateLimiter } from '../../middlewares/rateLimiter.js';
 import { ReportsController } from './reports.controller.js';
 
 export const reportsRouter = Router();
@@ -43,6 +44,7 @@ reportsRouter.get(
 
 reportsRouter.post(
   '/exports',
+  exportRateLimiter,
   requirePermission('report:export'),
   ReportsController.createExportJob
 );
@@ -115,12 +117,14 @@ reportsRouter.post(
 
 reportsRouter.get(
   '/export/:key',
+  exportRateLimiter,
   requirePermission('report:export'),
   ReportsController.exportReport
 );
 
 reportsRouter.post(
   '/export/:key',
+  exportRateLimiter,
   requirePermission('report:export'),
   ReportsController.exportReport
 );

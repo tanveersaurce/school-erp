@@ -27,10 +27,12 @@ const ALLOWED_MIME_TYPES = [
   'application/x-zip-compressed',
 ];
 
+import { safeFileNameSchema, safeFileUrlSchema } from '../../core/security/fileSecurity.js';
+
 export const attachmentSchema = z.object({
   id: z.string().min(1, 'Attachment ID is required'),
-  fileName: z.string().min(1).max(255),
-  fileUrl: z.string().min(1, 'File URL is required'),
+  fileName: safeFileNameSchema,
+  fileUrl: safeFileUrlSchema,
   fileType: z.string().refine(
     (type) => ALLOWED_MIME_TYPES.includes(type.toLowerCase()) || type.startsWith('image/'),
     { message: 'Unsupported file MIME type. Supported: PDF, Word, Excel, PowerPoint, Text, Images, ZIP.' }

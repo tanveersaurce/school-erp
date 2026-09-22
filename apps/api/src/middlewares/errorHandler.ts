@@ -54,6 +54,50 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
     return;
   }
 
+  // Handle Mongoose CastError (invalid ObjectId format)
+  if (err.name === 'CastError') {
+    logger.warn(
+      {
+        requestId,
+        path: req.originalUrl,
+        method: req.method,
+      },
+      'Mongoose CastError: invalid identifier format'
+    );
+    res
+      .status(422)
+      .json(
+        createErrorResponse(
+          'VALIDATION_FAILED',
+          'Invalid identifier format provided in request.',
+          requestId
+        )
+      );
+    return;
+  }
+
+  // Handle MongoDB duplicate key collision (E11000)
+  if ((err as any).code === 11000 || (err as any).name === 'MongoServerError' && (err as any).code === 11000) {
+    logger.warn(
+      {
+        requestId,
+        path: req.originalUrl,
+        method: req.method,
+      },
+      'MongoDB duplicate key collision'
+    );
+    res
+      .status(409)
+      .json(
+        createErrorResponse(
+          'RESOURCE_ALREADY_EXISTS',
+          'A record with conflicting unique attributes already exists.',
+          requestId
+        )
+      );
+    return;
+  }
+
   // Unhandled internal exception
   logger.error(
     {
@@ -69,14 +113,13 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
     'Unhandled internal server error'
   );
 
+  const isSafeEnv = env.NODE_ENV === 'development';
   res
     .status(500)
     .json(
       createErrorResponse(
         'INTERNAL_SERVER_ERROR',
-        env.NODE_ENV === 'production'
-          ? 'An unexpected error occurred. Please contact system support.'
-          : err.message,
+        isSafeEnv ? err.message : 'An unexpected error occurred. Please contact system support.',
         requestId
       )
     );

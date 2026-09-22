@@ -8,10 +8,23 @@ export const corsMiddleware = cors({
     // Allow non-browser tools (Postman, mobile apps, curl) with no origin header
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin) || origin.endsWith('.edusphere.io')) {
+    if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    return callback(new Error(`Origin ${origin} not allowed by CORS policy`));
+
+    try {
+      const parsed = new URL(origin);
+      const hostname = parsed.hostname.toLowerCase();
+      // Strictly allow edusphere.io or genuine subdomains of edusphere.io (e.g. school.edusphere.io)
+      if (hostname === 'edusphere.io' || hostname.endsWith('.edusphere.io')) {
+        return callback(null, true);
+      }
+    } catch {
+      // Malformed origin URL
+    }
+
+    // Reject CORS cleanly without unhandled server exception
+    return callback(null, false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -21,6 +34,9 @@ export const corsMiddleware = cors({
     'X-Request-ID',
     'X-Tenant-Domain',
     'X-Tenant-ID',
+    'X-School-ID',
+    'X-Campus-ID',
+    'X-Academic-Year-ID',
   ],
   exposedHeaders: ['X-Request-ID'],
 });

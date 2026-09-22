@@ -15,17 +15,23 @@ export class TemplateEngine {
   }
 
   /**
-   * Render a template string replacing {{variableName}} with values from variables dictionary
+   * Render a template string replacing {{variableName}} with values from variables dictionary.
+   * By default, automatically sanitizes variable values to neutralize XSS payloads.
    */
-  public static render(template: string, variables: Record<string, any> = {}): string {
+  public static render(
+    template: string,
+    variables: Record<string, any> = {},
+    options: { escape?: boolean } = { escape: true }
+  ): string {
     if (!template) return '';
 
-    return template.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (match, varName) => {
+    return template.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (_match, varName) => {
       const value = variables[varName];
       if (value === undefined || value === null) {
         return '';
       }
-      return String(value);
+      const str = String(value);
+      return options.escape !== false ? TemplateEngine.sanitize(str) : str;
     });
   }
 

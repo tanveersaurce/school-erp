@@ -75,7 +75,18 @@ export function tenantPlugin(schema: Schema): void {
 
   // Query middleware: automatically apply tenantId filter if provided in AsyncLocalStorage context or query options
   schema.pre(
-    ['find', 'findOne', 'findOneAndUpdate', 'updateMany', 'countDocuments', 'deleteMany'],
+    [
+      'find',
+      'findOne',
+      'findOneAndUpdate',
+      'updateOne',
+      'updateMany',
+      'countDocuments',
+      'deleteOne',
+      'deleteMany',
+      'findOneAndDelete',
+      'findOneAndReplace',
+    ],
     function (this: Query<any, any>) {
       const options = this.getOptions();
       if (options && options.skipTenantFilter) {

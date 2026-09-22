@@ -7,6 +7,7 @@ import {
 } from '@edusphere/common';
 import { Parent, StudentParentRelation, StudentTransportAssignment } from '@edusphere/database';
 import { TransportPolicy } from './policies/transport.policy.js';
+import { resolveAuthorizedSchoolId } from '../../core/auth/scope.helper.js';
 import { TransportConfigService } from './services/transport-config.service.js';
 import { VehicleService } from './services/vehicle.service.js';
 import { DriverService } from './services/driver.service.js';
@@ -25,7 +26,7 @@ export class TransportController {
       throw new AuthenticationError('Authentication required.');
     }
     const tenantId = req.tenantContext?.tenantId || auth.tenantId;
-    const schoolId = (req.query.schoolId as string) || (req.body?.schoolId as string) || auth.schoolId || '';
+    const schoolId = resolveAuthorizedSchoolId(req);
     const campusId = (req.query.campusId as string) || (req.body?.campusId as string) || auth.campusId;
     return { auth, tenantId, schoolId, campusId, userId: auth.userId };
   }

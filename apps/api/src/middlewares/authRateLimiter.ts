@@ -61,3 +61,60 @@ export const resendVerificationRateLimiter = rateLimit({
       );
   },
 });
+
+export const refreshRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: isTest ? 1000 : 30, // 30 refresh requests per 15 min per IP in production
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req: Request, res: Response) => {
+    const requestId = req.id || 'req_unknown';
+    res
+      .status(429)
+      .json(
+        createErrorResponse(
+          'RATE_LIMIT_EXCEEDED',
+          'Too many session refresh requests. Please try again later.',
+          requestId
+        )
+      );
+  },
+});
+
+export const resetPasswordRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: isTest ? 1000 : 10, // 10 attempts per 15 min per IP in production
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req: Request, res: Response) => {
+    const requestId = req.id || 'req_unknown';
+    res
+      .status(429)
+      .json(
+        createErrorResponse(
+          'RATE_LIMIT_EXCEEDED',
+          'Too many password reset attempts. Please try again after 15 minutes.',
+          requestId
+        )
+      );
+  },
+});
+
+export const verifyEmailRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: isTest ? 1000 : 10, // 10 attempts per 15 min per IP in production
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req: Request, res: Response) => {
+    const requestId = req.id || 'req_unknown';
+    res
+      .status(429)
+      .json(
+        createErrorResponse(
+          'RATE_LIMIT_EXCEEDED',
+          'Too many email verification attempts. Please try again after 15 minutes.',
+          requestId
+        )
+      );
+  },
+});

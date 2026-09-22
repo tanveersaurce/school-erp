@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { createSuccessResponse, AuthenticationError } from '@edusphere/common';
+import { resolveAuthorizedSchoolId } from '../../core/auth/scope.helper.js';
 import { FeeCategoryService } from './services/fee-category.service.js';
 import { FeeStructureService } from './services/fee-structure.service.js';
 import { FeeAssignmentService } from './services/fee-assignment.service.js';
@@ -34,7 +35,7 @@ export class FinanceController {
       throw new AuthenticationError('Authentication required.');
     }
     const tenantId = req.tenantContext?.tenantId || auth.tenantId;
-    const schoolId = (req.query.schoolId as string) || (req.body?.schoolId as string) || auth.schoolId || '';
+    const schoolId = resolveAuthorizedSchoolId(req);
     return { auth, tenantId, schoolId, userId: auth.userId };
   }
 

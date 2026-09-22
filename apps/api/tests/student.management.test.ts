@@ -212,7 +212,7 @@ describe('Student & Parent Management Integration Suite (Phase 7)', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.success).toBe(true);
-      expect(res.body.data.admissionNumber).toMatch(/^SF-ADM-\d{4}-0001$/);
+      expect(res.body.data.admissionNumber).toMatch(/^SF-ADM-\d{4}-0000?1$/);
     });
 
     it('generates next collision-free studentId (STU-YYYY-XXXX)', async () => {

@@ -33,7 +33,37 @@ const envSchema = z.object({
   COOKIE_SECURE: z.coerce.boolean().default(false),
 
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
-});
+})
+  .refine(
+    (data) => {
+      if (data.NODE_ENV === 'production') {
+        if (
+          data.JWT_ACCESS_SECRET === 'local_dev_jwt_access_secret_key_32_characters_minimum_len' ||
+          data.JWT_REFRESH_SECRET === 'local_dev_jwt_refresh_secret_key_32_characters_minimum_len'
+        ) {
+          return false;
+        }
+      }
+      return true;
+    },
+    {
+      message:
+        'In production mode, JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be explicitly configured with unique cryptographic secrets, not default development placeholders.',
+      path: ['JWT_ACCESS_SECRET'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.NODE_ENV === 'production' && !data.COOKIE_SECURE) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'In production mode, COOKIE_SECURE must be enabled (true) for transport security.',
+      path: ['COOKIE_SECURE'],
+    }
+  );
 
 const parsedEnv = envSchema.safeParse(process.env);
 

@@ -106,6 +106,34 @@ export class SessionService {
       throw new AuthenticationError('Session expired. Please sign in again.');
     }
 
+    // Atomic compare-and-swap rotation: guarantees only ONE concurrent caller succeeds
+    const rotatedSession = await Session.findOneAndUpdate(
+      { _id: existingSession._id, isRevoked: false },
+      {
+        $set: {
+          isRevoked: true,
+          revokedAt: new Date(),
+          revokedReason: 'ROTATED',
+        },
+      },
+      { new: false }
+    );
+
+    if (!rotatedSession) {
+      // Race condition detected: another request consumed this token simultaneously
+      await Session.updateMany(
+        { tokenFamilyId: existingSession.tokenFamilyId, isRevoked: false },
+        {
+          $set: {
+            isRevoked: true,
+            revokedAt: new Date(),
+            revokedReason: 'CONCURRENT_ROTATION_COLLISION',
+          },
+        }
+      );
+      throw new AuthenticationError('Invalid or expired refresh token. Please sign in again.');
+    }
+
     // Verify user exists and is eligible for session continuity
     const user = await User.findById(existingSession.userId);
     if (!user || user.isDeleted) {
@@ -113,19 +141,8 @@ export class SessionService {
     }
 
     if (user.status !== UserStatus.ACTIVE) {
-      existingSession.isRevoked = true;
-      existingSession.revokedAt = new Date();
-      existingSession.revokedReason = `ACCOUNT_STATUS_${user.status}`;
-      await existingSession.save();
-
       throw new AuthenticationError('Account is no longer active.');
     }
-
-    // Invalidate the old refresh token (marked ROTATED)
-    existingSession.isRevoked = true;
-    existingSession.revokedAt = new Date();
-    existingSession.revokedReason = 'ROTATED';
-    await existingSession.save();
 
     // Issue a new session record under the same token family
     const { session: newSession, rawRefreshToken: newRawRefreshToken } = await this.createSession({
