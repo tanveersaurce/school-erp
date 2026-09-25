@@ -48,6 +48,8 @@ export async function authenticate(
       userType: user.userType,
       sessionId: session._id.toString(),
       email: user.email,
+      roles: payload.roles,
+      permissions: payload.permissions,
     };
 
     // Cross-tenant verification and TenantContext reconciliation

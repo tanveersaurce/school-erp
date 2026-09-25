@@ -10,6 +10,12 @@
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:unit": "vitest run tests/auth.matrix.test.ts tests/rbac.matrix.test.ts",
+    "test:integration": "vitest run tests/*.matrix.test.ts tests/state.machine.test.ts tests/storage.worker.test.ts",
+    "test:e2e": "vitest run tests/e2e.user.journeys.test.ts",
+    "test:security": "vitest run tests/auth.matrix.test.ts tests/rbac.matrix.test.ts tests/multitenant.matrix.test.ts",
+    "test:concurrency": "vitest run tests/concurrency.matrix.test.ts tests/financial.integrity.test.ts",
+    "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "clean": "rimraf dist"
   },
