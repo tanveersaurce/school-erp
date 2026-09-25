@@ -279,6 +279,7 @@ export class StudentService {
 
     const [rawStudents, total] = await Promise.all([
       Student.find(filter)
+        .select('-documents -statusHistory')
         .sort(sort)
         .skip(skip)
         .limit(limit)

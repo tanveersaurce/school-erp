@@ -179,6 +179,8 @@ StudentAttendanceSchema.index({ tenantId: 1, 'records.studentId': 1, date: 1 });
 // 4. Query indexes for campus/status monitoring
 StudentAttendanceSchema.index({ tenantId: 1, campusId: 1, date: 1, status: 1 });
 StudentAttendanceSchema.index({ tenantId: 1, academicYearId: 1, date: 1 });
+StudentAttendanceSchema.index({ tenantId: 1, classId: 1, sectionId: 1, date: 1 });
+StudentAttendanceSchema.index({ tenantId: 1, classId: 1, date: 1 });
 
 // =========================================================================
 // 2. AttendanceCorrection Schema (Audited Workflow)

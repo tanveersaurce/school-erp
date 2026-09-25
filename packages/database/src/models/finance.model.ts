@@ -334,6 +334,8 @@ FeeInvoiceSchema.index({ tenantId: 1, invoiceNumber: 1 }, { unique: true });
 FeeInvoiceSchema.index({ tenantId: 1, studentId: 1, status: 1 });
 FeeInvoiceSchema.index({ tenantId: 1, dueDate: 1, status: 1 });
 FeeInvoiceSchema.index({ tenantId: 1, academicYearId: 1, classId: 1 });
+FeeInvoiceSchema.index({ tenantId: 1, isDeleted: 1, createdAt: -1 });
+FeeInvoiceSchema.index({ tenantId: 1, schoolId: 1, status: 1, isDeleted: 1 });
 
 // =========================================================================
 // 5. Payment Schema

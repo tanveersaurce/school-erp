@@ -680,14 +680,18 @@ export async function createFeeStructure(
   overrides: Record<string, any> = {}
 ) {
   const n = nextSeq();
+  const amt = overrides.totalAmount ?? overrides.amount ?? 150000;
   return FeeStructure.create({
     _id: new Types.ObjectId(),
     tenantId,
     schoolId,
     academicYearId,
     feeCategoryId,
-    name: `Grade 10 Fee Structure ${n}`,
-    amount: 150000, // 1500.00 in minor units
+    classId: overrides.classId || new Types.ObjectId(),
+    name: overrides.name || overrides.title || `Grade 10 Fee Structure ${n}`,
+    title: overrides.title || overrides.name || `Grade 10 Fee Structure ${n}`,
+    amount: amt,
+    totalAmount: amt,
     frequency: FeeFrequency.ANNUAL,
     dueDate: new Date('2026-08-31'),
     ...overrides,

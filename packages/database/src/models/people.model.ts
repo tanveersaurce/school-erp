@@ -185,6 +185,9 @@ StudentSchema.index({
   'personalDetails.firstName': 1,
   'personalDetails.lastName': 1,
 });
+StudentSchema.index({ tenantId: 1, isDeleted: 1, createdAt: -1 });
+StudentSchema.index({ tenantId: 1, schoolId: 1, isDeleted: 1, createdAt: -1 });
+StudentSchema.index({ tenantId: 1, schoolId: 1, currentStatus: 1, isDeleted: 1 });
 
 // 2. Parent / Guardian Schema
 const ParentSchema = new Schema<IParentDoc>(

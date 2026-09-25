@@ -1216,7 +1216,8 @@ export class EmployeeService {
         .populate('userId', 'email status')
         .sort(sortOptions)
         .skip(skip)
-        .limit(limit),
+        .limit(limit)
+        .lean(),
       Employee.countDocuments(mongoQuery),
     ]);
 
@@ -1225,7 +1226,7 @@ export class EmployeeService {
       tenantId: new Types.ObjectId(tenantId),
       employeeId: { $in: employeeIds },
       isDeleted: false,
-    });
+    }).lean();
 
     const teacherMap = new Map<string, string>();
     teachers.forEach((t) => teacherMap.set(t.employeeId.toString(), t._id.toString()));

@@ -123,6 +123,7 @@ queryMutationHooks.forEach((hook) => {
 
 // Compound indexes for high performance compliance queries
 AuditLogSchema.index({ tenantId: 1, createdAt: -1 });
+AuditLogSchema.index({ tenantId: 1, entity: 1, createdAt: -1 });
 AuditLogSchema.index({ tenantId: 1, entity: 1, entityId: 1, createdAt: -1 });
 AuditLogSchema.index({ tenantId: 1, userId: 1, createdAt: -1 });
 AuditLogSchema.index({ tenantId: 1, action: 1, createdAt: -1 });

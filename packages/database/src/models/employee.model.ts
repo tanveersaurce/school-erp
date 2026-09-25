@@ -267,6 +267,8 @@ EmployeeSchema.index({
   departmentId: 1,
   employmentStatus: 1,
 });
+EmployeeSchema.index({ tenantId: 1, schoolId: 1, isDeleted: 1, createdAt: -1 });
+EmployeeSchema.index({ tenantId: 1, isDeleted: 1, createdAt: -1 });
 EmployeeSchema.index({ tenantId: 1, displayName: 'text', employeeId: 'text', workEmail: 'text' });
 
 // =========================================================================

@@ -156,6 +156,7 @@ const ClassSchema = new Schema<IClassDoc>(
 ClassSchema.plugin(tenantPlugin);
 ClassSchema.plugin(softDeletePlugin);
 ClassSchema.index({ tenantId: 1, schoolId: 1, academicYearId: 1, code: 1 }, { unique: true });
+ClassSchema.index({ tenantId: 1, schoolId: 1, isDeleted: 1, order: 1 });
 
 // 2. Section Schema
 const SectionSchema = new Schema<ISectionDoc>(
@@ -187,6 +188,7 @@ const SectionSchema = new Schema<ISectionDoc>(
 SectionSchema.plugin(tenantPlugin);
 SectionSchema.plugin(softDeletePlugin);
 SectionSchema.index({ tenantId: 1, classId: 1, name: 1 }, { unique: true });
+SectionSchema.index({ tenantId: 1, classId: 1, isDeleted: 1, name: 1 });
 
 // 3. Academic Class (Grade + Section offering per Academic Year & Campus)
 const AcademicClassSchema = new Schema<IAcademicClassDoc>(

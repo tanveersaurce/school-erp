@@ -306,16 +306,18 @@ export class InvoiceService {
     }
   ) {
     const tenantOid = new Types.ObjectId(tenantId);
-    const schoolOid = new Types.ObjectId(schoolId);
-    const page = query.page || 1;
-    const limit = query.limit || 20;
+    const page = Math.max(Number(query.page) || 1, 1);
+    const limit = Math.min(Math.max(Number(query.limit) || 20, 1), 100);
     const skip = (page - 1) * limit;
 
     const filter: Record<string, unknown> = {
       tenantId: tenantOid,
-      schoolId: schoolOid,
       isDeleted: false,
     };
+
+    if (schoolId && Types.ObjectId.isValid(schoolId)) {
+      filter.schoolId = new Types.ObjectId(schoolId);
+    }
 
     if (query.studentId) filter.studentId = new Types.ObjectId(query.studentId);
     if (query.classId) filter.classId = new Types.ObjectId(query.classId);

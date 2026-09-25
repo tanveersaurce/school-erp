@@ -206,6 +206,7 @@ const NotificationSchema = new Schema<INotificationDoc>(
 );
 NotificationSchema.plugin(tenantPlugin);
 NotificationSchema.index({ tenantId: 1, recipientId: 1, isRead: 1, createdAt: -1 });
+NotificationSchema.index({ tenantId: 1, recipientId: 1, createdAt: -1 });
 NotificationSchema.index({ tenantId: 1, deduplicationKey: 1 });
 NotificationSchema.index({ tenantId: 1, category: 1, createdAt: -1 });
 
