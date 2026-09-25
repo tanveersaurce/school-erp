@@ -12,10 +12,12 @@ export * from './roles.data.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 dotenv.config({ path: path.resolve(__dirname, '../../../apps/api/.env') });
 dotenv.config();
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/edusphere_erp';
+const mongoUri =
+  process.env.MONGODB_URI || process.env.DATABASE_URL || 'mongodb://localhost:27017/edusphere_dev';
 
 async function main() {
   try {
@@ -41,6 +43,6 @@ async function main() {
 }
 
 // If executed directly
-if (process.argv[1] && process.argv[1].endsWith('seed/index.ts')) {
+if (process.argv[1] && /seed[/\\]index\.(ts|js)$/.test(process.argv[1])) {
   main();
 }
